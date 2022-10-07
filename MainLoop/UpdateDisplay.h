@@ -1,6 +1,8 @@
+//This file is for display drawing and screen updating only
 #ifndef UPDATE_DISPLAY_H
 #define UPDATE_DISPLAY_H
 #include <Arduino.h>
+#include "ExternalIO.h"
 
 //Display Definitions
 #include <Wire.h>
@@ -13,6 +15,10 @@
 #define OLED_ADDR 0x3C
 
 Adafruit_SSD1306 display(OLED_WIDTH, OLED_HEIGHT);
+
+//Globals
+float voltageLevel;
+unsigned short int batteryLevel;
 
 //---------------INIT
 void displayInitialize() {
@@ -35,20 +41,28 @@ void emptyShell() {
   display.drawRect(0, 16, 128, 48, WHITE);
 }
 
-void batteryIndicator() {
+void batteryIndicatorValues(unsigned short int batteryLevelRaw) {
+  //Voltage and level math  //3310-> ~3.5V, 4095-> ~4.2V
+  batteryLevel = map(batteryLevelRaw, 3310, 4095, 0, 8);
+  voltageLevel = ((batteryLevelRaw * 4.2) / 4095);
+}
+
+void batteryIndicatorDraw() {
+  //Battery internal size is 8x4
   display.drawBitmap(2, 1, batteryBitmap, 13, 13, WHITE);
-  display.drawPixel(4,5, WHITE);
-  display.drawPixel(11,5, WHITE);
-  display.drawPixel(4,15, WHITE);
+
+  //Draw rectangle based on battery level
+  display.fillRect(4, 4, batteryLevel, 6, WHITE);
 }
 
 //-------------UPDATE
 //Update Display
 void displayUpdate() {
+  display.clearDisplay();
   
   //Draw images
   emptyShell();
-  batteryIndicator();
+  batteryIndicatorDraw();
 
   //Update display
   display.display();
