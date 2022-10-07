@@ -28,11 +28,24 @@ void displayInitialize() {
 }
 
 //---------------ICONS
-// 'icons8-empty-battery-64', 13x13px
+// 'Battery Icon', 13x13px
 const unsigned char batteryBitmap [] PROGMEM = {
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x7f, 0xe0, 0x40, 0x20, 0x40, 0x30, 0x40, 0x30, 0x40, 0x30, 
   0x40, 0x20, 0x7f, 0xe0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
+
+// 'Node Connection Established', 13x13px
+const unsigned char nodeConnectionEstablished [] PROGMEM = {
+	0x00, 0x00, 0x00, 0x00, 0x1f, 0xc0, 0x7f, 0xf0, 0xf0, 0x78, 0x4f, 0x90, 0x1f, 0xc0, 0x18, 0xc0, 
+	0x07, 0x00, 0x07, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00
+};
+
+// 'Node Connection Failed Icon', 13x13px
+const unsigned char noNodeConnectionmap [] PROGMEM = {
+	0x00, 0x00, 0x02, 0x00, 0x02, 0x00, 0x3f, 0xe0, 0x7a, 0xf0, 0xe2, 0x38, 0x1a, 0xc0, 0x18, 0xc0, 
+	0x02, 0x00, 0x07, 0x00, 0x07, 0x00, 0x00, 0x00, 0x00, 0x00
+};
+
 
 //------------DRAWTEXTFUNCTION
 void drawText(int cursX, int cursY, int textSize, char * message){
@@ -63,6 +76,15 @@ void batteryIndicatorDraw() {
   display.fillRect(4, 4, batteryLevel, 6, WHITE);
 }
 
+//--------Node Status Icon 
+void nodeConnectionStatus(bool isConnected, int posX, int posY){
+  if (isConnected){
+    display.drawBitmap(posX,posY, nodeConnectionEstablished, 13, 13, WHITE);
+  } else {
+    display.drawBitmap(posX,posY, noNodeConnectionmap, 13, 13, WHITE);
+  }
+}
+
 //-------------UPDATE
 //Update Display
 void displayUpdate() {
@@ -72,8 +94,9 @@ void displayUpdate() {
   emptyShell();
   batteryIndicatorDraw();
 
-  //testing text function
-  drawText(0,0, 2, "This is a test");
+  //testing functions
+    //drawText(0,0, 1, "This is a test");
+  nodeConnectionStatus(true, 100, 1);
 
   //Update display
   display.display();
