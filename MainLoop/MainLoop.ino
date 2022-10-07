@@ -17,8 +17,8 @@ void loop() {
   //Update display
   displayUpdate();
 
-  //Poll battery every Xms
-  if (currentMillis - previousMillis >= 500) {
+  //Poll battery every 10s
+  if (currentMillis - previousMillis >= 10000) {
     previousMillis = currentMillis;
     
     //Pass battery value to display

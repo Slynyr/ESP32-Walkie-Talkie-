@@ -34,15 +34,15 @@ const unsigned char batteryBitmap [] PROGMEM = {
   0x40, 0x20, 0x7f, 0xe0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
 
-//------------DRAWTEXTFUNCTION
+//------------DRAW-TEXT
 void drawText(int cursX, int cursY, int textSize, char * message){
     display.setTextSize(textSize);
     display.setTextColor(WHITE);
-    display.setCursor(0,0);
+    display.setCursor(cursX,cursY);
     display.println(message);
 }
 
-//--------------Draw Types
+//--------------DRAW-TYPES
 void emptyShell() {
   //Frame of screen boundaries
   display.drawRect(0, 0, 128, 15, WHITE);
@@ -50,7 +50,10 @@ void emptyShell() {
 }
 
 void batteryIndicatorValues(unsigned short int batteryLevelRaw) {
-  //Voltage and level math  //3310-> ~3.5V, 4095-> ~4.2V
+  Serial.println(batteryLevelRaw);
+  //Voltage and level math 
+  //3310-> ~3.5V, 4095-> ~4.2V Using R1 5k1 R2 20k - Better for low voltage accuracy
+  //3090-> ~3.5V, 4095-> ~4.2V Using R1 47K R2 150K - Better for higher voltage accuracy
   batteryLevel = map(batteryLevelRaw, 3310, 4095, 0, 8);
   voltageLevel = ((batteryLevelRaw * 4.2) / 4095);
 }
@@ -61,6 +64,14 @@ void batteryIndicatorDraw() {
 
   //Draw rectangle based on battery level
   display.fillRect(4, 4, batteryLevel, 6, WHITE);
+
+  //Draw text for voltage
+  display.setTextSize(1);
+  display.setTextColor(WHITE);
+  display.setCursor(17, 4);
+  display.print("~");
+  display.print(voltageLevel);
+  display.print("V");
 }
 
 //-------------UPDATE
@@ -71,9 +82,6 @@ void displayUpdate() {
   //Draw images
   emptyShell();
   batteryIndicatorDraw();
-
-  //testing text function
-  drawText(0,0, 2, "This is a test");
 
   //Update display
   display.display();
