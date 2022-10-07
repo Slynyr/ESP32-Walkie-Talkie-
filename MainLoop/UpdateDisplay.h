@@ -51,7 +51,7 @@ const unsigned char noNodeConnectionmap [] PROGMEM = {
 void drawText(int cursX, int cursY, int textSize, char * message){
     display.setTextSize(textSize);
     display.setTextColor(WHITE);
-    display.setCursor(0,0);
+    display.setCursor(cursX,cursY);
     display.println(message);
 }
 
@@ -85,6 +85,18 @@ void nodeConnectionStatus(bool isConnected, int posX, int posY){
   }
 }
 
+void channelCount(bool isConnected, int posX, int posY, int currentChannel){
+  char msgBuffer[64] = {0};
+
+  sprintf(msgBuffer, "CH %d", currentChannel);
+
+  if (isConnected){
+    drawText(posX, posY, 3.5, msgBuffer);
+  } else {
+    drawText(posX, posY, 3.5, "NO CON");
+  }
+}
+
 //-------------UPDATE
 //Update Display
 void displayUpdate() {
@@ -97,6 +109,7 @@ void displayUpdate() {
   //testing functions
     //drawText(0,0, 1, "This is a test");
   nodeConnectionStatus(true, 100, 1);
+  channelCount(true, 2, 22, 24);
 
   //Update display
   display.display();
