@@ -48,11 +48,20 @@ const unsigned char noNodeConnectionmap [] PROGMEM = {
 
 
 //------------DRAWTEXTFUNCTION
-void drawText(int cursX, int cursY, int textSize, char * message){
+void drawText(bool isCenter, int cursX, int cursY, int textSize, char * message){
     display.setTextSize(textSize);
     display.setTextColor(WHITE);
-    display.setCursor(cursX,cursY);
-    display.println(message);
+    
+    if (isCenter){
+      int16_t x1, y1;
+      uint16_t w, h;    
+      display.getTextBounds(message, cursX, cursY, &x1, &y1, &w, &h); //calc width of new string
+      display.setCursor(cursX - w / 2, cursY); 
+      display.print(message);
+    } else {
+      display.setCursor(cursX,cursY);
+      display.println(message);
+    }
 }
 
 //--------------DRAW-TYPES
@@ -86,26 +95,41 @@ void batteryIndicatorDraw() {
   display.print("V");
 }
 
-//--------Node Status Icon 
-void nodeConnectionStatus(bool isConnected, int posX, int posY){
-  if (isConnected){
-    display.drawBitmap(posX,posY, nodeConnectionEstablished, 13, 13, WHITE);
-  } else {
-    display.drawBitmap(posX,posY, noNodeConnectionmap, 13, 13, WHITE);
+//--------Mode Connection Status Icon 
+void modeConnectionStatus(char * mode, bool isConnected, int posX, int posY) {
+  if (mode == "NODE"){
+     if (isConnected){
+      display.drawBitmap(posX,posY, nodeConnectionEstablished, 13, 13, WHITE);
+    } else {
+      display.drawBitmap(posX,posY, noNodeConnectionmap, 13, 13, WHITE);
+    } 
+  } else if (mode == "LOCAL") {
+    ;
+    //render local mode sprites
   }
 }
 
-void channelCount(bool isConnected, int posX, int posY, int currentChannel){
-  char msgBuffer[64] = {0};
 
-  sprintf(msgBuffer, "CH %d", currentChannel);
-
+//--------Lower Screen Menus 
+void drawIntWithSubheading(bool isConnected, int posX, int posY, int value, char * subHeadint){
   if (isConnected){
-    drawText(posX, posY, 3.5, msgBuffer);
+    char msgBuffer[32] = {0};
+    sprintf(msgBuffer, "%d", value);
+
+    drawText(true, posX, posY, 3.8, msgBuffer);
+    drawText(true, posX, posY + 23, 1.5, subHeadint);
   } else {
-    drawText(posX, posY, 3.5, "NO CON");
+    drawText(true, posX, posY, 3.5, "NO CON");
   }
 }
+
+void lowerScreenMain(int channelCount, int userCount){
+  drawIntWithSubheading(true, 26, 25, channelCount, "Channel"); //Channe counter
+  //drawIntWithSubheading(true, 200, 25, userCount, "Users"); //User counter
+  //RENDERING ISSUES ^^^ I SUSPECT ITS DUE TO AUTO INDENT
+}
+
+
 
 //-------------UPDATE
 //Update Display
@@ -116,8 +140,9 @@ void displayUpdate() {
   emptyShell();
   batteryIndicatorDraw();
   
-  nodeConnectionStatus(true, 100, 1);
-  channelCount(true, 2, 22, 24);
+  drawText(true,64, 32, 1, "HI");
+  modeConnectionStatus("NODE", false, 100, 1);
+  lowerScreenMain(24, 12);
 
   //Update display
   display.display();
