@@ -63,7 +63,6 @@ void emptyShell() {
 }
 
 void batteryIndicatorValues(unsigned short int batteryLevelRaw) {
-  Serial.println(batteryLevelRaw);
   //Voltage and level math 
   //3310-> ~3.5V, 4095-> ~4.2V Using R1 5k1 R2 20k - Better for low voltage accuracy
   //3090-> ~3.5V, 4095-> ~4.2V Using R1 47K R2 150K - Better for higher voltage accuracy
@@ -104,9 +103,7 @@ void displayUpdate() {
   //Draw images
   emptyShell();
   batteryIndicatorDraw();
-
-  //testing functions
-    //drawText(0,0, 1, "This is a test");
+  
   nodeConnectionStatus(true, 100, 1);
 
   //Update display
