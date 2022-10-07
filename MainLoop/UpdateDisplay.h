@@ -28,6 +28,14 @@ const unsigned char batteryBitmap [] PROGMEM = {
   0x40, 0x20, 0x7f, 0xe0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
 
+//------------DRAWTEXTFUNCTION
+void drawText(int cursX, int cursY, int textSize, char * message){
+    display.setTextSize(textSize);
+    display.setTextColor(WHITE);
+    display.setCursor(0,0);
+    display.println(message);
+}
+
 //--------------Draw Types
 void emptyShell() {
   //Frame of screen boundaries
@@ -49,6 +57,9 @@ void displayUpdate() {
   //Draw images
   emptyShell();
   batteryIndicator();
+
+  //testing text function
+  drawText(0,0, 2, "This is a test");
 
   //Update display
   display.display();
