@@ -55,7 +55,7 @@ void drawText(int cursX, int cursY, int textSize, char * message){
     display.println(message);
 }
 
-//--------------Draw Types
+//--------------DRAW-TYPES
 void emptyShell() {
   //Frame of screen boundaries
   display.drawRect(0, 0, 128, 15, WHITE);
@@ -63,7 +63,9 @@ void emptyShell() {
 }
 
 void batteryIndicatorValues(unsigned short int batteryLevelRaw) {
-  //Voltage and level math  //3310-> ~3.5V, 4095-> ~4.2V
+  //Voltage and level math 
+  //3310-> ~3.5V, 4095-> ~4.2V Using R1 5k1 R2 20k - Better for low voltage accuracy
+  //3090-> ~3.5V, 4095-> ~4.2V Using R1 47K R2 150K - Better for higher voltage accuracy
   batteryLevel = map(batteryLevelRaw, 3310, 4095, 0, 8);
   voltageLevel = ((batteryLevelRaw * 4.2) / 4095);
 }
@@ -74,6 +76,14 @@ void batteryIndicatorDraw() {
 
   //Draw rectangle based on battery level
   display.fillRect(4, 4, batteryLevel, 6, WHITE);
+
+  //Draw text for voltage
+  display.setTextSize(1);
+  display.setTextColor(WHITE);
+  display.setCursor(17, 4);
+  display.print("~");
+  display.print(voltageLevel);
+  display.print("V");
 }
 
 //--------Node Status Icon 
@@ -105,9 +115,7 @@ void displayUpdate() {
   //Draw images
   emptyShell();
   batteryIndicatorDraw();
-
-  //testing functions
-    //drawText(0,0, 1, "This is a test");
+  
   nodeConnectionStatus(true, 100, 1);
   channelCount(true, 2, 22, 24);
 

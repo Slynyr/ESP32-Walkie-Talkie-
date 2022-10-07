@@ -11,7 +11,7 @@ void inputsInitialize() {
   pinMode(batteryMonitorPin, INPUT);
 }
 
-int pollBattery() {
+unsigned short int pollBattery() {
   unsigned short int batteryLevelRaw;
   batteryLevelRaw = analogRead(batteryMonitorPin);
   
