@@ -66,10 +66,17 @@ void drawText(bool isCenter, int cursX, int cursY, int textSize, char * message)
 }
 
 //--------------DRAW-TYPES
-void emptyShell() {
+void backdrop(const int mode) {
   //Frame of screen boundaries
-  display.drawRect(0, 0, 128, 15, WHITE);
-  display.drawRect(0, 16, 128, 48, WHITE);
+  if (mode == 1){
+    display.drawRect(0, 0, 128, 15, WHITE);
+    display.drawRect(0, 16, 128, 48, WHITE);  
+  } else if (mode == 2){
+    display.drawLine(0, 15, 128, 15, WHITE);
+  } else if (mode == 3) {
+    display.drawLine(0, 15, 128, 15, WHITE);
+    display.drawLine(0, 16, 128, 16, WHITE);
+  }
 }
 
 void batteryIndicatorValues(unsigned short int batteryLevelRaw) {
@@ -137,7 +144,7 @@ void displayUpdate() {
   display.clearDisplay();
   
   //Draw images
-  emptyShell();
+  backdrop(3);
   batteryIndicatorDraw();
   
   drawText(true,64, 32, 1, "HI");
