@@ -51,7 +51,7 @@ const unsigned char noNodeConnectionmap [] PROGMEM = {
 void drawText(bool isCenter, int cursX, int cursY, int textSize, char * message){
     display.setTextSize(textSize);
     display.setTextColor(WHITE);
-    
+    display.setTextWrap(false);
     if (isCenter){
       int16_t x1, y1;
       uint16_t w, h;    
@@ -60,8 +60,9 @@ void drawText(bool isCenter, int cursX, int cursY, int textSize, char * message)
       display.print(message);
     } else {
       display.setCursor(cursX,cursY);
-      display.println(message);
+      display.print(message);
     }
+    display.setTextWrap(true);
 }
 
 //--------------DRAW-TYPES
@@ -125,8 +126,7 @@ void drawIntWithSubheading(bool isConnected, int posX, int posY, int value, char
 
 void lowerScreenMain(int channelCount, int userCount){
   drawIntWithSubheading(true, 26, 25, channelCount, "Channel"); //Channe counter
-  //drawIntWithSubheading(true, 200, 25, userCount, "Users"); //User counter
-  //RENDERING ISSUES ^^^ I SUSPECT ITS DUE TO AUTO INDENT
+  drawIntWithSubheading(true, 102, 25, userCount, "Users"); //User counter
 }
 
 
