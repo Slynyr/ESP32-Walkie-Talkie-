@@ -19,7 +19,11 @@ Adafruit_SSD1306 display(OLED_WIDTH, OLED_HEIGHT);
 //Globals
 float voltageLevel;
 unsigned short int batteryLevel;
-char * state = "main";
+unsigned long currentDisplayMillis;
+unsigned long previousDisplayMillis;
+bool connectionStatus = false;
+char *state = "main";
+char *previousState = "main";
 
 //---------------INIT
 void displayInitialize() {
@@ -27,6 +31,24 @@ void displayInitialize() {
   display.clearDisplay();
   display.display();
 }
+
+void displayGetMillis(unsigned long mainMillis) {
+  currentDisplayMillis = mainMillis;
+}
+
+void changeState(char *changeTo, char *changeFrom) {
+//Needs previous state return protection
+
+  if (changeTo == previousState) {
+    ;
+  }
+
+  if (changeTo != changeFrom) {
+    previousState = changeFrom;
+    state = changeTo;
+  }
+}
+
 
 //---------------ICONS
 // 'Battery Icon', 13x13px
@@ -90,26 +112,41 @@ void backdrop(const int mode) {
 
 void batteryIndicatorValues(unsigned short int batteryLevelRaw) {
   //Voltage and level math 
-  //3310-> ~3.5V, 4095-> ~4.2V Using R1 5k1 R2 20k - Better for low voltage accuracy
-  //3090-> ~3.5V, 4095-> ~4.2V Using R1 47K R2 150K - Better for higher voltage accuracy
-  batteryLevel = map(batteryLevelRaw, 3310, 4095, 0, 8);
-  voltageLevel = ((batteryLevelRaw * 4.2) / 4095);
+  //For overall best accuracy, use the linear region of the ADC (2.00V to 0.3V)
+  //1850-> ~3.5V, 2250-> ~4.2V Using R1 2K2 R2 2K 
+  batteryLevel = map(batteryLevelRaw, 1850, 2250, 0, 8);
+  voltageLevel = ((batteryLevelRaw * 4.2) / 2250);
 }
 
-void batteryIndicatorDraw() {
+void batteryIndicatorDraw(const int colour) {
+
   //Battery internal size is 8x4
-  display.drawBitmap(2, 1, batteryBitmap, 13, 13, WHITE);
+  display.drawBitmap(2, 1, batteryBitmap, 13, 13, colour);
 
   //Draw rectangle based on battery level
-  display.fillRect(4, 4, batteryLevel, 6, WHITE);
+  display.fillRect(4, 4, batteryLevel, 6, colour);
 
-  //Draw text for voltage
+  //Draw voltage text
   display.setTextSize(1);
-  display.setTextColor(WHITE);
+  display.setTextColor(colour);
   display.setCursor(17, 4);
   display.print("~");
   display.print(voltageLevel);
   display.print("V");
+  
+  Serial.print("Current State: ");
+  Serial.print(state);
+  Serial.println("");
+  Serial.print("Previous State: ");
+  Serial.print(previousState);
+  Serial.println("");
+  if (voltageLevel < 3.60) {
+    changeState("lowpower", state);
+
+  } else {
+    //Add a bit so that it dismisses when OK buttom pressed
+    changeState(previousState, state);
+  }
 }
 
 //--------Mode Connection Status Icon 
@@ -162,16 +199,23 @@ void displayUpdate() {
   if (state == "main") {  
     //Draw images
     backdrop(2);
-    batteryIndicatorDraw();
+    batteryIndicatorDraw(WHITE);
     
-    drawText(true,64, 32, 1, "HI");
-    modeConnectionStatus("NODE", false, 100, 1);
+    drawText(true, 64, 32, 1, "HI");
+    modeConnectionStatus("NODE", connectionStatus, 100, 1);
     lowerScreenMain(24, 12);
 
     //Update display
   } else if (state == "menu") {
     ;//menu selection screen here
-  } 
+
+  } else if (state == "lowpower") {
+    backdrop(2);
+    batteryIndicatorDraw(WHITE);
+    modeConnectionStatus("NODE", connectionStatus, 100, 1);
+    drawText(true, 64, 32, 2, "LOW POWER");
+    drawText(true, 64, 50, 1, "OK to dismiss");
+  }
 
   display.display();
 }

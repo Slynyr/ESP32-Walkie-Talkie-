@@ -8,31 +8,6 @@
 #include "WiFi.h"
 #include "esp_now.h"
 
-void P2PInitialize() {
-    //Start ESP in station mode
-    WiFi.mode(WIFI_STA);
-    Serial.print("MAC: ");
-    Serial.print(WiFi.macAddress());
-
-    //Disconnect from wifi and initialize ESP-NOW
-    WiFi.disconnect();
-    esp_err_t initResult = esp_now_init();
-    if (initResult == ESP_OK) {
-        Serial.println("ESP-NOW Initialized");
-
-        //Define callback functions
-        esp_now_register_recv_cb(receiveCallback);
-        esp_now_register_send_cb(sentCallback);
-
-    } else {
-        Serial.print("Initialize Failed: ");
-        Serial.print(initResult);
-        //Try again if initialize failed
-        ESP.restart();
-    }
-
-}
-
 void formatMacAddress(const uint8_t *macAddr, char *buffer, int maxLength)
 //Formats MAC Address
 {
@@ -72,6 +47,30 @@ void sentCallback(const uint8_t *macAddr, esp_now_send_status_t deliveryStatus)
   Serial.println(macStr);
   Serial.print("Last Packet Send Status: ");
   Serial.println(deliveryStatus == ESP_NOW_SEND_SUCCESS ? "Delivery Success" : "Delivery Fail");
+}
+void P2PInitialize() {
+    //Start ESP in station mode
+    WiFi.mode(WIFI_STA);
+    Serial.print("MAC: ");
+    Serial.print(WiFi.macAddress());
+
+    //Disconnect from wifi and initialize ESP-NOW
+    WiFi.disconnect();
+    esp_err_t initResult = esp_now_init();
+    if (initResult == ESP_OK) {
+        Serial.println("ESP-NOW Initialized");
+
+        //Define callback functions
+        esp_now_register_recv_cb(receiveCallback);
+        esp_now_register_send_cb(sentCallback);
+
+    } else {
+        Serial.print("Initialize Failed: ");
+        Serial.print(initResult);
+        //Try again if initialize failed
+        ESP.restart();
+    }
+
 }
 
 void broadcast(const String &message) {
