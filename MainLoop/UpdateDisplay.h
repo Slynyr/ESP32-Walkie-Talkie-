@@ -19,6 +19,7 @@ Adafruit_SSD1306 display(OLED_WIDTH, OLED_HEIGHT);
 //Globals
 float voltageLevel;
 unsigned short int batteryLevel;
+char * state = "main";
 
 //---------------INIT
 void displayInitialize() {
@@ -63,6 +64,14 @@ void drawText(bool isCenter, int cursX, int cursY, int textSize, char * message)
       display.print(message);
     }
     display.setTextWrap(true);
+}
+
+void drawCenteredCircle(bool isFilled, int cursX, int cursY, int size){
+  if (isFilled){
+    display.fillCircle(cursX - (size/2), cursY - (size/2), size, WHITE);
+  } else {
+    display.drawCircle(cursX - (size/2), cursY - (size/2), size, WHITE);
+  }
 }
 
 //--------------DRAW-TYPES
@@ -136,25 +145,35 @@ void lowerScreenMain(int channelCount, int userCount){
   drawIntWithSubheading(true, 102, 25, userCount, "Users"); //User counter
 }
 
-
+//-----------Dynamic Animations
+void nodeAnimation(int clientsConnected, bool isMaster){
+  //Not important just ignore this
+  if (clientsConnected >= 2){
+    //center
+    display.drawCircle(20, 20, 10, WHITE);
+  }
+}
 
 //-------------UPDATE
 //Update Display
 void displayUpdate() {
   display.clearDisplay();
-  
-  //Draw images
-  backdrop(3);
-  batteryIndicatorDraw();
-  
-  drawText(true,64, 32, 1, "HI");
-  modeConnectionStatus("NODE", false, 100, 1);
-  lowerScreenMain(24, 12);
 
-  //Update display
+  if (state == "main") {  
+    //Draw images
+    backdrop(2);
+    batteryIndicatorDraw();
+    
+    drawText(true,64, 32, 1, "HI");
+    modeConnectionStatus("NODE", false, 100, 1);
+    lowerScreenMain(24, 12);
+
+    //Update display
+  } else if (state == "menu") {
+    ;//menu selection screen here
+  } 
+
   display.display();
 }
-
-
 
 #endif
