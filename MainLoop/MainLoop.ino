@@ -17,7 +17,7 @@ void setup() {
 void loop() {
   //Update millis
   unsigned long currentMillis = millis();
-  displayGetMillis(currentMillis);
+  //displayGetMillis(currentMillis);
 
   //Update display
   displayUpdate();

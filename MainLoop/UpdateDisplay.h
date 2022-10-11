@@ -25,6 +25,10 @@ bool connectionStatus = false;
 char *state = "main";
 char *previousState = "main";
 
+  //blinkie battery
+unsigned int batteryPreviousMilli;
+short int batteryLowThreshold; //in seconds 
+
 //---------------INIT
 void displayInitialize() {
   display.begin(SSD1306_SWITCHCAPVCC, OLED_ADDR);
