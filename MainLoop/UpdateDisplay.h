@@ -111,9 +111,6 @@ void batteryIndicatorValues(unsigned short int batteryLevelRaw) {
   //1985-> ~3.5V, 2400-> ~4.2V Using R1 2K2 R2 1K+1K
   batteryLevel = map(batteryLevelRaw, 1985, 2400, 0, 8);
   voltageLevel = ((batteryLevelRaw * 4.2) / 2400);
-
-  Serial.println(batteryLevelRaw);
-  Serial.println(voltageLevel);
 }
 
 void batteryWarnToggle() {

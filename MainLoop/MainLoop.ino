@@ -12,6 +12,9 @@ void setup() {
 
   //Get first battery voltage
   batteryIndicatorValues(pollBattery());
+
+  //Initialize P2P
+  P2PInitialize();
 }
 
 void loop() {
@@ -21,6 +24,9 @@ void loop() {
 
   //Update display
   displayUpdate();
+
+  //Broadcast demo
+  broadcast("AMONGUS");
 
   //Pass battery value to display every 10s
   if (currentMillis - previousMillis >= 100) {
