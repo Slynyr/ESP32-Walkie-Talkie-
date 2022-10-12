@@ -23,7 +23,7 @@ void loop() {
   displayUpdate();
 
   //Pass battery value to display every 10s
-  if (currentMillis - previousMillis >= 10000) {
+  if (currentMillis - previousMillis >= 100) {
     previousMillis = currentMillis;
     batteryIndicatorValues(pollBattery());
   }

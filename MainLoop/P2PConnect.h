@@ -48,6 +48,7 @@ void sentCallback(const uint8_t *macAddr, esp_now_send_status_t deliveryStatus)
   Serial.print("Last Packet Send Status: ");
   Serial.println(deliveryStatus == ESP_NOW_SEND_SUCCESS ? "Delivery Success" : "Delivery Fail");
 }
+
 void P2PInitialize() {
     //Start ESP in station mode
     WiFi.mode(WIFI_STA);

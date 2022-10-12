@@ -21,10 +21,7 @@ unsigned short int pollBattery() {
 }
 
 bool debugPushbutton(){
-  if (digitalRead(debugPushButtonPin) == HIGH){
-    return true;
-  } else {
-    return false; 
-  }
+  return digitalRead(debugPushButtonPin);
+}
 
 #endif

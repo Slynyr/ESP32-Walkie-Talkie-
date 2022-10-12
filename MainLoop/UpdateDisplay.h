@@ -24,13 +24,13 @@ bool connectionStatus = false;
 char *state = "main";
 char *previousState = "main";
 
-  //blinkie battery
+//blinkie battery
 unsigned int batteryPreviousMilli;
-short int batteryLowThreshold = 1; //in volts
-short int batteryBlinkTime = 1; //in seconds
+float batteryLowThreshold = 3.60;  //in volts
+short int batteryBlinkTime = 1;    //in seconds
 bool showBattery = true;
 bool isWarnDismissed = false;
-bool isActiveNotification = false; //used to turn off elements of the screen if a notification is present 
+bool isActiveNotification = false;  //used to turn off elements of the screen if a notification is present
 
 //---------------INIT
 void displayInitialize() {
@@ -45,57 +45,57 @@ void displayGetMillis(unsigned long mainMillis) {
 
 //---------------ICONS
 // 'Battery Icon', 13x13px
-const unsigned char batteryBitmap [] PROGMEM = {
-  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x7f, 0xe0, 0x40, 0x20, 0x40, 0x30, 0x40, 0x30, 0x40, 0x30, 
+const unsigned char batteryBitmap[] PROGMEM = {
+  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x7f, 0xe0, 0x40, 0x20, 0x40, 0x30, 0x40, 0x30, 0x40, 0x30,
   0x40, 0x20, 0x7f, 0xe0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
 
 // 'Node Connection Established', 13x13px
-const unsigned char nodeConnectionEstablished [] PROGMEM = {
-	0x00, 0x00, 0x00, 0x00, 0x1f, 0xc0, 0x7f, 0xf0, 0xf0, 0x78, 0x4f, 0x90, 0x1f, 0xc0, 0x18, 0xc0, 
-	0x07, 0x00, 0x07, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00
+const unsigned char nodeConnectionEstablished[] PROGMEM = {
+  0x00, 0x00, 0x00, 0x00, 0x1f, 0xc0, 0x7f, 0xf0, 0xf0, 0x78, 0x4f, 0x90, 0x1f, 0xc0, 0x18, 0xc0,
+  0x07, 0x00, 0x07, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00
 };
 
 // 'Node Connection Failed Icon', 13x13px
-const unsigned char noNodeConnectionmap [] PROGMEM = {
-	0x00, 0x00, 0x02, 0x00, 0x02, 0x00, 0x3f, 0xe0, 0x7a, 0xf0, 0xe2, 0x38, 0x1a, 0xc0, 0x18, 0xc0, 
-	0x02, 0x00, 0x07, 0x00, 0x07, 0x00, 0x00, 0x00, 0x00, 0x00
+const unsigned char noNodeConnectionmap[] PROGMEM = {
+  0x00, 0x00, 0x02, 0x00, 0x02, 0x00, 0x3f, 0xe0, 0x7a, 0xf0, 0xe2, 0x38, 0x1a, 0xc0, 0x18, 0xc0,
+  0x02, 0x00, 0x07, 0x00, 0x07, 0x00, 0x00, 0x00, 0x00, 0x00
 };
 
 
 //------------DRAWTEXTFUNCTION
-void drawText(bool isCenter, int cursX, int cursY, int textSize, char * message){
-    display.setTextSize(textSize);
-    display.setTextColor(WHITE);
-    display.setTextWrap(false);
-    if (isCenter){
-      int16_t x1, y1;
-      uint16_t w, h;    
-      display.getTextBounds(message, cursX, cursY, &x1, &y1, &w, &h); //calc width of new string
-      display.setCursor(cursX - w / 2, cursY); 
-      display.print(message);
-    } else {
-      display.setCursor(cursX,cursY);
-      display.print(message);
-    }
-    display.setTextWrap(true);
+void drawText(bool isCenter, int cursX, int cursY, int textSize, char *message) {
+  display.setTextSize(textSize);
+  display.setTextColor(WHITE);
+  display.setTextWrap(false);
+  if (isCenter) {
+    int16_t x1, y1;
+    uint16_t w, h;
+    display.getTextBounds(message, cursX, cursY, &x1, &y1, &w, &h);  //calc width of new string
+    display.setCursor(cursX - w / 2, cursY);
+    display.print(message);
+  } else {
+    display.setCursor(cursX, cursY);
+    display.print(message);
+  }
+  display.setTextWrap(true);
 }
 
-void drawCenteredCircle(bool isFilled, int cursX, int cursY, int size){
-  if (isFilled){
-    display.fillCircle(cursX - (size/2), cursY - (size/2), size, WHITE);
+void drawCenteredCircle(bool isFilled, int cursX, int cursY, int size) {
+  if (isFilled) {
+    display.fillCircle(cursX - (size / 2), cursY - (size / 2), size, WHITE);
   } else {
-    display.drawCircle(cursX - (size/2), cursY - (size/2), size, WHITE);
+    display.drawCircle(cursX - (size / 2), cursY - (size / 2), size, WHITE);
   }
 }
 
 //--------------DRAW-TYPES
 void backdrop(const int mode) {
   //Frame of screen boundaries
-  if (mode == 1){
+  if (mode == 1) {
     display.drawRect(0, 0, 128, 15, WHITE);
-    display.drawRect(0, 16, 128, 48, WHITE);  
-  } else if (mode == 2){
+    display.drawRect(0, 16, 128, 48, WHITE);
+  } else if (mode == 2) {
     display.drawLine(0, 15, 128, 15, WHITE);
   } else if (mode == 3) {
     display.drawLine(0, 15, 128, 15, WHITE);
@@ -104,72 +104,68 @@ void backdrop(const int mode) {
 }
 
 void batteryIndicatorValues(unsigned short int batteryLevelRaw) {
-  //Voltage and level math 
+  //Voltage and level math
   //For overall best accuracy, use the linear region of the ADC (2.00V to 0.3V)
-  //1850-> ~3.5V, 2250-> ~4.2V Using R1 2K2 R2 2K 
-  batteryLevel = map(batteryLevelRaw, 1850, 2250, 0, 8);
-  voltageLevel = ((batteryLevelRaw * 4.2) / 2250);
+  //1850-> ~3.5V, 2250-> ~4.2V Using R1 2K2 R2 2K
+  //School PSU
+  //1985-> ~3.5V, 2400-> ~4.2V Using R1 2K2 R2 1K+1K
+  batteryLevel = map(batteryLevelRaw, 1985, 2400, 0, 8);
+  voltageLevel = ((batteryLevelRaw * 4.2) / 2400);
+
+  Serial.println(batteryLevelRaw);
+  Serial.println(voltageLevel);
 }
 
-void batteryWarnToggle(){
+void batteryWarnToggle() {
   if (!isWarnDismissed) {
     drawText(true, 64, 32, 2, "LOW POWER");
     drawText(true, 64, 50, 1, "OK to dismiss");
     isActiveNotification = true;
 
-//    if (debugPushbutton()){
-//      isWarnDismissed = true;
-//    }
-  } 
+    if (debugPushbutton() == HIGH) {
+      isWarnDismissed = true;
+    }
+  }
 }
 
 void batteryIndicatorDraw(const int colour) {
 
-  if (voltageLevel <= batteryLowThreshold){
-   batteryWarnToggle();
-   Serial.println("ISLOWER");
-    if ((currentDisplayMillis - batteryPreviousMilli) >= (batteryBlinkTime * 1000)){
+  if (voltageLevel <= batteryLowThreshold) {
+    batteryWarnToggle();
+    if ((currentDisplayMillis - batteryPreviousMilli) >= (batteryBlinkTime * 1000)) {
       showBattery = !showBattery;
       batteryPreviousMilli = currentDisplayMillis;
     }
   } else {
     showBattery = true;
-    isWarnDismissed = false; //resets warn once voltage goes above low level 
-    Serial.println("ISHIGHER");
+    isWarnDismissed = false;  //resets warn once voltage goes above low level
   }
 
-  if (showBattery){
-  //Battery internal size is 8x4
-  display.drawBitmap(2, 1, batteryBitmap, 13, 13, colour);
+  if (showBattery) {
+    //Battery internal size is 8x4
+    display.drawBitmap(2, 1, batteryBitmap, 13, 13, colour);
 
-  //Draw rectangle based on battery level
-  display.fillRect(4, 4, batteryLevel, 6, colour);
+    //Draw rectangle based on battery level
+    display.fillRect(4, 4, batteryLevel, 6, colour);
 
-  //Draw voltage text
-  display.setTextSize(1);
-  display.setTextColor(colour);
-  display.setCursor(17, 4);
-  display.print("~");
-  display.print(voltageLevel);
-  display.print("V");
-  
-  Serial.print("Current State: ");
-  Serial.print(state);
-  Serial.println("");
-  Serial.print("Previous State: ");
-  Serial.print(previousState);
-  Serial.println("");
+    //Draw voltage text
+    display.setTextSize(1);
+    display.setTextColor(colour);
+    display.setCursor(17, 4);
+    display.print("~");
+    display.print(voltageLevel);
+    display.print("V");
   }
 }
 
-//--------Mode Connection Status Icon 
-void modeConnectionStatus(char * mode, bool isConnected, int posX, int posY) {
-  if (mode == "NODE"){
-     if (isConnected){
-      display.drawBitmap(posX,posY, nodeConnectionEstablished, 13, 13, WHITE);
+//--------Mode Connection Status Icon
+void modeConnectionStatus(char *mode, bool isConnected, int posX, int posY) {
+  if (mode == "NODE") {
+    if (isConnected) {
+      display.drawBitmap(posX, posY, nodeConnectionEstablished, 13, 13, WHITE);
     } else {
-      display.drawBitmap(posX,posY, noNodeConnectionmap, 13, 13, WHITE);
-    } 
+      display.drawBitmap(posX, posY, noNodeConnectionmap, 13, 13, WHITE);
+    }
   } else if (mode == "LOCAL") {
     ;
     //render local mode sprites
@@ -177,11 +173,11 @@ void modeConnectionStatus(char * mode, bool isConnected, int posX, int posY) {
 }
 
 
-//--------Lower Screen Menus 
-void drawIntWithSubheading(bool isConnected, int posX, int posY, int value, char * subHeadint){
-  if (!isActiveNotification){ //only print if the displayt is clear of notifications
-    if (isConnected){
-      char msgBuffer[32] = {0};
+//--------Lower Screen Menus
+void drawIntWithSubheading(bool isConnected, int posX, int posY, int value, char *subHeadint) {
+  if (!isActiveNotification) {  //only print if the displayt is clear of notifications
+    if (isConnected) {
+      char msgBuffer[32] = { 0 };
       sprintf(msgBuffer, "%d", value);
 
       drawText(true, posX, posY, 3.8, msgBuffer);
@@ -192,15 +188,15 @@ void drawIntWithSubheading(bool isConnected, int posX, int posY, int value, char
   }
 }
 
-void lowerScreenMain(int channelCount, int userCount){
-  drawIntWithSubheading(true, 26, 25, channelCount, "Channel"); //Channe counter
-  drawIntWithSubheading(true, 102, 25, userCount, "Users"); //User counter
+void lowerScreenMain(int channelCount, int userCount) {
+  drawIntWithSubheading(true, 26, 25, channelCount, "Channel");  //Channe counter
+  drawIntWithSubheading(true, 102, 25, userCount, "Users");      //User counter
 }
 
 //-----------Dynamic Animations
-void nodeAnimation(int clientsConnected, bool isMaster){
+void nodeAnimation(int clientsConnected, bool isMaster) {
   //Not important just ignore this
-  if (clientsConnected >= 2){
+  if (clientsConnected >= 2) {
     //center
     display.drawCircle(20, 20, 10, WHITE);
   }
@@ -211,9 +207,9 @@ void nodeAnimation(int clientsConnected, bool isMaster){
 void displayUpdate() {
   display.clearDisplay();
   currentDisplayMillis = millis();
-  isActiveNotification = false; 
+  isActiveNotification = false;
 
-  if (state == "main") {  
+  if (state == "main") {
     //Draw images
     batteryIndicatorDraw(WHITE);
     backdrop(2);
@@ -223,8 +219,8 @@ void displayUpdate() {
 
     //Update display
   } else if (state == "menu") {
-    ;//menu selection screen here
-  } 
+    ;  //menu selection screen here
+  }
 
   display.display();
 }
