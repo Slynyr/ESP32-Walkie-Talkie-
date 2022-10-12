@@ -20,14 +20,17 @@ Adafruit_SSD1306 display(OLED_WIDTH, OLED_HEIGHT);
 float voltageLevel;
 unsigned short int batteryLevel;
 unsigned long currentDisplayMillis;
-unsigned long previousDisplayMillis;
 bool connectionStatus = false;
 char *state = "main";
 char *previousState = "main";
 
   //blinkie battery
 unsigned int batteryPreviousMilli;
-short int batteryLowThreshold; //in seconds 
+short int batteryLowThreshold = 1; //in volts
+short int batteryBlinkTime = 1; //in seconds
+bool showBattery = true;
+bool isWarnDismissed = false;
+bool isActiveNotification = false; //used to turn off elements of the screen if a notification is present 
 
 //---------------INIT
 void displayInitialize() {
@@ -39,20 +42,6 @@ void displayInitialize() {
 void displayGetMillis(unsigned long mainMillis) {
   currentDisplayMillis = mainMillis;
 }
-
-void changeState(char *changeTo, char *changeFrom) {
-//Needs previous state return protection
-
-  if (changeTo == previousState) {
-    ;
-  }
-
-  if (changeTo != changeFrom) {
-    previousState = changeFrom;
-    state = changeTo;
-  }
-}
-
 
 //---------------ICONS
 // 'Battery Icon', 13x13px
@@ -122,8 +111,34 @@ void batteryIndicatorValues(unsigned short int batteryLevelRaw) {
   voltageLevel = ((batteryLevelRaw * 4.2) / 2250);
 }
 
+void batteryWarnToggle(){
+  if (!isWarnDismissed) {
+    drawText(true, 64, 32, 2, "LOW POWER");
+    drawText(true, 64, 50, 1, "OK to dismiss");
+    isActiveNotification = true;
+
+//    if (debugPushbutton()){
+//      isWarnDismissed = true;
+//    }
+  } 
+}
+
 void batteryIndicatorDraw(const int colour) {
 
+  if (voltageLevel <= batteryLowThreshold){
+   batteryWarnToggle();
+   Serial.println("ISLOWER");
+    if ((currentDisplayMillis - batteryPreviousMilli) >= (batteryBlinkTime * 1000)){
+      showBattery = !showBattery;
+      batteryPreviousMilli = currentDisplayMillis;
+    }
+  } else {
+    showBattery = true;
+    isWarnDismissed = false; //resets warn once voltage goes above low level 
+    Serial.println("ISHIGHER");
+  }
+
+  if (showBattery){
   //Battery internal size is 8x4
   display.drawBitmap(2, 1, batteryBitmap, 13, 13, colour);
 
@@ -144,15 +159,8 @@ void batteryIndicatorDraw(const int colour) {
   Serial.print("Previous State: ");
   Serial.print(previousState);
   Serial.println("");
-  if (voltageLevel < 3.60) {
-    changeState("lowpower", state);
-
-  } else {
-    //Add a bit so that it dismisses when OK buttom pressed
-    changeState(previousState, state);
   }
 }
-
 //--------Mode Connection Status Icon 
 void modeConnectionStatus(char * mode, bool isConnected, int posX, int posY) {
   if (mode == "NODE"){
@@ -170,14 +178,16 @@ void modeConnectionStatus(char * mode, bool isConnected, int posX, int posY) {
 
 //--------Lower Screen Menus 
 void drawIntWithSubheading(bool isConnected, int posX, int posY, int value, char * subHeadint){
-  if (isConnected){
-    char msgBuffer[32] = {0};
-    sprintf(msgBuffer, "%d", value);
+  if (!isActiveNotification){ //only print if the displayt is clear of notifications
+    if (isConnected){
+      char msgBuffer[32] = {0};
+      sprintf(msgBuffer, "%d", value);
 
-    drawText(true, posX, posY, 3.8, msgBuffer);
-    drawText(true, posX, posY + 23, 1.5, subHeadint);
-  } else {
-    drawText(true, posX, posY, 3.5, "NO CON");
+      drawText(true, posX, posY, 3.8, msgBuffer);
+      drawText(true, posX, posY + 23, 1.5, subHeadint);
+    } else {
+      drawText(true, posX, posY, 3.5, "NO CON");
+    }
   }
 }
 
@@ -199,27 +209,22 @@ void nodeAnimation(int clientsConnected, bool isMaster){
 //Update Display
 void displayUpdate() {
   display.clearDisplay();
+  updateButtons();
+  currentDisplayMillis = millis();
+  isActiveNotification = false; 
 
   if (state == "main") {  
     //Draw images
-    backdrop(2);
     batteryIndicatorDraw(WHITE);
-    
-    drawText(true, 64, 32, 1, "HI");
+    backdrop(2);
+    //drawText(true, 64, 32, 1, "HI");
     modeConnectionStatus("NODE", connectionStatus, 100, 1);
     lowerScreenMain(24, 12);
 
     //Update display
   } else if (state == "menu") {
     ;//menu selection screen here
-
-  } else if (state == "lowpower") {
-    backdrop(2);
-    batteryIndicatorDraw(WHITE);
-    modeConnectionStatus("NODE", connectionStatus, 100, 1);
-    drawText(true, 64, 32, 2, "LOW POWER");
-    drawText(true, 64, 50, 1, "OK to dismiss");
-  }
+  } 
 
   display.display();
 }
