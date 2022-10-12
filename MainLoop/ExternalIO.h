@@ -7,12 +7,10 @@
 byte batteryMonitorPin = 4;
 byte debugPushButtonPin = 5; //CHANGE
 
-bool isDebugTriggered = false;
-
 //---------------INIT
 void inputsInitialize() {
   pinMode(batteryMonitorPin, INPUT);
-  pinMode(debugPushButtonPin, INPUT);
+  pinMode(debugPushButtonPin, INPUT_PULLUP);
 }
 
 unsigned short int pollBattery() {
@@ -22,14 +20,11 @@ unsigned short int pollBattery() {
   return batteryLevelRaw;
 }
 
-//void debugPushbutton(){
-//  if (digitalRead(debugPushButtonPin) == HIGH){
-//    isDebugTriggered = true;
-//  } else {
-//    isDebugTriggered = false;
-//  }
+bool debugPushbutton(){
+  if (digitalRead(debugPushButtonPin) == HIGH){
+    return true;
+  } else {
+    return false; 
+  }
 
-void updateButtons(){
-  isDebugTriggered = digitalRead(debugPushButtonPin);
-}
 #endif

@@ -161,6 +161,7 @@ void batteryIndicatorDraw(const int colour) {
   Serial.println("");
   }
 }
+
 //--------Mode Connection Status Icon 
 void modeConnectionStatus(char * mode, bool isConnected, int posX, int posY) {
   if (mode == "NODE"){
@@ -209,7 +210,6 @@ void nodeAnimation(int clientsConnected, bool isMaster){
 //Update Display
 void displayUpdate() {
   display.clearDisplay();
-  updateButtons();
   currentDisplayMillis = millis();
   isActiveNotification = false; 
 
