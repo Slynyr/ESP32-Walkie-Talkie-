@@ -8,12 +8,36 @@
 #include "WiFi.h"
 #include "esp_now.h"
 
+//--------------ActiveMacAddressTracking
+void updateActiveList(char * activeList[], char * rollingList[], char * macAddrIn){
+  //check if the mac address passed in is present in activelist. If not then insert in both active and rolling. 
+
+}
+
+void findArraySlot(char * array){
+  //find empty slot in array and RETURN position of said slot. If no empty slot return a preset value to indicate that there is no space 
+
+}
+
+void dropArrayElement(char * array, int slot){
+  //drop element of said index/slot in array that is passed in
+}
+
+void compareArrayContents(char * activeList[], char * rollingList){ //name of function may be changed since its not entirely descriptive of what its doing
+  //on millis timer. Run every X amount of seconds (effectively max timout length)
+  //compare  the contents of activelist and rolling list. remove any mac addresses that appear in active list but not in rolling 
+  //reset rolling list
+}
+
+
+
 void formatMacAddress(const uint8_t *macAddr, char *buffer, int maxLength)
 //Formats MAC Address
 {
   snprintf(buffer, maxLength, "%02x:%02x:%02x:%02x:%02x:%02x", macAddr[0], macAddr[1], macAddr[2], macAddr[3], macAddr[4], macAddr[5]);
 }
 
+void countConnections(char * addMacAddr)
 
 void receiveCallback(const uint8_t *macAddr, const uint8_t *data, int dataLen)
 //Rewrite so incoming data is stored in a circular buffer
