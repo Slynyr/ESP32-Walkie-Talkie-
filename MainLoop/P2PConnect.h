@@ -80,7 +80,16 @@ void formatMacAddress(const uint8_t *macAddr, char *buffer, int maxLength)
   snprintf(buffer, maxLength, "%02x:%02x:%02x:%02x:%02x:%02x", macAddr[0], macAddr[1], macAddr[2], macAddr[3], macAddr[4], macAddr[5]);
 }
 
-void countConnections(char * addMacAddr)
+void countConnections(char * array){
+  int connections = sizeof(array);
+  
+  for (int i = 0; i < sizeof(array); i++){
+    if (array[i] == 0){
+      connections -= 1;
+    }
+  }
+  return connections;
+}
 
 void receiveCallback(const uint8_t *macAddr, const uint8_t *data, int dataLen)
 //Rewrite so incoming data is stored in a circular buffer
