@@ -1,6 +1,9 @@
 #include "UpdateDisplay.h"
 #include "ExternalIO.h"
 #include "P2PConnect.h"
+#include <vector>
+#include <string>
+
 
 unsigned long previousMillis = 0;
 

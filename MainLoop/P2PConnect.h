@@ -7,26 +7,69 @@
 
 #include "WiFi.h"
 #include "esp_now.h"
+//GLOBALS
+const byte maxUsers = 16;
+unsigned int previousMillis;
+unsigned int currentMillis = millis();
+unsigned char * activeList[maxUsers] = {0}; 
+unsigned int timoutTime = 1; 
+
 
 //--------------ActiveMacAddressTracking
-void updateActiveList(char * activeList[], char * rollingList[], char * macAddrIn){
-  //check if the mac address passed in is present in activelist. If not then insert in both active and rolling. 
+void updateActiveList(char * active, char * rolling, char * macAddrIn){
+  //check if the mac address passed in is present in activelist. If not then insert in both active and rolling.
+  bool presentInList = false; 
 
+  for (int i = 0; i < sizeof(active); i++){
+    if (macAddrIn == active[i]){
+      presentInList = true;
+      break;
+    }
+  } if (!presentInList) {
+    active[findArraySlot(active)] = macAddrIn;
+  }
+  rolling[findArraySlot(rolling)] = macAddrIn;
 }
 
 void findArraySlot(char * array){
   //find empty slot in array and RETURN position of said slot. If no empty slot return a preset value to indicate that there is no space 
+  bool foundSlot = false;
+  int failState = -1;
 
+  for (int i = 0; i < sizeof(array); i++){
+    if (array[i] == 0){
+      foundSlot = true;
+      return i; 
+    }
+  }
+  return failState;
 }
 
 void dropArrayElement(char * array, int slot){
   //drop element of said index/slot in array that is passed in
+  array[slot] = 0;
 }
 
-void compareArrayContents(char * activeList[], char * rollingList){ //name of function may be changed since its not entirely descriptive of what its doing
+void compareArrayContents(char * active, char * rolling){ //name of function may be changed since its not entirely descriptive of what its doing
   //on millis timer. Run every X amount of seconds (effectively max timout length)
-  //compare  the contents of activelist and rolling list. remove any mac addresses that appear in active list but not in rolling 
+  //compare  the contents of activelist and rollinglist. remove any mac addresses that appear in active list but not in rolling 
   //reset rolling list
+  currentMillis = millis();
+
+  if ((currentMillis - previousMillis) >= (timoutTime * 1000)){
+    for (int i = 0; i < sizeof(active); i++){
+      bool foundMatch = false;
+      for (int x = 0; x < sizeof(rolling); x++){
+        if (active[i] == rolling[x]){
+          foundMatch = true;
+          break;
+       }
+      if (!foundMatch){
+        active[i] = 0;
+        }
+      }
+    }
+  }
 }
 
 
