@@ -210,7 +210,6 @@ void displayUpdate() {
     //Draw images
     batteryIndicatorDraw(WHITE);
     backdrop(2);
-    //drawText(true, 64, 32, 1, "HI");
     modeConnectionStatus("NODE", connectionStatus, 100, 1);
     lowerScreenMain(24, 12);
 
