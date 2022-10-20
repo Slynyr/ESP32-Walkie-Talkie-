@@ -1,13 +1,13 @@
 #include "UpdateDisplay.h"
 #include "ExternalIO.h"
 #include "P2PConnect.h"
+#include "I2S-Audio.h"
 #include <vector>
 #include <string>
 
-
 unsigned long previousMillis = 0;
 
-void setup() {
+void setup() { 
   Serial.begin(115200);
 
   //Initialize Display
@@ -23,7 +23,7 @@ void setup() {
 void loop() {
   //Update millis
   unsigned long currentMillis = millis();
-  //displayGetMillis(currentMillis);
+  displayGetMillis(currentMillis);
 
   //Update display
   displayUpdate();

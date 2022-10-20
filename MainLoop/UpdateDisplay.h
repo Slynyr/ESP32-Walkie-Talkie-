@@ -1,8 +1,10 @@
 //This file is for display drawing and screen updating only
+//Used to generate bitmaps: https://javl.github.io/image2cpp/ 
 #ifndef UPDATE_DISPLAY_H
 #define UPDATE_DISPLAY_H
 #include <Arduino.h>
 #include "ExternalIO.h"
+#include "Sprites.h"
 
 //Display Definitions
 #include <Wire.h>
@@ -21,8 +23,8 @@ float voltageLevel;
 unsigned short int batteryLevel;
 unsigned long currentDisplayMillis;
 bool connectionStatus = false;
-char *state = "main";
-char *previousState = "main";
+char *state = "splash";
+char *previousState = "splash";
 
 //blinkie battery
 unsigned int batteryPreviousMilli;
@@ -43,27 +45,7 @@ void displayGetMillis(unsigned long mainMillis) {
   currentDisplayMillis = mainMillis;
 }
 
-//---------------ICONS
-// 'Battery Icon', 13x13px
-const unsigned char batteryBitmap[] PROGMEM = {
-  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x7f, 0xe0, 0x40, 0x20, 0x40, 0x30, 0x40, 0x30, 0x40, 0x30,
-  0x40, 0x20, 0x7f, 0xe0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-};
-
-// 'Node Connection Established', 13x13px
-const unsigned char nodeConnectionEstablished[] PROGMEM = {
-  0x00, 0x00, 0x00, 0x00, 0x1f, 0xc0, 0x7f, 0xf0, 0xf0, 0x78, 0x4f, 0x90, 0x1f, 0xc0, 0x18, 0xc0,
-  0x07, 0x00, 0x07, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00
-};
-
-// 'Node Connection Failed Icon', 13x13px
-const unsigned char noNodeConnectionmap[] PROGMEM = {
-  0x00, 0x00, 0x02, 0x00, 0x02, 0x00, 0x3f, 0xe0, 0x7a, 0xf0, 0xe2, 0x38, 0x1a, 0xc0, 0x18, 0xc0,
-  0x02, 0x00, 0x07, 0x00, 0x07, 0x00, 0x00, 0x00, 0x00, 0x00
-};
-
-
-//------------DRAWTEXTFUNCTION
+//------------DRAW-TEXT
 void drawText(bool isCenter, int cursX, int cursY, int textSize, char *message) {
   display.setTextSize(textSize);
   display.setTextColor(WHITE);
@@ -114,13 +96,15 @@ void batteryIndicatorValues(unsigned short int batteryLevelRaw) {
 }
 
 void batteryWarnToggle() {
-  if (!isWarnDismissed) {
-    drawText(true, 64, 32, 2, "LOW POWER");
-    drawText(true, 64, 50, 1, "OK to dismiss");
-    isActiveNotification = true;
+  if (state != "splash"){
+    if (!isWarnDismissed) {
+      drawText(true, 64, 32, 2, "LOW POWER");
+      drawText(true, 64, 50, 1, "OK to dismiss");
+      isActiveNotification = true;
 
-    if (debugPushbutton() == HIGH) {
-      isWarnDismissed = true;
+      if (debugPushbutton() == HIGH) {
+        isWarnDismissed = true;
+      }
     }
   }
 }
@@ -210,11 +194,32 @@ void displayUpdate() {
     //Draw images
     batteryIndicatorDraw(WHITE);
     backdrop(2);
-    //drawText(true, 64, 32, 1, "HI");
     modeConnectionStatus("NODE", connectionStatus, 100, 1);
     lowerScreenMain(24, 12);
 
     //Update display
+  } else if (state == "splash") {
+    delay(500);
+    //Draw logo
+    display.drawBitmap(0, 16, splashNodeLogo, 128, 48, WHITE);
+    display.display();
+    delay(1500);
+    display.clearDisplay();
+    delay(1000);
+    display.drawBitmap(0, 16, splashNodeFont, 128, 48, WHITE);
+    display.display();
+    delay(750);
+
+    //Loading bar
+    for (int i = 0; i < 128; i++) {
+      delay(random(10, 50));
+      display.drawRect(0, 6, i, 6, WHITE);
+      display.display();
+    }
+
+    delay(1000);
+    state = "main";
+
   } else if (state == "menu") {
     ;  //menu selection screen here
   }

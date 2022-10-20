@@ -16,7 +16,7 @@
 #include <algorithm>
 
 //GLOBALS
-const byte maxUsers = 16;
+/*const byte maxUsers = 16;
 unsigned int previousMillis;
 unsigned int currentMillis = millis();
 std::vector<std::string> activeMacAddressList;
@@ -110,7 +110,7 @@ void formatMacAddress(const uint8_t *macAddr, char *buffer, int maxLength)
   snprintf(buffer, maxLength, "%02x:%02x:%02x:%02x:%02x:%02x", macAddr[0], macAddr[1], macAddr[2], macAddr[3], macAddr[4], macAddr[5]);
 }
 
-void countConnections(char * array){
+/*void countConnections(char * array){
   int connections = sizeof(array);
   
   for (int i = 0; i < sizeof(array); i++){
@@ -120,6 +120,7 @@ void countConnections(char * array){
   }
   return connections;
 }
+*/
 
 void receiveCallback(const uint8_t *macAddr, const uint8_t *data, int dataLen)
 //Rewrite so incoming data is stored in a circular buffer
