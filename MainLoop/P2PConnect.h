@@ -9,6 +9,7 @@
 #include "esp_now.h"
 
 //please dont shoot me - sincerely, codemonkey
+//WWWWWWWWWWWWWWWWWWHHHHHHHHHHHHHHHHHHHHHHHHYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
 #include <vector>
 #include <string>
 #include <iostream>
@@ -17,15 +18,31 @@
 
 //GLOBALS
 const byte maxUsers = 16;
-unsigned int previousMillis;
-unsigned int currentMillis = millis();
+unsigned long previousCompareMillis = 0;
+unsigned long currentCompareMillis;
 std::vector<std::string> activeMacAddressList;
 std::vector<std::string> rollingMacAddressList;
 unsigned int timeoutTime = 1; 
 
+void getP2PMillis(unsigned long masterMillis){
+  currentCompareMillis = masterMillis;
+}
+
+bool isAddressInList(std::vector<std::string> listIn, std::string macAddrIn){
+  //checks if a string is present in a list of strings. In this case it checks if a macaddress is present in the given list
+  bool isAddressFound = false; 
+
+  for (auto listEntry : macAddrIn){ //iterates through list elements as "listEntry". If the element matches the madAddress testcase it returns a true state else the function will return a false state
+    if (listIn[listEntry] == macAddrIn){
+      isAddressFound = true;
+      break;
+    }
+  }
+  return isAddressFound;
+}
 
 //--------------ActiveMacAddressTracking
-void updateActiveList(const std::str& active, const std::str& rolling, char * macAddrIn){
+void updateActiveList(std::string macAddrIn){
   //calls isAddressInList in order to determine if given macAddress is already present. If not, it is added to both the active and rolling list
   //---activelist
   if (!isAddressInList(activeMacAddressList, macAddrIn)){
@@ -37,32 +54,19 @@ void updateActiveList(const std::str& active, const std::str& rolling, char * ma
   }
 }
 
-void isAddressInList(const std::str& listIn, char * macAddrIn){
-  //checks if a string is present in a list of strings. In this case it checks if a macaddress is present in the given list
-  bool isAddressFound false; 
-
-  for (auto listEntry : macAddrIn){ //iterates through list elements as "listEntry". If the element matches the madAddress testcase it returns a true state else the function will return a false state
-    if (listEntry == macAddrIn){
-      isAddressFound = true;
-      break;
-    }
-  }
-  return isAddressFound;
-}
-
-void clearList(const std::str& listIn){
+void clearList(std::string listIn){
   //may not function
   if (!listIn.empty()){
-    for (listElement : listIn){
+    for (auto listElement : listIn){
       listIn.erase(listElement);
     }
   }
 }
 
 
-void compareActiveRollingLists(const std::str& active, const std::str& rolling){
+void compareActiveRollingLists(std::string active, std::string rolling){
   //Iterates through each active list element and checks if it is present in rolling list. If not present, it is poped. 
-  if ((currentDisplayMillis - previousMillis) >= (timeoutTime * 1000)){
+  if ((currentCompareMillis - previousCompareMillis) >= (timeoutTime * 1000)){
     for (auto activeElement : active){
       bool inRolling = false;
       for (auto rollingElement : active){
@@ -74,8 +78,8 @@ void compareActiveRollingLists(const std::str& active, const std::str& rolling){
         active.erase(activeElement); 
       }
     }
-    previousMillis = currentDisplayMillis;
-    clearList(rolling)
+    previousCompareMillis = currentCompareMillis;
+    clearList(rolling);
   }
 }
 

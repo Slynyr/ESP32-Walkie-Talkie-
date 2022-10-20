@@ -5,7 +5,7 @@
 #include <vector>
 #include <string>
 
-unsigned long previousMillis = 0;
+unsigned long previousBatteryMillis = 0;
 
 void setup() { 
   Serial.begin(115200);
@@ -23,7 +23,8 @@ void setup() {
 void loop() {
   //Update millis
   unsigned long currentMillis = millis();
-  displayGetMillis(currentMillis);
+  getP2PMillis(currentMillis);
+  getDisplayMillis(currentMillis);
 
   //Update display
   displayUpdate();
@@ -32,8 +33,8 @@ void loop() {
   broadcast("AMONGUS");
 
   //Pass battery value to display every 10s
-  if (currentMillis - previousMillis >= 100) {
-    previousMillis = currentMillis;
+  if (currentMillis - previousBatteryMillis >= 100) {
+    previousBatteryMillis = currentMillis;
     batteryIndicatorValues(pollBattery());
   }
 }

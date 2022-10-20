@@ -21,13 +21,13 @@ Adafruit_SSD1306 display(OLED_WIDTH, OLED_HEIGHT);
 //Globals
 float voltageLevel;
 unsigned short int batteryLevel;
-unsigned long currentDisplayMillis;
 bool connectionStatus = false;
 char *state = "splash";
 char *previousState = "splash";
 
 //blinkie battery
-unsigned int batteryPreviousMilli;
+unsigned long previousDisplayMillis = 0;
+unsigned long currentDisplayMillis;
 float batteryLowThreshold = 3.60;  //in volts
 short int batteryBlinkTime = 1;    //in seconds
 bool showBattery = true;
@@ -41,8 +41,8 @@ void displayInitialize() {
   display.display();
 }
 
-void displayGetMillis(unsigned long mainMillis) {
-  currentDisplayMillis = mainMillis;
+void getDisplayMillis(unsigned long masterMillis){
+  currentDisplayMillis = masterMillis;
 }
 
 //------------DRAW-TEXT
@@ -113,9 +113,9 @@ void batteryIndicatorDraw(const int colour) {
 
   if (voltageLevel <= batteryLowThreshold) {
     batteryWarnToggle();
-    if ((currentDisplayMillis - batteryPreviousMilli) >= (batteryBlinkTime * 1000)) {
+    if ((currentDisplayMillis - previousDisplayMillis) >= (batteryBlinkTime * 1000)) {
       showBattery = !showBattery;
-      batteryPreviousMilli = currentDisplayMillis;
+      previousDisplayMillis = currentDisplayMillis;
     }
   } else {
     showBattery = true;
@@ -187,7 +187,6 @@ void nodeAnimation(int clientsConnected, bool isMaster) {
 //Update Display
 void displayUpdate() {
   display.clearDisplay();
-  currentDisplayMillis = millis();
   isActiveNotification = false;
 
   if (state == "main") {
