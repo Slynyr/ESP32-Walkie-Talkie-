@@ -1,27 +1,15 @@
-//This file is namely for external inputs like buttons NOT I2S devices like the mic and speaker
-#ifndef EXTERNAL_IO_H
-#define EXTERNAL_IO_H
+//ExternalIO Declarations
+#ifndef _EXTERNAL_IO_H_
+#define _EXTERNAL_IO_H_
 #include <Arduino.h>
 
-//Pin declare
-byte batteryMonitorPin = 4;
-byte debugPushButtonPin = 5; //CHANGE
+void inputsInitialize() ;
+  //Initializes pins and pinmode
 
-//---------------INIT
-void inputsInitialize() {
-  pinMode(batteryMonitorPin, INPUT);
-  pinMode(debugPushButtonPin, INPUT_PULLUP);
-}
+unsigned short int pollBattery() ;
+  //Polls the battery values for the display
 
-unsigned short int pollBattery() {
-  unsigned short int batteryLevelRaw;
-  batteryLevelRaw = analogRead(batteryMonitorPin);
-  
-  return batteryLevelRaw;
-}
-
-bool debugPushbutton(){
-  return digitalRead(debugPushButtonPin);
-}
+bool debugPushbutton();
+  //Pushbutton demo
 
 #endif

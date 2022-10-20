@@ -10,14 +10,15 @@ unsigned long previousBatteryMillis = 0;
 void setup() { 
   Serial.begin(115200);
 
+  //Specific Init Order DO NOT CHANGE!
+  //Initialize P2P
+  P2PInitialize();
+
   //Initialize Display
   displayInitialize();
 
   //Get first battery voltage
-  batteryIndicatorValues(pollBattery());
-
-  //Initialize P2P
-  P2PInitialize();
+  batteryIndicatorValues();
 }
 
 void loop() {
@@ -32,9 +33,12 @@ void loop() {
   //Broadcast demo
   broadcast("AMONGUS");
 
+  //Compare MAC lists
+  compareActiveRollingLists();
+  
   //Pass battery value to display every 10s
   if (currentMillis - previousBatteryMillis >= 100) {
     previousBatteryMillis = currentMillis;
-    batteryIndicatorValues(pollBattery());
+    batteryIndicatorValues();
   }
 }
