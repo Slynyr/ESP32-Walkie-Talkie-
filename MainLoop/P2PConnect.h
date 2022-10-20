@@ -16,7 +16,7 @@
 #include <algorithm>
 
 //GLOBALS
-/*const byte maxUsers = 16;
+const byte maxUsers = 16;
 unsigned int previousMillis;
 unsigned int currentMillis = millis();
 std::vector<std::string> activeMacAddressList;
