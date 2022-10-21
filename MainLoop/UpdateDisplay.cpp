@@ -28,7 +28,7 @@ void displayInitialize() {
   display.display();
 }
 
-void getDisplayMillis(unsigned long masterMillis){
+void getDisplayMillis(unsigned long masterMillis) {
   currentDisplayMillis = masterMillis;
 }
 
@@ -83,7 +83,7 @@ void batteryIndicatorValues() {
 }
 
 void batteryWarnToggle() {
-  if (state != "splash"){
+  if (state != "splash") {
     if (!isWarnDismissed) {
       drawText(true, 64, 32, 2, "LOW POWER");
       drawText(true, 64, 50, 1, "OK to dismiss");

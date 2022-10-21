@@ -7,7 +7,7 @@
 
 unsigned long previousBatteryMillis = 0;
 
-void setup() { 
+void setup() {
   Serial.begin(115200);
 
   //Specific Init Order DO NOT CHANGE!
@@ -35,7 +35,7 @@ void loop() {
 
   //Compare MAC lists
   compareActiveRollingLists();
-  
+
   //Pass battery value to display every 10s
   if (currentMillis - previousBatteryMillis >= 100) {
     previousBatteryMillis = currentMillis;

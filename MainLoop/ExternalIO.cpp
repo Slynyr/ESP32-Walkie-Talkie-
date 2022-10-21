@@ -3,7 +3,7 @@
 
 //Pin declare
 byte batteryMonitorPin = 4;
-byte debugPushButtonPin = 5; 
+byte debugPushButtonPin = 5;
 
 void inputsInitialize() {
   pinMode(batteryMonitorPin, INPUT);
@@ -13,10 +13,10 @@ void inputsInitialize() {
 unsigned short int pollBattery() {
   unsigned short int batteryLevelRaw;
   batteryLevelRaw = analogRead(batteryMonitorPin);
-  
+
   return batteryLevelRaw;
 }
 
-bool debugPushbutton(){
+bool debugPushbutton() {
   return digitalRead(debugPushButtonPin);
 }

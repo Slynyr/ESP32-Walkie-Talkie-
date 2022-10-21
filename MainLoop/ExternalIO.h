@@ -3,13 +3,13 @@
 #define _EXTERNAL_IO_H_
 #include <Arduino.h>
 
-void inputsInitialize() ;
-  //Initializes pins and pinmode
+void inputsInitialize();
+//Initializes pins and pinmode
 
-unsigned short int pollBattery() ;
-  //Polls the battery values for the display
+unsigned short int pollBattery();
+//Polls the battery values for the display
 
 bool debugPushbutton();
-  //Pushbutton demo
+//Pushbutton demo
 
 #endif
