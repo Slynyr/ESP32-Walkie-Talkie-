@@ -52,10 +52,12 @@ void compareActiveRollingLists() {
   //Iterates through each active list element and checks if it is present in rolling list. If not present, it is popped.
   //Printing
   for (int i = 0; i < sizeof(activeMacAddressList); i++) {
+    Serial.print("Active: ");
     Serial.println(activeMacAddressList.at(i).c_str());
   }
 
   for (int j = 0; j < sizeof(rollingMacAddressList); j++) {
+    Serial.print("Rolling: ")
     Serial.println(rollingMacAddressList.at(j).c_str());
   }
 
