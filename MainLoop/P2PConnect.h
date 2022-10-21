@@ -8,7 +8,6 @@
 #include <vector>
 #include <string>
 #include <iterator>
-#include <algorithm>
 
 //External global
 extern int userCountP2P;

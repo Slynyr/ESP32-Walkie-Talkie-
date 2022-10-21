@@ -6,8 +6,8 @@ const byte maxUsers = 16;
 const byte timeoutTime = 1; 
 unsigned long previousCompareMillis = 0;
 unsigned long currentCompareMillis;
-std::vector<std::string> activeMacAddressList;
-std::vector<std::string> rollingMacAddressList;
+std::vector<std::string> activeMacAddressList{};
+std::vector<std::string> rollingMacAddressList{};
 int userCountP2P;
 
 void getP2PMillis(unsigned long masterMillis){
@@ -41,7 +41,6 @@ void updateActiveList(std::string macAddrIn){
 }
 
 void clearList(std::vector<std::string> listIn){
-  //may not function
   if (!listIn.empty()){
     for (auto listElement : listIn){
       listIn.erase(std::remove(listIn.begin(), listIn.end(), listElement), listIn.end());
