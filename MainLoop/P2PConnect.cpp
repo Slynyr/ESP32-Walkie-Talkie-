@@ -6,8 +6,8 @@ const byte maxUsers = 16;
 const byte timeoutTime = 1;
 unsigned long previousCompareMillis = 0;
 unsigned long currentCompareMillis;
-std::vector<std::string> activeMacAddressList{0};
-std::vector<std::string> rollingMacAddressList{0};
+std::vector<std::string> activeMacAddressList{};
+std::vector<std::string> rollingMacAddressList{};
 int userCountP2P;
 
 void getP2PMillis(unsigned long masterMillis) {
@@ -51,15 +51,18 @@ void clearList(std::vector<std::string> listIn) {
 void compareActiveRollingLists() {
   //Iterates through each active list element and checks if it is present in rolling list. If not present, it is popped.
   //Printing
+  /*
   for (int i = 0; i < sizeof(activeMacAddressList); i++) {
     Serial.print("Active: ");
     Serial.println(activeMacAddressList.at(i).c_str());
   }
 
   for (int j = 0; j < sizeof(rollingMacAddressList); j++) {
-    Serial.print("Rolling: ")
+    Serial.print("Rolling: ");
     Serial.println(rollingMacAddressList.at(j).c_str());
   }
+
+  */
 
   if ((currentCompareMillis - previousCompareMillis) >= (timeoutTime * 1000)) {
     for (auto activeElement : activeMacAddressList) {
