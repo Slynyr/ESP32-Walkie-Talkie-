@@ -6,106 +6,63 @@ const byte maxUsers = 16;
 const byte timeoutTime = 1;
 unsigned long previousCompareMillis = 0;
 unsigned long currentCompareMillis;
-std::vector<std::string> activeMacAddressList{};
-std::vector<std::string> rollingMacAddressList{};
+char * activeMacAddressArray[16] = {};
+char * rollingMacAddressArray[16] = {};
 int userCountP2P;
 
 void getP2PMillis(unsigned long masterMillis) {
   currentCompareMillis = masterMillis;
 }
 
-bool isAddressInList(std::vector<std::string> listIn, std::string macAddrIn) {
-  //checks if a string is present in a list of strings. In this case it checks if a macaddress is present in the given list
-  bool isAddressFound = false;
-
-  for (auto listEntry : macAddrIn) {  //iterates through list elements as "listEntry". If the element matches the madAddress testcase it returns a true state else the function will return a false state
-    if (listIn[listEntry] == macAddrIn) {
-      isAddressFound = true;
-      break;
+void isAddressInArray(char * arrayIn, char * strIn){
+  bool isInArray = false; 
+  
+  for (int i = 0; i <= sizeof(arrayIn); i++){
+    if arrayIn[i] == strIn{
+      isInArray == true;
     }
   }
-  return isAddressFound;
+  return isInArray;
 }
 
-//--------------ActiveMacAddressTracking
-void updateActiveList(std::string macAddrIn) {
-  //calls isAddressInList in order to determine if given macAddress is already present. If not, it is added to both the active and rolling list
-  //---activelist
-  if (!isAddressInList(activeMacAddressList, macAddrIn)) {
-    activeMacAddressList.push_back(macAddrIn);
-  }
-  //---rolling list
-  if (!isAddressInList(rollingMacAddressList, macAddrIn)) {
-    rollingMacAddressList.push_back(macAddrIn);
-  }
-}
-
-void clearList(std::vector<std::string> listIn) {
-  if (!listIn.empty()) {
-    for (auto listElement : listIn) {
-      listIn.erase(std::remove(listIn.begin(), listIn.end(), listElement), listIn.end());
+void findEmptySlot(char * arrayIn){
+  for (int i = 0; i <= sizeof(arrayIn); i++){
+    if (arrayIn[i] == NULL){
+      return i;
     }
   }
+  return -1;
 }
 
-void compareActiveRollingLists() {
-  //Iterates through each active list element and checks if it is present in rolling list. If not present, it is popped.
-  //Printing
-  /*
-  for (int i = 0; i < sizeof(activeMacAddressList); i++) {
-    Serial.print("Active: ");
-    Serial.println(activeMacAddressList.at(i).c_str());
+void clearArray(char * arrayIn){
+  for (int i = 0; i <= sizeof(arrayIn); i++){
+    arrayIn[i] == NULL;
   }
+}
 
-  for (int j = 0; j < sizeof(rollingMacAddressList); j++) {
-    Serial.print("Rolling: ");
-    Serial.println(rollingMacAddressList.at(j).c_str());
-  }
-
-  */
-
-  if ((currentCompareMillis - previousCompareMillis) >= (timeoutTime * 1000)) {
-    for (auto activeElement : activeMacAddressList) {
-      bool inRolling = false;
-      for (auto rollingElement : rollingMacAddressList) {
-        if (rollingElement == activeElement) {
-          inRolling = true;
-        }
-      }
-      if (!inRolling) {
-        activeMacAddressList.erase(std::remove(activeMacAddressList.begin(), activeMacAddressList.end(), activeElement), activeMacAddressList.end());
-      }
+void updateActiveRollingArrays(char * macAddrIn){
+  if (!isAddressInArray(activeMacAddressArray, macAddrIn)){
+    int activeEmpty = findEmptySlot(activeMacAddressArray);
+    if (activeEmpty != -1){
+      activeMacAddressArray[activeEmpty] = macAddrIn;
     }
-    userCountP2P = activeMacAddressList.size();
-    previousCompareMillis = currentCompareMillis;
-    clearList(rollingMacAddressList);
-  }
-}
 
-/*
-SAFEKEEPING FOR LOGIC
-void compareArrayContents(char * active, char * rolling){ //name of function may be changed since its not entirely descriptive of what its doing
-  //on millis timer. Run every X amount of seconds (effectively max timout length)
-  //compare  the contents of activelist and rollinglist. remove any mac addresses that appear in active list but not in rolling 
-  //reset rolling list
-  currentMillis = millis();
-
-  if ((currentMillis - previousMillis) >= (timoutTime * 1000)){
-    for (int i = 0; i < sizeof(active); i++){
-      bool foundMatch = false;
-      for (int x = 0; x < sizeof(rolling); x++){
-        if (active[i] == rolling[x]){
-          foundMatch = true;
-          break;
-       }
-      if (!foundMatch){
-        active[i] = 0;
-        }
-      }
+  if (!isAddressInArray(rollingMacAddressArray, macAddrIn)){
+    int rollingEmpty = findEmptySlot(rollingMacAddressArray);
+    if (rollingEmpty != -1){
+      rollingMacAddressArray[rollingEmpty] = macAddrIn;
     }
   }
+  }
 }
-*/
+
+void compareActiveRollingArray(){
+  if ((currentCompareMillis - previousCompareMillis) <= (timeoutTime * 100)){
+    previousCompareMillis = millis()
+    if ()
+  }
+}
+
 
 void formatMacAddress(const uint8_t *macAddr, char *buffer, int maxLength)
 //Formats MAC Address
