@@ -34,7 +34,7 @@ void loop() {
   broadcast("AMONGUS");
 
   //Compare MAC lists
-  compareActiveRollingLists();
+  compareActiveRollingArray();
 
   //Pass battery value to display every 10s
   if (currentMillis - previousBatteryMillis >= 100) {

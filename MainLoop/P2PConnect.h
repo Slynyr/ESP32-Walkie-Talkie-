@@ -15,16 +15,19 @@ extern int userCountP2P;
 void getP2PMillis(unsigned long masterMillis);
 //Get millis from main for P2P files
 
-bool isAddressInList(std::vector<std::string> listIn, std::string macAddrIn);
+bool isAddressInArray(char* arrayIn, char* strIn);
 //Checks if macAddrIn is in the list listIn
 
-void updateActiveList(std::string macAddrIn);
+char findEmptySlot(char* arrayIn);
+//Find empty array slot
+
+void updateActiveRollingArray(char* macAddrIn);
 //Updates the current MACs connected
 
-void clearList(std::vector<std::string> listIn);
-//Clear the list listIn
+void clearArray(char* arrayIn);
+//Clear the list arrayIn
 
-void compareActiveRollingLists();
+void compareActiveRollingArray();
 //Iterates through each active list element and checks if it is present in rolling list. If not present, it is popped.
 
 void formatMacAddress(const uint8_t *macAddr, char *buffer, int maxLength);

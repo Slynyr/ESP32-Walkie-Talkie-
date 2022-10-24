@@ -6,60 +6,72 @@ const byte maxUsers = 16;
 const byte timeoutTime = 1;
 unsigned long previousCompareMillis = 0;
 unsigned long currentCompareMillis;
-char * activeMacAddressArray[16] = {};
-char * rollingMacAddressArray[16] = {};
+char* activeMacAddressArray[16];
+char* rollingMacAddressArray[16];
 int userCountP2P;
 
 void getP2PMillis(unsigned long masterMillis) {
   currentCompareMillis = masterMillis;
 }
 
-void isAddressInArray(char * arrayIn, char * strIn){
-  bool isInArray = false; 
-  
-  for (int i = 0; i <= sizeof(arrayIn); i++){
-    if arrayIn[i] == strIn{
-      isInArray == true;
-    }
+bool isAddressInArray(char* arrayIn, char* strIn) {
+  bool isInArray = false;
+
+  for (int i = 0; i <= sizeof(arrayIn); i++) {
+    if (arrayIn[i] == strIn) {
+        isInArray == true;
+      }
   }
   return isInArray;
 }
 
-void findEmptySlot(char * arrayIn){
-  for (int i = 0; i <= sizeof(arrayIn); i++){
-    if (arrayIn[i] == NULL){
+char findEmptySlot(char* arrayIn) {
+  for (int i = 0; i <= sizeof(arrayIn); i++) {
+    if (arrayIn[i] == 0) {
       return i;
     }
   }
   return -1;
 }
 
-void clearArray(char * arrayIn){
-  for (int i = 0; i <= sizeof(arrayIn); i++){
-    arrayIn[i] == NULL;
+void clearArray(char* arrayIn) {
+  for (int i = 0; i <= sizeof(arrayIn); i++) {
+    arrayIn[i] = '\0';
   }
 }
 
-void updateActiveRollingArrays(char * macAddrIn){
-  if (!isAddressInArray(activeMacAddressArray, macAddrIn)){
+void updateActiveRollingArray(char* macAddrIn) {
+  if (!isAddressInArray(activeMacAddressArray, macAddrIn)) {
     int activeEmpty = findEmptySlot(activeMacAddressArray);
-    if (activeEmpty != -1){
+    if (activeEmpty != -1) {
       activeMacAddressArray[activeEmpty] = macAddrIn;
     }
 
-  if (!isAddressInArray(rollingMacAddressArray, macAddrIn)){
-    int rollingEmpty = findEmptySlot(rollingMacAddressArray);
-    if (rollingEmpty != -1){
-      rollingMacAddressArray[rollingEmpty] = macAddrIn;
+    if (!isAddressInArray(rollingMacAddressArray, macAddrIn)) {
+      int rollingEmpty = findEmptySlot(rollingMacAddressArray);
+      if (rollingEmpty != -1) {
+        rollingMacAddressArray[rollingEmpty] = macAddrIn;
+      }
     }
-  }
   }
 }
 
-void compareActiveRollingArray(){
-  if ((currentCompareMillis - previousCompareMillis) <= (timeoutTime * 100)){
-    previousCompareMillis = millis()
-    if ()
+void compareActiveRollingArray() {
+  bool inRolling = false;
+  if ((currentCompareMillis - previousCompareMillis) <= (timeoutTime * 100)) {
+    for (int i = 0; i < sizeof(activeMacAddressArray); i++) {
+      for (int j = 0; j < sizeof(rollingMacAddressArray); j++) {
+        if ((strncmp(activeMacAddressArray[i], rollingMacAddressArray[j], 17) == 0)) {
+          inRolling = true;
+        }
+      }
+      if (inRolling == false) {
+        activeMacAddressArray[i] = '\0';
+      }
+    }
+    userCountP2P = sizeof(activeMacAddressArray);
+    previousCompareMillis = currentCompareMillis;
+    clearArray(rollingMacAddressArray);
   }
 }
 
@@ -92,7 +104,7 @@ void receiveCallback(const uint8_t *macAddr, const uint8_t *data, int dataLen)
   Serial.printf("Received message from: %s - %s\n", macStr, buffer);
 
   //Update known macs
-  updateActiveList(macStr);
+  updateActiveRollingArray(macStr);
 }
 
 
