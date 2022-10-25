@@ -37,7 +37,7 @@ void loop() {
   compareActiveRollingArray();
 
   //Pass battery value to display every 10s
-  if (currentMillis - previousBatteryMillis >= 100) {
+  if (currentMillis - previousBatteryMillis >= 10000) {
     previousBatteryMillis = currentMillis;
     batteryIndicatorValues();
   }

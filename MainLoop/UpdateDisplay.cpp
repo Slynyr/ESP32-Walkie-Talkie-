@@ -198,7 +198,7 @@ void displayUpdate() {
 
     //Loading bar
     for (int i = 0; i < 128; i++) {
-      delay(random(10, 50));
+      delay(random(20, 50));
       display.drawRect(0, 6, i, 6, WHITE);
       display.display();
     }

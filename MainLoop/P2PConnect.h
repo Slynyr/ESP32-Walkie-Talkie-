@@ -1,5 +1,8 @@
 #ifndef _P2P_CONNECT_H_
 #define _P2P_CONNECT_H_
+#define ESP_MAX_P2P 20
+// 20 - 1 user for array usage
+#define ESP_MAX_P2P_ARR 19
 #include <Arduino.h>
 
 #include "WiFi.h"
@@ -25,6 +28,9 @@ void clearArray(char** arrayIn);
 
 void compareActiveRollingArray();
 //Iterates through each active list element and checks if it is present in rolling list. If not present, it is popped.
+
+int countUsers();
+//Count the amount of users connected
 
 void formatMacAddress(const uint8_t *macAddr, char *buffer, int maxLength);
 //Formats MAC Address from int to char array
