@@ -5,26 +5,22 @@
 #include "WiFi.h"
 #include "esp_now.h"
 
-#include <vector>
-#include <string>
-#include <iterator>
-
 //External global
 extern int userCountP2P;
 
 void getP2PMillis(unsigned long masterMillis);
 //Get millis from main for P2P files
 
-bool isAddressInArray(char* arrayIn, char* strIn);
+bool isAddressInArray(char** arrayIn, char* strIn);
 //Checks if macAddrIn is in the list listIn
 
-char findEmptySlot(char* arrayIn);
+char findEmptySlot(char** arrayIn);
 //Find empty array slot
 
 void updateActiveRollingArray(char* macAddrIn);
 //Updates the current MACs connected
 
-void clearArray(char* arrayIn);
+void clearArray(char** arrayIn);
 //Clear the list arrayIn
 
 void compareActiveRollingArray();

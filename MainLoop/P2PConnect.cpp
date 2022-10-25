@@ -14,7 +14,7 @@ void getP2PMillis(unsigned long masterMillis) {
   currentCompareMillis = masterMillis;
 }
 
-bool isAddressInArray(char* arrayIn, char* strIn) {
+bool isAddressInArray(char** arrayIn, char* strIn) {
   bool isInArray = false;
 
   for (int i = 0; i <= sizeof(arrayIn); i++) {
@@ -25,7 +25,7 @@ bool isAddressInArray(char* arrayIn, char* strIn) {
   return isInArray;
 }
 
-char findEmptySlot(char* arrayIn) {
+char findEmptySlot(char** arrayIn) {
   for (int i = 0; i <= sizeof(arrayIn); i++) {
     if (arrayIn[i] == 0) {
       return i;
@@ -34,9 +34,9 @@ char findEmptySlot(char* arrayIn) {
   return -1;
 }
 
-void clearArray(char* arrayIn) {
+void clearArray(char** arrayIn) {
   for (int i = 0; i <= sizeof(arrayIn); i++) {
-    arrayIn[i] = '\0';
+    arrayIn[i] = NULL;
   }
 }
 
@@ -66,7 +66,7 @@ void compareActiveRollingArray() {
         }
       }
       if (inRolling == false) {
-        activeMacAddressArray[i] = '\0';
+        activeMacAddressArray[i] = NULL;
       }
     }
     userCountP2P = sizeof(activeMacAddressArray);
