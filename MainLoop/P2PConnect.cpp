@@ -17,16 +17,16 @@ void getP2PMillis(unsigned long masterMillis) {
 bool isAddressInArray(char** arrayIn, char* strIn) {
   bool isInArray = false;
 
-  for (int i = 0; i <= sizeof(arrayIn); i++) {
+  for (int i = 0; i <= 15; i++) {
     if (arrayIn[i] == strIn) {
-        isInArray == true;
+        isInArray = true;
       }
   }
   return isInArray;
 }
 
 char findEmptySlot(char** arrayIn) {
-  for (int i = 0; i <= sizeof(arrayIn); i++) {
+  for (int i = 0; i <= 15; i++) {
     if (arrayIn[i] == 0) {
       return i;
     }
@@ -35,7 +35,7 @@ char findEmptySlot(char** arrayIn) {
 }
 
 void clearArray(char** arrayIn) {
-  for (int i = 0; i <= sizeof(arrayIn); i++) {
+  for (int i = 0; i <= 15; i++) {
     arrayIn[i] = NULL;
   }
 }
@@ -58,18 +58,22 @@ void updateActiveRollingArray(char* macAddrIn) {
 
 void compareActiveRollingArray() {
   bool inRolling = false;
-  if ((currentCompareMillis - previousCompareMillis) <= (timeoutTime * 100)) {
-    for (int i = 0; i < sizeof(activeMacAddressArray); i++) {
-      for (int j = 0; j < sizeof(rollingMacAddressArray); j++) {
-        if ((strncmp(activeMacAddressArray[i], rollingMacAddressArray[j], 17) == 0)) {
+  Serial.println("Apples");
+  if ((currentCompareMillis - previousCompareMillis) >= (timeoutTime * 1000)) {
+    for (int i = 0; i <= 15; i++) {
+      for (int j = 0; j <= 15; j++) {
+        Serial.println("GOT HERE");
+        if (strncmp(activeMacAddressArray[i], rollingMacAddressArray[j], 17) == 0) {
+        Serial.println("GET HERE");
           inRolling = true;
         }
       }
       if (inRolling == false) {
-        activeMacAddressArray[i] = NULL;
+        activeMacAddressArray[i] = 0;
       }
     }
-    userCountP2P = sizeof(activeMacAddressArray);
+    
+    userCountP2P = sizeof(activeMacAddressArray)/(sizeof(activeMacAddressArray[0]));
     previousCompareMillis = currentCompareMillis;
     clearArray(rollingMacAddressArray);
   }
@@ -101,7 +105,7 @@ void receiveCallback(const uint8_t *macAddr, const uint8_t *data, int dataLen)
   formatMacAddress(macAddr, macStr, 18);
 
   //Send Debug log message to the serial port
-  Serial.printf("Received message from: %s - %s\n", macStr, buffer);
+  //Serial.printf("Received message from: %s - %s\n", macStr, buffer);
 
   //Update known macs
   updateActiveRollingArray(macStr);
@@ -113,10 +117,12 @@ void sentCallback(const uint8_t *macAddr, esp_now_send_status_t deliveryStatus)
 {
   char macStr[18];
   formatMacAddress(macAddr, macStr, 18);
+  /*
   Serial.print("Last Packet Sent to: ");
   Serial.println(macStr);
   Serial.print("Last Packet Send Status: ");
   Serial.println(deliveryStatus == ESP_NOW_SEND_SUCCESS ? "Delivery Success" : "Delivery Fail");
+  */
 }
 
 void P2PInitialize() {
