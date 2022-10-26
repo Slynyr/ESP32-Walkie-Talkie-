@@ -170,6 +170,15 @@ void nodeAnimation(int clientsConnected, bool isMaster) {
   }
 }
 
+void testbuttons(){
+  if (upButton() == "LP"){
+    drawCenteredCircle(true, 64, 32, 5);
+  } else if (upButton() == "SP"){
+    Serial.print("testcase passed"); //doesnt make sense 
+    drawCenteredCircle(true, 64, 32, 5);
+  }
+}
+
 //-------------UPDATE
 //Update Display
 void displayUpdate() {
@@ -182,6 +191,7 @@ void displayUpdate() {
     backdrop(2);
     modeConnectionStatus("NODE", connectionStatus, 100, 1);
     lowerScreenMain(24, userCountP2P);
+    testbuttons();
 
     //Update display
   } else if (state == "splash") {

@@ -12,4 +12,7 @@ unsigned short int pollBattery();
 bool debugPushbutton();
 //Pushbutton demo
 
+char* upButton();
+//returns button interaction type for up button
+
 #endif
