@@ -17,9 +17,6 @@ void getP2PMillis(unsigned long masterMillis);
 bool isAddressInArray(char** arrayIn, char* strIn);
 //Checks if macAddrIn is in the list listIn
 
-char findEmptySlot(char** arrayIn);
-//Find empty array slot
-
 void updateActiveRollingArray(char* macAddrIn);
 //Updates the current MACs connected
 

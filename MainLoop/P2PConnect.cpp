@@ -19,6 +19,7 @@ bool isAddressInArray(char **arrayIn, char *strIn) {
   for (int i = 0; i <= ESP_MAX_P2P_ARR; i++) {
     if (arrayIn[i] == strIn) {
       isInArray = true;
+      break;
     }
   }
   return isInArray;
@@ -26,11 +27,14 @@ bool isAddressInArray(char **arrayIn, char *strIn) {
 
 char findEmptySlot(char **arrayIn) {
   for (int i = 0; i <= ESP_MAX_P2P_ARR; i++) {
-    if (arrayIn[i] == 0) {
+    if (arrayIn[i] == NULL) {
       return i;
+      break;
+
+    } else {
+      return -1;
     }
   }
-  return -1;
 }
 
 void clearArray(char **arrayIn) {
@@ -41,15 +45,19 @@ void clearArray(char **arrayIn) {
 
 void updateActiveRollingArray(char *macAddrIn) {
   //Update rolling first, then active
-  if (isAddressInArray(rollingMacAddressArray, macAddrIn) != true) {
-    int rollingEmpty = findEmptySlot(rollingMacAddressArray);
+  int rollingEmpty;
+  int activeEmpty;
+  if (isAddressInArray(rollingMacAddressArray, macAddrIn) == false) {
+    Serial.println(macAddrIn);
+    rollingEmpty = findEmptySlot(rollingMacAddressArray);
+    Serial.println(rollingEmpty);
     if (rollingEmpty != -1) {
       rollingMacAddressArray[rollingEmpty] = macAddrIn;
     }
   }
 
-  if (isAddressInArray(activeMacAddressArray, macAddrIn) != true) {
-    int activeEmpty = findEmptySlot(activeMacAddressArray);
+  if (isAddressInArray(activeMacAddressArray, macAddrIn) == false) {
+    activeEmpty = findEmptySlot(activeMacAddressArray);
     if (activeEmpty != -1) {
       activeMacAddressArray[activeEmpty] = macAddrIn;
     }
@@ -59,7 +67,8 @@ void updateActiveRollingArray(char *macAddrIn) {
 
 void compareActiveRollingArray() {
   bool inRolling = false;
-  if ((currentCompareMillis - previousCompareMillis) >= (timeoutTime * 1000)) {
+  userCountP2P = countUsers();
+  if ((currentCompareMillis - previousCompareMillis) >= (timeoutTime * 5000)) {
     for (int i = 0; i <= ESP_MAX_P2P_ARR; i++) {
       for (int j = 0; j <= ESP_MAX_P2P_ARR; j++) {
         if (activeMacAddressArray[i] == rollingMacAddressArray[j]) {
@@ -70,7 +79,6 @@ void compareActiveRollingArray() {
         activeMacAddressArray[i] = NULL;
       }
     }
-    userCountP2P = countUsers();
     previousCompareMillis = currentCompareMillis;
     clearArray(rollingMacAddressArray);
   }
@@ -79,7 +87,7 @@ void compareActiveRollingArray() {
 int countUsers() {
   int count = 0;
   for (int i = 0; i <= ESP_MAX_P2P_ARR; i++) {
-    if (activeMacAddressArray[i] != 0) {
+    if (activeMacAddressArray[i] != NULL) {
       count++;
     }
   }
@@ -101,9 +109,6 @@ void receiveCallback(const uint8_t *macAddr, const uint8_t *data, int dataLen)
   char macStr[18];
   formatMacAddress(macAddr, macStr, 18);
 
-  //Update known macs
-  updateActiveRollingArray(macStr);
-
   //Only allow a maximum of 250 characters in the message + a null terminating byte
   char buffer[ESP_NOW_MAX_DATA_LEN + 1];
   //Compare the length of max allowed data and actual length of incoming data
@@ -113,6 +118,9 @@ void receiveCallback(const uint8_t *macAddr, const uint8_t *data, int dataLen)
 
   //Make sure we are null terminated (string thing) (remove)
   buffer[msgLen] = 0;
+
+  //Update known macs
+  updateActiveRollingArray(macStr);
 
   //Send Debug log message to the serial port
   //Serial.printf("Received message from: %s - %s\n", macStr, buffer);
