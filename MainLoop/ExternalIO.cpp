@@ -45,6 +45,7 @@ char* upButton(){
       return "LP";
     } else{
       isUpButtonPushed = false;
+      Serial.println("SP TRIGGERED");
       Serial.println(millis() - prevMillisUp);
       return "SP";
     }
