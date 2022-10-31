@@ -9,6 +9,16 @@ char *activeMacAddressArray[ESP_MAX_P2P];
 char *rollingMacAddressArray[ESP_MAX_P2P];
 int userCountP2P;
 
+void dumpArray(char **arrayIn){
+  for (int i = 0; i <= ESP_MAX_P2P_ARR; i++){
+    Serial.println("MACARRAY DUMP");
+    Serial.println("Positon:");
+    Serial.print(i);
+    Serial.print(" Content: ");
+    Serial.print(arrayIn[i]);
+  }
+}
+
 void getP2PMillis(unsigned long masterMillis) {
   currentCompareMillis = masterMillis;
 }
@@ -26,9 +36,15 @@ bool isAddressInArray(char **arrayIn, char *strIn) {
 }
 
 int findEmptySlot(char **arrayIn) {
+  dumpArray(arrayIn);
   for (int i = 0; i <= ESP_MAX_P2P_ARR; i++) {
     if (arrayIn[i] == "0") {
+      Serial.println("EMPTY FOUND AT: ");
+      Serial.print(i);
+      //\\Serial.print("Contents: ");
+      //\\Serial.println(arrayIn[i]);
       return i;
+
     }
   }
   return -1;
@@ -61,7 +77,9 @@ void updateActiveRollingArray(char *macAddrIn) {
 }
 
 void compareActiveRollingArray() {
-  if ((currentCompareMillis - previousCompareMillis) >= (timeoutTime * 5000)) {
+  if ((currentCompareMillis - previousCompareMillis) >= (timeoutTime * 1000)) {
+    //\\dumpArray(activeMacAddressArray);
+    //\\dumpArray(rollingMacAddressArray);
     previousCompareMillis = currentCompareMillis;
     bool inRolling = false;
     for (int i = 0; i <= ESP_MAX_P2P_ARR; i++) {

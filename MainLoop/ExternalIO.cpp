@@ -41,12 +41,12 @@ char* upButton(){
   } else if (!digitalRead(upButtonPin) && isUpButtonPushed){
     if ((millis() - prevMillisUp) >= longPressThreshhold){
       isUpButtonPushed = false;
-      Serial.println(millis() - prevMillisUp);
+      //\Serial.println(millis() - prevMillisUp);
       return "LP";
     } else{
       isUpButtonPushed = false;
-      Serial.println("SP TRIGGERED");
-      Serial.println(millis() - prevMillisUp);
+      //\Serial.println("SP TRIGGERED");
+      //\Serial.println(millis() - prevMillisUp);
       return "SP";
     }
   }
