@@ -7,8 +7,8 @@
 float voltageLevel;
 unsigned short int batteryLevel;
 bool connectionStatus = false;
-char *state = "splash";
-char *previousState = "splash";
+char *state = "main";
+char *previousState = "main";
 int userCount;
 
 //Battery blink vars

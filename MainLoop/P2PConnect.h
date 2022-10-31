@@ -12,36 +12,39 @@
 extern int userCountP2P;
 
 void getP2PMillis(unsigned long masterMillis);
-//Get millis from main for P2P files
+//Gets millis from main
 
-bool isAddressInArray(char** arrayIn, char* strIn);
-//Checks if macAddrIn is in the list listIn
+bool isAddressInArray(char **arrayIn, char *strIn);
+//Checks if incoming mac address is contained in incoming array
 
-void updateActiveRollingArray(char* macAddrIn);
-//Updates the current MACs connected
+int findEmptySlot(char **arrayIn);
+//Finds an empty slot in an incoming array
 
-void clearArray(char** arrayIn);
-//Clear the list arrayIn
+void clearArray(char **arrayIn);
+//Clears the incoming array
+
+void updateActiveRollingArray(char *macAddrIn);
+//Updates the active and rolling arrays with the incoming mac
 
 void compareActiveRollingArray();
-//Iterates through each active list element and checks if it is present in rolling list. If not present, it is popped.
+//Compares the active and rolling arrays to drop macs if necessary
 
 int countUsers();
-//Count the amount of users connected
+//Counts the amount of users peered (exclusive)
 
 void formatMacAddress(const uint8_t *macAddr, char *buffer, int maxLength);
-//Formats MAC Address from int to char array
-
-void receiveCallback(const uint8_t *macAddr, const uint8_t *data, int dataLen);
-//Called by the API every time data is received
+//Formats the incoming mac address
 
 void sentCallback(const uint8_t *macAddr, esp_now_send_status_t deliveryStatus);
-//Called by the API every time data is sent
+//Called when data is sent
+
+void receiveCallback(const uint8_t *macAddr, const uint8_t *data, int dataLen);
+//Called when data is received
 
 void P2PInitialize();
-//Initialize variables and library
+//Initialize the P2P functionality
 
 void broadcast(const String &message);
-//Broadcast message
+//Broadcast the incoming string
 
 #endif
