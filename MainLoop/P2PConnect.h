@@ -11,6 +11,13 @@
 //External global
 extern int userCountP2P;
 
+#define MAC_ADDRESS_STRING_SIZE 18
+
+int countUsedSlots(char arrayIn[ESP_MAX_P2P][MAC_ADDRESS_STRING_SIZE]);
+
+
+bool isSlotEmpty(char *slot);
+
 void getP2PMillis(unsigned long masterMillis);
 //Gets millis from main
 

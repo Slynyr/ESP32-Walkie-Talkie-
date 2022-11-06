@@ -190,7 +190,8 @@ void displayUpdate() {
     batteryIndicatorDraw(WHITE);
     backdrop(2);
     modeConnectionStatus("NODE", connectionStatus, 100, 1);
-    lowerScreenMain(24, userCountP2P);
+    lowerScreenMain(22, userCountP2P);
+    
     testbuttons();
 
     //Update display
