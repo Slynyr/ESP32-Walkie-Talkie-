@@ -15,7 +15,6 @@ extern int userCountP2P;
 
 int countUsedSlots(char arrayIn[ESP_MAX_P2P][MAC_ADDRESS_STRING_SIZE]);
 
-
 bool isSlotEmpty(char *slot);
 
 void getP2PMillis(unsigned long masterMillis);

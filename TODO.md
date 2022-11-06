@@ -13,6 +13,7 @@
 ## Networking
 - [ ] Channel Selection and communication
 - [ ] Node Mode using VoIP
+- [x] Channel Count
 
 ## I2S Audio
 - [ ] Get data from microphone
