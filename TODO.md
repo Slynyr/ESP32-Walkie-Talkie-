@@ -36,4 +36,8 @@
 ## Screen Menus
 - [ ] Power Management Menu
 - [ ] Update connection icons
+- [ ] UDP Connection Icon
 - [ ] Node Mode Screen
+
+## Extras
+- [ ] Stats (Power on time, Battery cycles, Talk time)

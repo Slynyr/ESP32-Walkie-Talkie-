@@ -2,8 +2,6 @@
 #include "ExternalIO.h"
 #include "P2PConnect.h"
 #include "I2S-Audio.h"
-#include <vector>
-#include <string>
 
 unsigned long previousBatteryMillis = 0;
 
@@ -31,6 +29,9 @@ void loop() {
 
   //Update display
   displayUpdate();
+
+  //Update IO Values
+  ioUpdate();
 
   //Broadcast demo
   broadcast("AMONGUS");

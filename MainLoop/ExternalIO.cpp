@@ -7,6 +7,9 @@ byte debugPushButtonPin = 5;
 byte upButtonPin = 5;
 byte downButtonPin = 19;
 
+//button press types
+ char* upPressStatus;
+
 //timing
 const int longPressThreshhold = 250; //ms
 int prevMillisUp = 0;
@@ -30,25 +33,51 @@ unsigned short int pollBattery() {
   return batteryLevelRaw;
 }
 
-bool debugPushbutton() {
+void pushButtonState(byte pushButtonPin, char* pressStatus) {
+  // 0 is unpressed, 1 is pressed
+  int previousState;
+  int currentState;
+  // Won't update properly due to being a local variable
+  bool samePress;
+
+  unsigned long timePressed = 0;
+  unsigned long timeReleased = 0;
+  unsigned long pressDuration = 0;
+
+  currentState = digitalRead(pushButtonPin);
+  if (previousState == LOW && currentState == HIGH) {  //Button pressed
+    if (samePress == false) {
+      timePressed = millis(); //Log pressed time
+    }
+    samePress = true;
+    previousState = HIGH;
+
+    if (millis() - timePressed >= SHORT_PRESS_TIME) {
+      pressStatus = "LONG";
+    }
+
+  } else if (previousState == HIGH && currentState == LOW) { //Button released
+    timeReleased = millis(); //Log released time
+    previousState = LOW;
+    samePress = false;
+
+    pressDuration = timeReleased - timePressed; //Pressed duration is these times subtracted
+
+    if (pressDuration <= SHORT_PRESS_TIME) {
+      pressStatus = "SHORT";
+    }
+
+  } else {
+    //Function hasn't initialized
+    previousState = LOW;
+    samePress = false;
+  }
+}
+
+bool rawPushButton() {
   return digitalRead(debugPushButtonPin);
 }
 
-char* upButton(){
-  if (digitalRead(upButtonPin) && !isUpButtonPushed){
-    isUpButtonPushed = true;
-    prevMillisUp = millis(); //ik colin Ill chabge it 
-  } else if (!digitalRead(upButtonPin) && isUpButtonPushed){
-    if ((millis() - prevMillisUp) >= longPressThreshhold){
-      isUpButtonPushed = false;
-      //\Serial.println(millis() - prevMillisUp);
-      return "LP";
-    } else{
-      isUpButtonPushed = false;
-      //\Serial.println("SP TRIGGERED");
-      //\Serial.println(millis() - prevMillisUp);
-      return "SP";
-    }
-  }
-  return "NULL";
+void ioUpdate() {
+  pushButtonState(upButtonPin, upPressStatus);
 }
