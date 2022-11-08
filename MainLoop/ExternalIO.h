@@ -11,8 +11,8 @@ void inputsInitialize();
 unsigned short int pollBattery();
 //Polls the battery values for the display
 
-void pushButtonState(byte pushButtonPin, char* pressStatus);
-//Returns either "SHORT" or "LONG" depending on button press length
+void pushButtonState();
+//Gives either "SHORT" or "LONG" depending on button press length
 
 bool rawPushButton();
 //Get raw state of pushbutton

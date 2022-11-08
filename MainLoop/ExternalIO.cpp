@@ -1,24 +1,7 @@
 //This file is namely for external inputs like buttons NOT I2S devices like the mic and speaker
 #include "ExternalIO.h"
 
-//Pin declare
-byte batteryMonitorPin = 4;
-byte debugPushButtonPin = 5;
-byte upButtonPin = 5;
-byte downButtonPin = 19;
-byte rightButtonPin = NULL;
-byte leftButtonPin = NULL;
-
-//timing
-const int longPressThreshhold = 250; //ms
-int prevMillisUp = 0;
-int prevMillisDown = 0; 
-
-//states
-bool isUpButtonPushed = false;
-bool isDownButtonPushed = false;
-
-typedef struct interfaceButtons { 
+typedef struct {
   //Pin Declares
   byte buttonPin;
 
@@ -35,7 +18,27 @@ typedef struct interfaceButtons {
   //Time stamps
   unsigned long timePressed;
   unsigned long timeReleased;
-};
+} interfaceButtons;
+
+//Pin declare
+byte batteryMonitorPin = 4;
+byte debugPushButtonPin = 5;
+byte upButtonPin = 5;
+byte downButtonPin = 19;
+byte rightButtonPin = NULL;
+byte leftButtonPin = NULL;
+
+//Initialize structure
+interfaceButtons buttons[4];
+
+//timing
+const int longPressThreshhold = 250;  //ms
+int prevMillisUp = 0;
+int prevMillisDown = 0;
+
+//states
+bool isUpButtonPushed = false;
+bool isDownButtonPushed = false;
 
 void inputsInitialize() {
   pinMode(batteryMonitorPin, INPUT);
@@ -43,15 +46,16 @@ void inputsInitialize() {
   pinMode(upButtonPin, INPUT_PULLUP);
   pinMode(downButtonPin, INPUT_PULLUP);
 
+
+  //Button pin declare
   /*  0: up
       1: down
       2: right
       3: left
   */
-  interfaceButtons buttons[4];
   buttons[0].buttonPin = 5;
   buttons[1].buttonPin = 19;
-  buttons[2].buttonPin = NULL;;
+  buttons[2].buttonPin = NULL;
   buttons[3].buttonPin = NULL;
 }
 
@@ -62,37 +66,39 @@ unsigned short int pollBattery() {
   return batteryLevelRaw;
 }
 
-void pushButtonState(byte pushButtonPin, char* pressStatus, bool samePress, int previousState, int currentState, unsigned long timePressed, unsigned long timeReleased) {
+void pushButtonState() {
   unsigned long pressDuration = 0;
 
-  // 0 is unpressed, 1 is pressed
-  currentState = digitalRead(pushButtonPin);
-  if (previousState == LOW && currentState == HIGH) {  //Button pressed
-    if (samePress == false) {
-      timePressed = millis(); //Log pressed time
+  for (int i = 0; i < 3; i++) {
+    // 0 is unpressed, 1 is pressed
+    buttons[i].currentState = digitalRead(buttons[i].buttonPin);
+    if (buttons[i].previousState == LOW && buttons[i].currentState == HIGH) {  //Button pressed
+      if (buttons[i].samePress == false) {
+        buttons[i].timePressed = millis();  //Log pressed time
+      }
+      buttons[i].samePress = true;
+      buttons[i].previousState = HIGH;
+
+      if (millis() - buttons[i].timePressed >= SHORT_PRESS_TIME) {
+        buttons[i].pressStatus = "LONG";
+      }
+
+    } else if (buttons[i].previousState == HIGH && buttons[i].currentState == LOW) {  //Button released
+      buttons[i].timeReleased = millis();                                             //Log released time
+      buttons[i].previousState = LOW;
+      buttons[i].samePress = false;
+
+      pressDuration = buttons[i].timeReleased - buttons[i].timePressed;  //Pressed duration is these times subtracted
+
+      if (pressDuration <= SHORT_PRESS_TIME) {
+        buttons[i].pressStatus = "SHORT";
+      }
+
+    } else {
+      //If function hasn't initialized
+      buttons[i].previousState = LOW;
+      buttons[i].samePress = false;
     }
-    samePress = true;
-    previousState = HIGH;
-
-    if (millis() - timePressed >= SHORT_PRESS_TIME) {
-      pressStatus = "LONG";
-    }
-
-  } else if (previousState == HIGH && currentState == LOW) { //Button released
-    timeReleased = millis(); //Log released time
-    previousState = LOW;
-    samePress = false;
-
-    pressDuration = timeReleased - timePressed; //Pressed duration is these times subtracted
-
-    if (pressDuration <= SHORT_PRESS_TIME) {
-      pressStatus = "SHORT";
-    }
-
-  } else {
-    //If function hasn't initialized
-    previousState = LOW;
-    samePress = false;
   }
 }
 
@@ -101,7 +107,5 @@ bool rawPushButton() {
 }
 
 void ioUpdate() {
-  for (int i = 0; i < 3, i++) { 
-    pushButtonState(buttons[i]].buttonPin, buttons[i].pressStatus, buttons[i].samePress, buttons[i].previousState, buttons[i].currentState, buttons[i].timePressed, buttons[i].timeReleased);
-  }
+  pushButtonState();
 }
