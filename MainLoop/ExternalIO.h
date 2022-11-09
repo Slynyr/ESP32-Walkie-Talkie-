@@ -3,6 +3,27 @@
 #define _EXTERNAL_IO_H_
 #include <Arduino.h>
 
+typedef struct {
+  //Pin Declares
+  byte buttonPin;
+
+  //Press statuses
+  char* pressStatus;
+
+  //Same press detection
+  bool samePress;
+
+  //Button States
+  int previousState;
+  int currentState;
+
+  //Time stamps
+  unsigned long timePressed;
+  unsigned long timeReleased;
+} interfaceButtons;
+
+extern interfaceButtons buttons[4];
+
 #define SHORT_PRESS_TIME 500 // 500ms
 
 void inputsInitialize();

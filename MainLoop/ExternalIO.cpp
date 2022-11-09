@@ -1,24 +1,6 @@
 //This file is namely for external inputs like buttons NOT I2S devices like the mic and speaker
 #include "ExternalIO.h"
 
-typedef struct {
-  //Pin Declares
-  byte buttonPin;
-
-  //Press statuses
-  char* pressStatus;
-
-  //Same press detection
-  bool samePress;
-
-  //Button States
-  int previousState;
-  int currentState;
-
-  //Time stamps
-  unsigned long timePressed;
-  unsigned long timeReleased;
-} interfaceButtons;
 
 //Pin declare
 byte batteryMonitorPin = 4;
@@ -77,7 +59,6 @@ void pushButtonState() {
         buttons[i].timePressed = millis();  //Log pressed time
       }
       buttons[i].samePress = true;
-      buttons[i].previousState = HIGH;
 
       if (millis() - buttons[i].timePressed >= SHORT_PRESS_TIME) {
         buttons[i].pressStatus = "LONG";
@@ -85,13 +66,13 @@ void pushButtonState() {
 
     } else if (buttons[i].previousState == HIGH && buttons[i].currentState == LOW) {  //Button released
       buttons[i].timeReleased = millis();                                             //Log released time
-      buttons[i].previousState = LOW;
       buttons[i].samePress = false;
 
       pressDuration = buttons[i].timeReleased - buttons[i].timePressed;  //Pressed duration is these times subtracted
 
       if (pressDuration <= SHORT_PRESS_TIME) {
         buttons[i].pressStatus = "SHORT";
+        Serial.printf("[UPDATE] Updated button %d press status to SHORT", i);
       }
 
     } else {
@@ -99,6 +80,7 @@ void pushButtonState() {
       buttons[i].previousState = LOW;
       buttons[i].samePress = false;
     }
+    buttons[i].previousState = buttons[i].currentState;
   }
 }
 

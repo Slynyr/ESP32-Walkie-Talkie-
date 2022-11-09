@@ -170,6 +170,18 @@ void nodeAnimation(int clientsConnected, bool isMaster) {
   }
 }
 
+void testPushButton(){
+  Serial.printf("[UPDATE]\nButton Pin: %d\nSame Press: %d\nPress Status: %s\nPreviouse State: %d\nCurrent State: %d\n", (
+    buttons[0].buttonPin,
+    buttons[0].samePress,
+    buttons[0].pressStatus,
+    buttons[0].previousState,
+    buttons[0].currentState
+));
+
+  //buttonPin, pressStatus, samepress, previousestatem currentstate
+}
+
 //-------------UPDATE
 //Update Display
 void displayUpdate() {
@@ -182,6 +194,7 @@ void displayUpdate() {
     backdrop(2);
     modeConnectionStatus("NODE", connectionStatus, 100, 1);
     lowerScreenMain(22, userCountP2P);
+    testPushButton();
 
     //Update display
   } else if (state == "splash") {
