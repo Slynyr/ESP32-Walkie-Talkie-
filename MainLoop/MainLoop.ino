@@ -17,6 +17,9 @@ void setup() {
 
   //Get first battery voltage
   batteryIndicatorValues();
+
+  //Initialize inputs
+  inputsInitialize();
 }
 
 void loop() {

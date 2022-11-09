@@ -10,9 +10,6 @@ typedef struct {
   //Press statuses
   char* pressStatus;
 
-  //Same press detection
-  bool samePress;
-
   //Button States
   int previousState;
   int currentState;

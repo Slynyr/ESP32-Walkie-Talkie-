@@ -36,6 +36,8 @@ void inputsInitialize() {
       3: left
   */
   buttons[0].buttonPin = 5;
+  Serial.print("SET: ");
+  Serial.println(buttons[0].buttonPin);
   buttons[1].buttonPin = 19;
   buttons[2].buttonPin = NULL;
   buttons[3].buttonPin = NULL;
@@ -55,18 +57,10 @@ void pushButtonState() {
     // 0 is unpressed, 1 is pressed
     buttons[i].currentState = digitalRead(buttons[i].buttonPin);
     if (buttons[i].previousState == LOW && buttons[i].currentState == HIGH) {  //Button pressed
-      if (buttons[i].samePress == false) {
-        buttons[i].timePressed = millis();  //Log pressed time
-      }
-      buttons[i].samePress = true;
-
-      if (millis() - buttons[i].timePressed >= SHORT_PRESS_TIME) {
-        buttons[i].pressStatus = "LONG";
-      }
+      buttons[i].timePressed = millis();  //Log pressed time
 
     } else if (buttons[i].previousState == HIGH && buttons[i].currentState == LOW) {  //Button released
       buttons[i].timeReleased = millis();                                             //Log released time
-      buttons[i].samePress = false;
 
       pressDuration = buttons[i].timeReleased - buttons[i].timePressed;  //Pressed duration is these times subtracted
 
@@ -75,10 +69,15 @@ void pushButtonState() {
         Serial.printf("[UPDATE] Updated button %d press status to SHORT", i);
       }
 
+    } else if (buttons[i].previousState == HIGH && buttons[i].currentState == HIGH) {
+
+      if (millis() - buttons[i].timePressed >= SHORT_PRESS_TIME) {
+        buttons[i].pressStatus = "LONG";
+      }
+      
     } else {
       //If function hasn't initialized
       buttons[i].previousState = LOW;
-      buttons[i].samePress = false;
     }
     buttons[i].previousState = buttons[i].currentState;
   }
