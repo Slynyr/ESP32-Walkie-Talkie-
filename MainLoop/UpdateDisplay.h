@@ -50,4 +50,7 @@ void nodeAnimation(int clientsConnected, bool isMaster);
 void displayUpdate();
 //Update display with drawn objects
 
+void channelCounter();
+//changes the channel
+
 #endif

@@ -77,6 +77,7 @@ void pushButtonState() {
       
     } else {
       //If function hasn't initialized
+      buttons[i].pressStatus = NULL;
       buttons[i].previousState = LOW;
     }
     buttons[i].previousState = buttons[i].currentState;

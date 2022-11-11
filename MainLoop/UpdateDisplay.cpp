@@ -10,6 +10,9 @@ bool connectionStatus = false;
 char *state = "main";
 char *previousState = "main";
 int userCount;
+int channelCount; 
+
+bool isUpPressed;
 
 //Battery blink vars
 unsigned long previousDisplayMillis = 0;
@@ -170,6 +173,42 @@ void nodeAnimation(int clientsConnected, bool isMaster) {
   }
 }
 
+void testPushButton(){
+   Serial.printf("[UPDATE]\nButton Pin: %d\nPreviouse State: %d\nCurrent State: %d\n Time Pressed: %d\n", (
+     buttons[0].buttonPin,
+     //buttons[0].pressStatus, Press Status: %s\n
+     buttons[0].previousState,
+     buttons[0].currentState,
+     buttons[0].timePressed
+ ));
+ Serial.println(buttons[0].pressStatus);
+
+   //buttonPin, pressStatus, samepress, previousestatem currentstate
+ }
+
+
+void channelCounter(){
+  if (buttons[0].pressStatus || buttons[1].pressStatus && !isActiveNotification){
+    Serial.println('[CHANNELCOUNTER] A button has been pushed');
+    if (buttons[0].pressStatus == "SHORT"){
+      if (!isUpPressed){ 
+        channelCount++;
+      }
+      isUpPressed = true;
+    } else if (buttons[0].pressStatus == "LONG"){
+      channelCount++;
+    }
+  } else {
+    isUpPressed = false;
+  }
+
+  if (channelCount > 14) {
+    channelCount = 0;
+  }
+
+
+}
+
 //-------------UPDATE
 //Update Display
 void displayUpdate() {
@@ -181,8 +220,9 @@ void displayUpdate() {
     batteryIndicatorDraw(WHITE);
     backdrop(2);
     modeConnectionStatus("NODE", connectionStatus, 100, 1);
-    lowerScreenMain(22, userCountP2P);
-    testPushButton();
+    lowerScreenMain(channelCount, userCountP2P);
+    //testPushButton();
+    channelCounter();
 
     //Update display
   } else if (state == "splash") {
