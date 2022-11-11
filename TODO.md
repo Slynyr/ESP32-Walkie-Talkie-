@@ -5,13 +5,10 @@
   - [ ] Lower clock speed
   - [ ] Change display timeout
   - [ ] Change display brightness
-  - [ ] Change global peripheral poll rate
-
-## General Software
-- [ ] Specific process core pinning (I2S Core 1, all other functions core 0)
 
 ## Networking
-- [ ] Channel Selection and communication
+- [x] Channel Selection and communication
+- [ ] ESP-NOW Encryption
 - [ ] Node Mode using VoIP
 - [x] Channel Count
 
@@ -20,6 +17,8 @@
 - [ ] Split it into groups of 250 bytes & transmit
 - [ ] Store incoming audio in circular buffer & play over speaker
 - [ ] Talk control - no audio is played when talk button is held
+- [ ] Channel sweep for activity with fft
+- [ ] Specific process core pinning (I2S Core 1, all other functions core 0) 
 
 ## Hardware
 - [ ] Screen navigation buttons

@@ -193,12 +193,11 @@ void channelCounter(){
     } else if (buttons[0].pressStatus == "LONG"){
       channelCount++;
     }
-    
+  }
+
   if (channelCount > 14) {
     channelCount = 0;
   }
-
-
 }
 
 //-------------UPDATE
