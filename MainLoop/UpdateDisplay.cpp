@@ -12,8 +12,6 @@ char *previousState = "main";
 int userCount;
 int channelCount; 
 
-bool isUpPressed;
-
 //Battery blink vars
 unsigned long previousDisplayMillis = 0;
 unsigned long currentDisplayMillis;
@@ -181,27 +179,21 @@ void testPushButton(){
      buttons[0].currentState,
      buttons[0].timePressed
  ));
- Serial.println(buttons[0].pressStatus);
+  //Serial.println(buttons[0].pressStatus);
 
    //buttonPin, pressStatus, samepress, previousestatem currentstate
  }
 
 
 void channelCounter(){
-  if (buttons[0].pressStatus || buttons[1].pressStatus && !isActiveNotification){
+  if (!isActiveNotification){
     Serial.println('[CHANNELCOUNTER] A button has been pushed');
     if (buttons[0].pressStatus == "SHORT"){
-      if (!isUpPressed){ 
         channelCount++;
-      }
-      isUpPressed = true;
     } else if (buttons[0].pressStatus == "LONG"){
       channelCount++;
     }
-  } else {
-    isUpPressed = false;
-  }
-
+    
   if (channelCount > 14) {
     channelCount = 0;
   }
