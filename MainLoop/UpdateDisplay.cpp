@@ -21,6 +21,9 @@ bool showBattery = true;
 bool isWarnDismissed = false;
 bool isActiveNotification = false;  //used to turn off elements of the screen if a notification is present
 
+//menu options
+char* settingsOptions[] = {"Power", "placeholder", "Placeholder"};
+
 Adafruit_SSD1306 display(OLED_WIDTH, OLED_HEIGHT);
 
 void displayInitialize() {
@@ -200,6 +203,17 @@ void channelCounter(){
   }
 }
 
+void renderMenu(char* menuArray,int sizeofArray, int position, int vertStep, int textSize){
+  int startX = 20; 
+  for (int i = 0; i < sizeofArray; i++){
+    if (!position == i){
+      drawText(false, 10,  (startX + (vertStep * i)), textSize, menuArray[i]);
+    } else {
+      drawText(false, 10,  startX + (vertStep * i), textSize, menuArray[i]);
+    }
+  }
+}
+
 //-------------UPDATE
 //Update Display
 void displayUpdate() {
@@ -239,7 +253,7 @@ void displayUpdate() {
     state = "main";
 
   } else if (state == "menu") {
-    ;  //menu selection screen here
+    renderMenu(settingsOptions, 3, 0, 10, 2);
   }
 
   display.display();
