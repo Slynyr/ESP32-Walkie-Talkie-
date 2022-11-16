@@ -1,13 +1,16 @@
+#include "Adafruit_SSD1306.h"
 #include "UpdateDisplay.h"
 #include "ExternalIO.h"
 #include "Sprites.h"
 #include "P2PConnect.h"
+#include "string"
+#include "vector"
 
 //Globals
 float voltageLevel;
 unsigned short int batteryLevel;
 bool connectionStatus = false;
-char *state = "main";
+char *state = "menu";
 char *previousState = "main";
 int userCount;
 int channelCount; 
@@ -22,7 +25,8 @@ bool isWarnDismissed = false;
 bool isActiveNotification = false;  //used to turn off elements of the screen if a notification is present
 
 //menu options
-char* settingsOptions[] = {"Power", "placeholder", "Placeholder"};
+//char* settingsOptions[] = {"Power", "placeholder", "Placeholder"};
+std::vector<std::string> settingsOptions = {"Power", "colinistheimposter", "Placeholder2"};
 
 Adafruit_SSD1306 display(OLED_WIDTH, OLED_HEIGHT);
 
@@ -37,9 +41,13 @@ void getDisplayMillis(unsigned long masterMillis) {
 }
 
 //------------DRAW-TEXT
-void drawText(bool isCenter, int cursX, int cursY, int textSize, char *message) {
+void drawText(bool isCenter, int cursX, int cursY, int textSize, char* message, char* color) {
   display.setTextSize(textSize);
-  display.setTextColor(WHITE);
+  if (color == "WHITE"){
+    display.setTextColor(WHITE);
+  } else if (color == "BLACK"){
+    display.setTextColor(BLACK);
+  }
   display.setTextWrap(false);
   if (isCenter) {
     int16_t x1, y1;
@@ -89,8 +97,8 @@ void batteryIndicatorValues() {
 void batteryWarnToggle() {
   if (state != "splash") {
     if (!isWarnDismissed) {
-      drawText(true, 64, 32, 2, "LOW POWER");
-      drawText(true, 64, 50, 1, "OK to dismiss");
+      drawText(true, 64, 32, 2, "LOW POWER", "WHITE");
+      drawText(true, 64, 50, 1, "OK to dismiss", "WHITE");
       isActiveNotification = true;
 
       if (rawPushButton() == HIGH) {
@@ -152,10 +160,10 @@ void drawIntWithSubheading(bool isConnected, int posX, int posY, int value, char
       char msgBuffer[32] = { 0 };
       sprintf(msgBuffer, "%d", value);
 
-      drawText(true, posX, posY, 3.8, msgBuffer);
-      drawText(true, posX, posY + 23, 1.5, subHeadint);
+      drawText(true, posX, posY, 3.8, msgBuffer, "WHITE");
+      drawText(true, posX, posY + 23, 1.5, subHeadint, "WHITE");
     } else {
-      drawText(true, posX, posY, 3.5, "NO CON");
+      drawText(true, posX, posY, 3.5, "NO CON", "WHITE");
     }
   }
 }
@@ -203,13 +211,17 @@ void channelCounter(){
   }
 }
 
-void renderMenu(char* menuArray,int sizeofArray, int position, int vertStep, int textSize){
-  int startX = 20; 
-  for (int i = 0; i < sizeofArray; i++){
-    if (!position == i){
-      drawText(false, 10,  (startX + (vertStep * i)), textSize, menuArray[i]);
+void renderMenu(std::vector<std::string>& menuArray,int sizeofArray, int position, int vertStep, int textSize){
+  int startX = 18; 
+  int index = 0; //ill change later
+
+  for (int i = 0; i < menuArray.size(); i++){
+    if (position != i){
+      drawText(false, 10,  (startX + (vertStep * i)), textSize, (char*) menuArray[i].c_str(), "WHITE");
     } else {
-      drawText(false, 10,  startX + (vertStep * i), textSize, menuArray[i]);
+      //display.drawRect(5, (startX + (vertStep * i)), 100, 8, WHITE); //Dumpster fire
+      drawText(false, 10,  (startX + (vertStep * i)), textSize, (char*) menuArray[i].c_str(), "BLACK");
+      Serial.printf("[PRINTWARN] Printing black text %s\n", menuArray[i].c_str());
     }
   }
 }
@@ -253,7 +265,7 @@ void displayUpdate() {
     state = "main";
 
   } else if (state == "menu") {
-    renderMenu(settingsOptions, 3, 0, 10, 2);
+    renderMenu(settingsOptions, 3, 0, 12, 1.5);
   }
 
   display.display();
