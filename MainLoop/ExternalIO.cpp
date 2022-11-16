@@ -58,9 +58,11 @@ void pushButtonState() {
     buttons[i].currentState = digitalRead(buttons[i].buttonPin);
     if (buttons[i].previousState == LOW && buttons[i].currentState == HIGH) {  //Button pressed
       buttons[i].timePressed = millis();  //Log pressed time
+      buttons[i].samePress = true;
 
     } else if (buttons[i].previousState == HIGH && buttons[i].currentState == LOW) {  //Button released
       buttons[i].timeReleased = millis();                                             //Log released time
+      buttons[i].samePress = false;
 
       pressDuration = buttons[i].timeReleased - buttons[i].timePressed;  //Pressed duration is these times subtracted
 

@@ -9,6 +9,7 @@ typedef struct {
 
   //Press statuses
   char* pressStatus;
+  bool samePress;
 
   //Button States
   int previousState;
