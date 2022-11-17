@@ -212,14 +212,18 @@ void channelCounter(){
 void renderMenu(std::vector<std::string>& menuArray,int sizeofArray, int position, int vertStep, int textSize){
   int startX = 18; 
   int index = 0; //ill change later
+  int vertPosOffset = 1;
+  int horPosOffset = 0;
 
   for (int i = 0; i < menuArray.size(); i++){
     if (position != i){
       drawText(false, 10,  (startX + (vertStep * i)), textSize, (char*) menuArray[i].c_str(), "WHITE");
     } else {
       //display.drawRect(5, (startX + (vertStep * i)), 100, 8, WHITE); //Dumpster fire
-      display.fillRect(10,  (startX + (vertStep * i)), 100, 8, WHITE);
-      drawText(false, 10,  (startX + (vertStep * i)), textSize, (char*) menuArray[i].c_str(), "BLACK");
+      display.fillRect(0, 0, 128, 15, WHITE);
+      display.fillRect(8 + horPosOffset,  (startX + (vertStep * i)) - 1 + vertPosOffset, 110, 9, WHITE);
+      display.drawRect(6 + horPosOffset, (startX + (vertStep * i)) - 3 + vertPosOffset, 114, 13, WHITE);
+      drawText(false, 10 + horPosOffset,  (startX + (vertStep * i)) + vertPosOffset, textSize, (char*) menuArray[i].c_str(), "BLACK");
       Serial.printf("[PRINTWARN] Printing black text %s\n", menuArray[i].c_str());
     }
   }
