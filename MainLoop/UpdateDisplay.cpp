@@ -11,7 +11,6 @@ float voltageLevel;
 unsigned short int batteryLevel;
 bool connectionStatus = false;
 char *state = "menu";
-char *previousState = "main";
 int userCount;
 int channelCount; 
 
@@ -198,16 +197,17 @@ void testPushButton(){
 
 void channelCounter(){
   if (!isActiveNotification){
-    Serial.println('[CHANNELCOUNTER] A button has been pushed');
-    if (buttons[0].pressStatus == "SHORT"){
+    if (buttons[0].pressStatus == "SHORT" || buttons[0].pressStatus == "LONG"){
         channelCount++;
-    } else if (buttons[0].pressStatus == "LONG"){
-      channelCount++;
+    } else if (buttons[1].pressStatus == "SHORT" || buttons[1].pressStatus == "LONG") {
+        channelCount--;
     }
   }
 
   if (channelCount > 14) {
     channelCount = 0;
+  } else if (channelCount < 0) {
+    channelCount = 14;
   }
 }
 
