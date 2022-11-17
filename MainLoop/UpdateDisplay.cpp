@@ -26,7 +26,7 @@ bool isActiveNotification = false;  //used to turn off elements of the screen if
 
 //menu options
 //char* settingsOptions[] = {"Power", "placeholder", "Placeholder"};
-std::vector<std::string> settingsOptions = {"Power", "colinistheimposter", "Placeholder2"};
+std::vector<std::string> settingsOptions = {"colinistheimposter", "Power", "Placeholder2"};
 
 Adafruit_SSD1306 display(OLED_WIDTH, OLED_HEIGHT);
 
@@ -109,7 +109,6 @@ void batteryWarnToggle() {
 }
 
 void batteryIndicatorDraw(const int colour) {
-
   if (voltageLevel <= batteryLowThreshold) {
     batteryWarnToggle();
     if ((currentDisplayMillis - previousDisplayMillis) >= (batteryBlinkTime * 1000)) {
@@ -152,7 +151,6 @@ void modeConnectionStatus(char *mode, bool isConnected, int posX, int posY) {
   }
 }
 
-
 //--------Lower Screen Menus
 void drawIntWithSubheading(bool isConnected, int posX, int posY, int value, char *subHeadint) {
   if (!isActiveNotification) {  //only print if the displayt is clear of notifications
@@ -189,12 +187,12 @@ void testPushButton(){
      buttons[0].previousState,
      buttons[0].currentState,
      buttons[0].timePressed
- ));
+  ));
+  Serial.println(buttons[0].samePress);
   //Serial.println(buttons[0].pressStatus);
 
    //buttonPin, pressStatus, samepress, previousestatem currentstate
  }
-
 
 void channelCounter(){
   if (!isActiveNotification){
@@ -220,6 +218,7 @@ void renderMenu(std::vector<std::string>& menuArray,int sizeofArray, int positio
       drawText(false, 10,  (startX + (vertStep * i)), textSize, (char*) menuArray[i].c_str(), "WHITE");
     } else {
       //display.drawRect(5, (startX + (vertStep * i)), 100, 8, WHITE); //Dumpster fire
+      display.fillRect(10,  (startX + (vertStep * i)), 100, 8, WHITE);
       drawText(false, 10,  (startX + (vertStep * i)), textSize, (char*) menuArray[i].c_str(), "BLACK");
       Serial.printf("[PRINTWARN] Printing black text %s\n", menuArray[i].c_str());
     }
@@ -266,6 +265,7 @@ void displayUpdate() {
 
   } else if (state == "menu") {
     renderMenu(settingsOptions, 3, 0, 12, 1.5);
+    testPushButton();
   }
 
   display.display();
