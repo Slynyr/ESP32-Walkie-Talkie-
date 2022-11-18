@@ -1,10 +1,7 @@
-#include "Adafruit_SSD1306.h"
 #include "UpdateDisplay.h"
 #include "ExternalIO.h"
 #include "Sprites.h"
 #include "P2PConnect.h"
-#include "string"
-#include "vector"
 
 //Globals
 float voltageLevel;
@@ -220,7 +217,9 @@ void renderMenu(std::vector<std::string>& menuArray,int sizeofArray, int positio
       drawText(false, 10,  (startX + (vertStep * i)), textSize, (char*) menuArray[i].c_str(), "WHITE");
     } else {
       //display.drawRect(5, (startX + (vertStep * i)), 100, 8, WHITE); //Dumpster fire
-      display.fillRect(0, 0, 128, 15, WHITE);
+      display.fillRect(0, 0, 128, 15, WHITE); // Menu bar
+      drawText(true, 64, 4, 1, "Options Menus", "BLACK");
+      //Options and select box
       display.fillRect(8 + horPosOffset,  (startX + (vertStep * i)) - 1 + vertPosOffset, 110, 9, WHITE);
       display.drawRect(6 + horPosOffset, (startX + (vertStep * i)) - 3 + vertPosOffset, 114, 13, WHITE);
       drawText(false, 10 + horPosOffset,  (startX + (vertStep * i)) + vertPosOffset, textSize, (char*) menuArray[i].c_str(), "BLACK");

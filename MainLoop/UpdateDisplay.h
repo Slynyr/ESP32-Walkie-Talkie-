@@ -8,6 +8,8 @@
 #include <Adafruit_SSD1306.h>
 #include <Adafruit_GFX.h>
 #include <Arduino.h>
+#include "string"
+#include "vector"
 
 #define OLED_WIDTH 128
 #define OLED_HEIGHT 64
@@ -20,7 +22,7 @@ void displayInitialize();
 void getDisplayMillis(unsigned long masterMillis);
 //Get millis from main
 
-void drawText(bool isCenter, int cursX, int cursY, int textSize, char *message);
+void drawText(bool isCenter, int cursX, int cursY, int textSize, char* message, char* color);
 //Function to accelerate drawing text
 
 void backdrop(const int mode);
@@ -45,6 +47,9 @@ void lowerScreenMain(int channelCountValue, int userCountValue);
 //Draws channel and usercount
 
 void nodeAnimation(int clientsConnected, bool isMaster);
+//WIP
+
+void renderMenu(std::vector<std::string>& menuArray,int sizeofArray, int position, int vertStep, int textSize);
 //WIP
 
 void displayUpdate();
