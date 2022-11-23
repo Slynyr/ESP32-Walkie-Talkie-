@@ -13,6 +13,7 @@ bool connectionStatus = false;
 char *state = "menu";
 int userCount;
 int channelCount; 
+int menuPosition;
 
 //Battery blink vars
 unsigned long previousDisplayMillis = 0;
@@ -193,23 +194,26 @@ void testPushButton(){
    //buttonPin, pressStatus, samepress, previousestatem currentstate
  }
 
-void channelCounter(){
+void Counter(int& counterInt, int min, int max){
   if (!isActiveNotification){
     if (buttons[0].pressStatus == "SHORT" || buttons[0].pressStatus == "LONG"){
-        channelCount++;
+        counterInt++;
     } else if (buttons[1].pressStatus == "SHORT" || buttons[1].pressStatus == "LONG") {
-        channelCount--;
+        counterInt--;
     }
   }
 
-  if (channelCount > 14) {
-    channelCount = 0;
-  } else if (channelCount < 0) {
-    channelCount = 14;
+  if (counterInt > max) {
+    counterInt = 0;
+  } else if (counterInt < min) {
+    counterInt = 14;
   }
 }
 
+
+
 void renderMenu(std::vector<std::string>& menuArray,int sizeofArray, int position, int vertStep, int textSize){
+  Counter(position, 0, menuArray.size());
   int startX = 18; 
   int index = 0; //ill change later
   int vertPosOffset = 1;
@@ -229,6 +233,16 @@ void renderMenu(std::vector<std::string>& menuArray,int sizeofArray, int positio
   }
 }
 
+constantUIElements(char* pageHeader, char* currentMode){
+  batteryIndicatorDraw(WHITE);
+  backdrop();
+  modeConnectionStatus(currentMode, connectionStatus, 100, 1);
+
+  if (pageHeader){
+    drawText(true, 64, 7, 1.5, pageHeader);
+  }
+}
+
 //-------------UPDATE
 //Update Display
 void displayUpdate() {
@@ -242,7 +256,7 @@ void displayUpdate() {
     modeConnectionStatus("NODE", connectionStatus, 100, 1);
     lowerScreenMain(channelCount, userCountP2P);
     //testPushButton();
-    channelCounter();
+    Counter(channelCount, 0, 14);
 
     //Update display
   } else if (state == "splash") {
@@ -268,7 +282,7 @@ void displayUpdate() {
     state = "main";
 
   } else if (state == "menu") {
-    renderMenu(settingsOptions, 3, 0, 12, 1.5);
+    renderMenu(settingsOptions, 3, menuPosition, 12, 1.5);
     testPushButton();
   }
 
