@@ -7,7 +7,7 @@
 float voltageLevel;
 unsigned short int batteryLevel;
 bool connectionStatus = false;
-char *state = "menu";
+char *state = "splash";
 int userCount;
 int channelCount; 
 int menuPosition;
@@ -15,7 +15,7 @@ int menuPosition;
 //Battery blink vars
 unsigned long previousDisplayMillis = 0;
 unsigned long currentDisplayMillis;
-float batteryLowThreshold = 3.60;  //in volts
+float batteryLowThreshold = 3.50;  //in volts
 short int batteryBlinkTime = 1;    //in seconds
 bool showBattery = true;
 bool isWarnDismissed = false;
@@ -38,7 +38,7 @@ void getDisplayMillis(unsigned long masterMillis) {
 }
 
 //------------DRAW-TEXT
-void drawText(bool isCenter, int cursX, int cursY, int textSize, char* message, char* color) {
+void drawText(bool isCenter, int cursX, int cursY, int textSize, auto message, char* color) {
   display.setTextSize(textSize);
   if (color == "WHITE"){
     display.setTextColor(WHITE);
@@ -89,6 +89,7 @@ void batteryIndicatorValues() {
   //1985-> ~3.5V, 2400-> ~4.2V Using R1 2K2 R2 1K+1K
   batteryLevel = map(pollBattery(), 1985, 2400, 0, 8);
   voltageLevel = ((pollBattery() * 4.2) / 2400);
+  Serial.printf("[BATTERY VOLTAGE] %d", voltageLevel);
 }
 
 void batteryWarnToggle() {
@@ -125,12 +126,15 @@ void batteryIndicatorDraw(const int colour) {
     display.fillRect(4, 4, batteryLevel, 6, colour);
 
     //Draw voltage text
+    /*
     display.setTextSize(1);
     display.setTextColor(colour);
     display.setCursor(17, 4);
     display.print("~");
     display.print(voltageLevel);
     display.print("V");
+    */
+    drawText(false, 17, 4, 1, ("~%dV", voltageLevel), "WHITE");
   }
 }
 
@@ -227,20 +231,23 @@ void renderMenu(std::vector<std::string>& menuArray,int sizeofArray, int positio
       display.fillRect(8 + horPosOffset,  (startX + (vertStep * i)) - 1 + vertPosOffset, 110, 9, WHITE);
       display.drawRect(6 + horPosOffset, (startX + (vertStep * i)) - 3 + vertPosOffset, 114, 13, WHITE);
       drawText(false, 10 + horPosOffset,  (startX + (vertStep * i)) + vertPosOffset, textSize, (char*) menuArray[i].c_str(), "BLACK");
-      Serial.printf("[PRINTWARN] Printing black text %s\n", menuArray[i].c_str());
+      Serial.printf("[WARN] Printing black text %s\n", menuArray[i].c_str());
     }
   }
 }
 
+/*
 constantUIElements(char* pageHeader, char* currentMode){
   batteryIndicatorDraw(WHITE);
   backdrop();
   modeConnectionStatus(currentMode, connectionStatus, 100, 1);
 
   if (pageHeader){
-    drawText(true, 64, 7, 1.5, pageHeader);
+    //drawText(true, 64, 7, 1.5, pageHeader);
+    ;
   }
 }
+*/
 
 //-------------UPDATE
 //Update Display
