@@ -126,15 +126,13 @@ void batteryIndicatorDraw(const int colour) {
     display.fillRect(4, 4, batteryLevel, 6, colour);
 
     //Draw voltage text
-    /*
     display.setTextSize(1);
     display.setTextColor(colour);
     display.setCursor(17, 4);
     display.print("~");
     display.print(voltageLevel);
     display.print("V");
-    */
-    drawText(false, 17, 4, 1, ("~%dV", voltageLevel), "WHITE");
+    //drawText(false, 17, 4, 1, ("~%dV", voltageLevel), "WHITE");
   }
 }
 
