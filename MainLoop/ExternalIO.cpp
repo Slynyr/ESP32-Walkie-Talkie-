@@ -3,7 +3,7 @@
 
 
 //Pin declare
-byte batteryMonitorPin = 4;
+byte batteryMonitorPin = 2;
 byte debugPushButtonPin = 5;
 byte upButtonPin = 5;
 byte downButtonPin = 19;
