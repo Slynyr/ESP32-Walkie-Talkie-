@@ -38,7 +38,7 @@ void getDisplayMillis(unsigned long masterMillis) {
 }
 
 //------------DRAW-TEXT
-void drawText(bool isCenter, int cursX, int cursY, int textSize, char* message, char* color) {
+void drawText(bool isCenter, int cursX, int cursY, int textSize, auto message, char* color) {
   display.setTextSize(textSize);
   if (color == "WHITE"){
     display.setTextColor(WHITE);
@@ -207,8 +207,15 @@ void Counter(int& counterInt, int min, int max){
   } else if (counterInt < min) {
     counterInt = 14;
   }
-}
+}/*
+bool settingWidget(auto param, int min=0, int max=0){
+  if (type(param) == int){
 
+  } else if (type(param) == bool){
+    
+  }
+}
+*/
 
 
 void renderMenu(std::vector<std::string>& menuArray,int sizeofArray, int position, int vertStep, int textSize){
@@ -292,3 +299,4 @@ void displayUpdate() {
 
   display.display();
 }
+
