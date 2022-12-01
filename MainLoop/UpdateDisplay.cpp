@@ -87,9 +87,8 @@ void batteryIndicatorValues() {
   //1850-> ~3.5V, 2250-> ~4.2V Using R1 2K2 R2 2K
   //School PSU
   //1985-> ~3.5V, 2400-> ~4.2V Using R1 2K2 R2 1K+1K
-  batteryLevel = map(pollBattery(), 1985, 2400, 0, 8);
-  voltageLevel = ((pollBattery() * 4.2) / 2400);
-  Serial.printf("[BATTERY VOLTAGE] %d\n", voltageLevel);
+  batteryLevel = map(pollBattery(), 1805, 2205, 0, 8);
+  voltageLevel = ((pollBattery() * 4.2) / 2205);
 }
 
 void batteryWarnToggle() {
@@ -284,7 +283,7 @@ void displayUpdate() {
 
     //Loading bar
     for (int i = 0; i < 128; i++) {
-      delay(random(30, 60));
+      delay(random(10, 15));
       display.drawRect(0, 6, i, 6, WHITE);
       display.display();
     }

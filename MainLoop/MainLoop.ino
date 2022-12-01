@@ -20,6 +20,12 @@ void setup() {
 
   //Initialize inputs
   inputsInitialize();
+
+  //Initialize I2S
+  i2s_init();
+
+  //Start multicore I2S
+  i2s_startTask();
 }
 
 void loop() {
@@ -38,7 +44,7 @@ void loop() {
 
   //Broadcast demo
   broadcast("AMONGUS");
- 
+
   //Pass battery value to display every 10s
   if (currentMillis - previousBatteryMillis >= 10000) {
     previousBatteryMillis = currentMillis;
