@@ -45,7 +45,6 @@ void inputsInitialize() {
 
 unsigned short int pollBattery() {
   unsigned short int batteryLevelRaw;
-  Serial.println(analogRead(batteryMonitorPin));
   batteryLevelRaw = analogRead(batteryMonitorPin);
 
   return batteryLevelRaw;
@@ -69,7 +68,7 @@ void pushButtonState() {
 
       if (pressDuration <= SHORT_PRESS_TIME) {
         buttons[i].pressStatus = "SHORT";
-        Serial.printf("[UPDATE] Updated button %d press status to SHORT", i);
+        //Serial.printf("[UPDATE] Updated button %d press status to SHORT", i);
       }
 
     } else if (buttons[i].previousState == HIGH && buttons[i].currentState == HIGH) {
