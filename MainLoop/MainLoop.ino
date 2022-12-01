@@ -40,7 +40,7 @@ void loop() {
   broadcast("AMONGUS");
  
   //Pass battery value to display every 10s
-  if (currentMillis - previousBatteryMillis >= 10000) {
+  if (currentMillis - previousBatteryMillis >= 500) {
     previousBatteryMillis = currentMillis;
     batteryIndicatorValues();
   }

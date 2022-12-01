@@ -38,7 +38,7 @@ void getDisplayMillis(unsigned long masterMillis) {
 }
 
 //------------DRAW-TEXT
-void drawText(bool isCenter, int cursX, int cursY, int textSize, auto message, char* color) {
+void drawText(bool isCenter, int cursX, int cursY, int textSize, char* message, char* color) {
   display.setTextSize(textSize);
   if (color == "WHITE"){
     display.setTextColor(WHITE);
@@ -87,8 +87,8 @@ void batteryIndicatorValues() {
   //1850-> ~3.5V, 2250-> ~4.2V Using R1 2K2 R2 2K
   //School PSU
   //1985-> ~3.5V, 2400-> ~4.2V Using R1 2K2 R2 1K+1K
-  batteryLevel = map(pollBattery(), 1985, 2400, 0, 8);
-  voltageLevel = ((pollBattery() * 4.2) / 2400);
+  batteryLevel = map(pollBattery(), 1805, 2205, 0, 8);
+  voltageLevel = ((pollBattery() * 4.2) / 2205);
   Serial.printf("[BATTERY VOLTAGE] %d", voltageLevel);
 }
 

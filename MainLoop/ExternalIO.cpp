@@ -3,7 +3,7 @@
 
 
 //Pin declare
-byte batteryMonitorPin = 4;
+byte batteryMonitorPin = 35;
 byte debugPushButtonPin = 5;
 byte upButtonPin = 5;
 byte downButtonPin = 19;
@@ -45,6 +45,7 @@ void inputsInitialize() {
 
 unsigned short int pollBattery() {
   unsigned short int batteryLevelRaw;
+  Serial.println(analogRead(batteryMonitorPin));
   batteryLevelRaw = analogRead(batteryMonitorPin);
 
   return batteryLevelRaw;

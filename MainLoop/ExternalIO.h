@@ -2,6 +2,7 @@
 #ifndef _EXTERNAL_IO_H_
 #define _EXTERNAL_IO_H_
 #include <Arduino.h>
+#include <driver/adc.h>
 
 typedef struct {
   //Pin Declares
