@@ -8,8 +8,8 @@
 
 ## Networking
 - [x] Channel Selection and communication
-- [ ] ~~ESP-NOW Encryption
-- [ ] ~~Node Mode using VoIP
+- [ ] ~~ESP-NOW Encryption~~
+- [ ] ~~Node Mode using VoIP~~
 - [x] Channel Count
 
 ## I2S Audio
