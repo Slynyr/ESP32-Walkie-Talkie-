@@ -1,3 +1,4 @@
+#include "Adafruit_SSD1306.h"
 #include "UpdateDisplay.h"
 #include "ExternalIO.h"
 #include "Sprites.h"
@@ -7,7 +8,7 @@
 float voltageLevel;
 unsigned short int batteryLevel;
 bool connectionStatus = false;
-char *state = "splash";
+char *state = "debug";
 int userCount;
 int channelCount; 
 int menuPosition;
@@ -20,6 +21,9 @@ short int batteryBlinkTime = 1;    //in seconds
 bool showBattery = true;
 bool isWarnDismissed = false;
 bool isActiveNotification = false;  //used to turn off elements of the screen if a notification is present
+
+//prompt globals. Shared since they will never run at the same time
+int promptCurs = 0; 
 
 //menu options
 //char* settingsOptions[] = {"Power", "placeholder", "Placeholder"};
@@ -64,6 +68,14 @@ void drawCenteredCircle(bool isFilled, int cursX, int cursY, int size) {
     display.fillCircle(cursX - (size / 2), cursY - (size / 2), size, WHITE);
   } else {
     display.drawCircle(cursX - (size / 2), cursY - (size / 2), size, WHITE);
+  }
+}
+
+void drawCenteredRect(bool isFilled, int cursX, int cursY, int width, int height){
+  if (isFilled){
+    display.fillRect(cursX - (width/2), cursY - (height/2), width, height, WHITE);
+  } else {
+    display.drawRect(cursX - (width/2), cursY - (height/2), width, height, WHITE);
   }
 }
 
@@ -202,9 +214,9 @@ void Counter(int& counterInt, int min, int max){
   }
 
   if (counterInt > max) {
-    counterInt = 0;
+    counterInt = min;
   } else if (counterInt < min) {
-    counterInt = 14;
+    counterInt = max;
   }
 }/*
 bool settingWidget(auto param, int min=0, int max=0){
@@ -220,7 +232,7 @@ bool settingWidget(auto param, int min=0, int max=0){
 void renderMenu(std::vector<std::string>& menuArray,int sizeofArray, int position, int vertStep, int textSize){
   Counter(position, 0, menuArray.size());
   int startX = 18; 
-  int index = 0; //ill change later
+  int index = 0; //ill change l ater
   int vertPosOffset = 1;
   int horPosOffset = 0;
 
@@ -253,6 +265,53 @@ constantUIElements(char* pageHeader, char* currentMode){
 }
 */
 
+//Display Options
+void promptBool(bool& varIn, char* header){
+  int16_t x1, y1;
+  uint16_t w, h;
+  
+  const int promptheaderSize = 2;
+  const int promptbuttonSize = 1;
+
+  //Drawing
+  drawText(true, 64, 20, promptheaderSize, header, "WHITE");
+  if (promptCurs == 0){
+    display.setTextSize(promptbuttonSize);
+    display.getTextBounds("OFF", (64 + 20), 40, &x1, &y1, &w, &h);
+    drawCenteredRect(true, (64 + 20), 40 + h/2, w, h);
+
+    drawText(true, (64 - 20), 40, promptbuttonSize, "ON", "WHITE");
+    drawText(true, (64 + 20), 40, promptbuttonSize, "OFF", "BLACK");
+  } else if (promptCurs == 1){
+    display.setTextSize(promptbuttonSize);
+    display.getTextBounds("ON", (64 - 20), 40, &x1, &y1, &w, &h);
+    drawCenteredRect(true, (64 - 20), 40 + h/2, w, h);
+
+    drawText(true, (64 - 20), 40, promptbuttonSize, "ON", "BLACK");
+    drawText(true, (64 + 20), 40, promptbuttonSize, "OFF", "WHITE");
+  }
+
+  //input
+  Counter(promptCurs, 0, 1);
+}
+
+void promptInt(int& varIn, char* header, int min, int max){
+  //Drawing
+  drawText(true, 64, 20, 3, header, "WHITE");
+  
+  //failsafe check 
+  if (varIn > max){
+    Serial.println("[WARN] Variable passed into promptInit is larger thab the specified max value!");
+  }
+
+  //drawing progress bar 
+  const int promptIntProgressBarWidth = 100; //to be moved to global
+  const int promptIntProgressBarHeight = 16; //to be moved to global
+  int varPercentage = ((max / varIn) * 100); 
+  int pixelPerPercent = (promptIntProgressBarWidth/max); //to be moved to global
+  drawCenteredRect(false, 64, 40, promptIntProgressBarWidth, promptIntProgressBarHeight);
+  display.drawRect((64 - (promptIntProgressBarWidth / 2)), (40 - (promptIntProgressBarHeight / 2)), (varPercentage * pixelPerPercent), promptIntProgressBarHeight, WHITE);
+}
 //-------------UPDATE
 //Update Display
 void displayUpdate() {
@@ -294,6 +353,9 @@ void displayUpdate() {
   } else if (state == "menu") {
     renderMenu(settingsOptions, 3, menuPosition, 12, 1.5);
     testPushButton();
+  } else if (state == "debug"){
+    promptBool(showBattery, "TEST");
+    //promptInt(channelCount, "test", 0, 14);
   }
 
   display.display();

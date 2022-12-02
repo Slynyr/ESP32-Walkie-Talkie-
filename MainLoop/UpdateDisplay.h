@@ -58,4 +58,9 @@ void displayUpdate();
 void channelCounter();
 //changes the channel
 
+void promptBool(bool* varIn, char header);
+//prompts user ofr settting a bool (config)
+
+void promptInt(int* varIn, char header, int min, int max);
+//prompts user for setting an int value (config)
 #endif
