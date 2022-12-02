@@ -272,20 +272,21 @@ void promptBool(bool& varIn, char* header){
   
   const int promptheaderSize = 2;
   const int promptbuttonSize = 1;
+  const int promptBorder = 2;
 
   //Drawing
-  drawText(true, 64, 20, promptheaderSize, header, "WHITE");
+  drawText(true, 64, 16, promptheaderSize, header, "WHITE");
   if (promptCurs == 0){
     display.setTextSize(promptbuttonSize);
     display.getTextBounds("OFF", (64 + 20), 40, &x1, &y1, &w, &h);
-    drawCenteredRect(true, (64 + 20), 40 + h/2, w, h);
+    drawCenteredRect(true, (64 + 20), 40 + h/2, w + promptBorder, h + promptBorder);
 
     drawText(true, (64 - 20), 40, promptbuttonSize, "ON", "WHITE");
     drawText(true, (64 + 20), 40, promptbuttonSize, "OFF", "BLACK");
   } else if (promptCurs == 1){
     display.setTextSize(promptbuttonSize);
     display.getTextBounds("ON", (64 - 20), 40, &x1, &y1, &w, &h);
-    drawCenteredRect(true, (64 - 20), 40 + h/2, w, h);
+    drawCenteredRect(true, (64 - 20), 40 + h/2, w + promptBorder, h + promptBorder);
 
     drawText(true, (64 - 20), 40, promptbuttonSize, "ON", "BLACK");
     drawText(true, (64 + 20), 40, promptbuttonSize, "OFF", "WHITE");
@@ -309,8 +310,8 @@ void promptInt(int& varIn, char* header, int min, int max){
   const int promptIntProgressBarHeight = 16; //to be moved to global
   int varPercentage = ((max / varIn) * 100); 
   int pixelPerPercent = (promptIntProgressBarWidth/max); //to be moved to global
-  drawCenteredRect(false, 64, 40, promptIntProgressBarWidth, promptIntProgressBarHeight);
-  display.drawRect((64 - (promptIntProgressBarWidth / 2)), (40 - (promptIntProgressBarHeight / 2)), (varPercentage * pixelPerPercent), promptIntProgressBarHeight, WHITE);
+  //drawCenteredRect(false, 64, 40, promptIntProgressBarWidth, promptIntProgressBarHeight);
+  //display.drawRect((64 - (promptIntProgressBarWidth / 2)), (40 - (promptIntProgressBarHeight / 2)), (varPercentage * pixelPerPercent), promptIntProgressBarHeight, WHITE);
 }
 //-------------UPDATE
 //Update Display
@@ -354,7 +355,7 @@ void displayUpdate() {
     renderMenu(settingsOptions, 3, menuPosition, 12, 1.5);
     testPushButton();
   } else if (state == "debug"){
-    promptBool(showBattery, "TEST");
+    promptBool(showBattery, "Sleep");
     //promptInt(channelCount, "test", 0, 14);
   }
 
