@@ -58,24 +58,25 @@ void i2s_init() {
 
 void I2SHandlerSRC(void*pvParameters) {
   Serial.print("I2S running on core: ");
-  Serial.println(xPortGetCoreID());
+  //\Serial.println(xPortGetCoreID());
   // DEMO CODE:
   // False print statements to "lock range" on serial plotter display
   // Change rangelimit value to adjust "sensitivity"
     for(;;) {
         int rangelimit = 3000;
+        /*
         Serial.print(rangelimit * -1);
         Serial.print(" ");
         Serial.print(rangelimit);
         Serial.print(" ");
-
+        */
         // Get I2S data and place in data buffer
         size_t bytesIn = 0;
         esp_err_t result = i2s_read(I2S_PORT, &sBuffer, bufferLen, &bytesIn, portMAX_DELAY);
 
         if (result == ESP_OK)
         {
-            Serial.println("RUNNING");
+            //\Serial.println("RUNNING");
             // Read I2S data buffer
             int16_t samples_read = bytesIn / 8;
             if (samples_read > 0) {
@@ -88,7 +89,7 @@ void I2SHandlerSRC(void*pvParameters) {
             mean /= samples_read;
 
             // Print to serial plotter
-            Serial.println(mean);
+            //\Serial.println(mean);
             }
         }
     }

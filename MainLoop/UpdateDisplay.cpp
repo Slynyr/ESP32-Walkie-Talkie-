@@ -9,9 +9,11 @@ float voltageLevel;
 unsigned short int batteryLevel;
 bool connectionStatus = false;
 char *state = "debug";
-int userCount;
-int channelCount; 
-int menuPosition;
+int userCount = 0;
+int channelCount = 0; 
+int menuPosition = 0;
+
+int debug = 12;
 
 //Battery blink vars
 unsigned long previousDisplayMillis = 0;
@@ -269,6 +271,8 @@ constantUIElements(char* pageHeader, char* currentMode){
 void promptBool(bool& varIn, char* header){
   int16_t x1, y1;
   uint16_t w, h;
+
+  varIn = false;
   
   const int promptheaderSize = 2;
   const int promptbuttonSize = 1;
@@ -298,20 +302,36 @@ void promptBool(bool& varIn, char* header){
 
 void promptInt(int& varIn, char* header, int min, int max){
   //Drawing
-  drawText(true, 64, 20, 3, header, "WHITE");
+  drawText(true, 64, 20, 2, header, "WHITE");
   
   //failsafe check 
-  if (varIn > max){
-    Serial.println("[WARN] Variable passed into promptInit is larger thab the specified max value!");
+  if (varIn > max || varIn < min){
+    Serial.println("[WARN] Variable passed into promptInit is larger than the specified max value!");
   }
 
   //drawing progress bar 
   const int promptIntProgressBarWidth = 100; //to be moved to global
   const int promptIntProgressBarHeight = 16; //to be moved to global
-  int varPercentage = ((max / varIn) * 100); 
-  int pixelPerPercent = (promptIntProgressBarWidth/max); //to be moved to global
-  //drawCenteredRect(false, 64, 40, promptIntProgressBarWidth, promptIntProgressBarHeight);
-  //display.drawRect((64 - (promptIntProgressBarWidth / 2)), (40 - (promptIntProgressBarHeight / 2)), (varPercentage * pixelPerPercent), promptIntProgressBarHeight, WHITE);
+  
+  float varPercentage = 0;
+
+  if (varIn > 0){
+    varPercentage = ((varIn / max) * 100);
+  } else {
+    varPercentage = 0;
+  }
+  int pixelPerPercent = (promptIntProgressBarWidth/100); //to be moved to global
+
+  //drawing percentage bar
+  Serial.println("===============");
+  Serial.println(max);
+  Serial.println(varIn);
+  Serial.println(varPercentage);
+  Serial.println(pixelPerPercent);
+  Serial.println(varPercentage * pixelPerPercent);
+  drawCenteredRect(false, 64, 40, promptIntProgressBarWidth, promptIntProgressBarHeight);
+  display.fillRect(64 - (promptIntProgressBarWidth / 2), 40 - (promptIntProgressBarHeight / 2), varPercentage * pixelPerPercent, promptIntProgressBarHeight, WHITE);
+  
 }
 //-------------UPDATE
 //Update Display
@@ -354,9 +374,11 @@ void displayUpdate() {
   } else if (state == "menu") {
     renderMenu(settingsOptions, 3, menuPosition, 12, 1.5);
     testPushButton();
+
   } else if (state == "debug"){
     promptBool(showBattery, "Sleep");
-    //promptInt(channelCount, "test", 0, 14);
+    //promptInt(debug, "Volume", 0, 14);
+    //Serial.println(showBattery);
   }
 
   display.display();
