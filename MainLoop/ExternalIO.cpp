@@ -3,7 +3,7 @@
 
 
 //Pin declare
-byte batteryMonitorPin = 35;
+byte batteryMonitorPin = 2;
 byte debugPushButtonPin = 5;
 byte upButtonPin = 5;
 byte downButtonPin = 19;
@@ -23,7 +23,7 @@ bool isUpButtonPushed = false;
 bool isDownButtonPushed = false;
 
 void inputsInitialize() {
-  pinMode(batteryMonitorPin, INPUT);
+  pinMode(batteryMonitorPin, ANALOG);
   pinMode(debugPushButtonPin, INPUT_PULLUP);
   pinMode(upButtonPin, INPUT_PULLUP);
   pinMode(downButtonPin, INPUT_PULLUP);
@@ -68,7 +68,7 @@ void pushButtonState() {
 
       if (pressDuration <= SHORT_PRESS_TIME) {
         buttons[i].pressStatus = "SHORT";
-        //Serial.printf("[UPDATE] Updated button %d press status to SHORT", i);
+        Serial.printf("[UPDATE] Updated button %d press status to SHORT", i);
       }
 
     } else if (buttons[i].previousState == HIGH && buttons[i].currentState == HIGH) {
