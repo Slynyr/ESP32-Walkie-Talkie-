@@ -13,7 +13,7 @@
 - [x] Channel Count
 
 ## I2S Audio
-- [ ] Get data from microphone
+- [x] Get data from microphone
 - [ ] Split it into groups of 250 bytes & transmit
 - [ ] Store incoming audio in circular buffer & play over speaker
 - [ ] Talk control - no audio is played when talk button is held
@@ -26,7 +26,7 @@
 - [x] Hook up battery sens
 - [x] BMS + Voltage Reg
 - [x] Power Switch
-- [ ] Audio
+- [x] Audio
 - Case
   - [ ] CAD
   - [ ] Printing
