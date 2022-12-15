@@ -68,7 +68,7 @@ void pushButtonState() {
 
       if (pressDuration <= SHORT_PRESS_TIME) {
         buttons[i].pressStatus = "SHORT";
-        Serial.printf("[UPDATE] Updated button %d press status to SHORT", i);
+        //Serial.printf("[UPDATE] Updated button %d press status to SHORT", i);
       }
 
     } else if (buttons[i].previousState == HIGH && buttons[i].currentState == HIGH) {
