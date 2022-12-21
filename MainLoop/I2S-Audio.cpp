@@ -1,3 +1,5 @@
+#include "freertos/portmacro.h"
+#include "driver/i2s.h"
 //Reference: https://dronebotworkshop.com/esp32-i2s/ 
 //This file is for the handling of I2S Audio ONLY
 //ARDUINO AND EVENTS MUST RUN ON CORE 1
@@ -9,6 +11,9 @@
 #define I2S_MIC_WS 25
 #define I2S_MIC_SD 33
 #define I2S_MIC_SCK 32
+
+//Speaker Definitions
+#define I2S_SPEAKER_DOUT 14
 
 //Use I2S Processor 0
 #define I2S_PORT I2S_NUM_0
@@ -22,7 +27,7 @@ TaskHandle_t I2SHandler;
 void i2s_install() {
     //Set up I2S Processor configuration
     const i2s_config_t i2s_config = {
-        .mode = i2s_mode_t(I2S_MODE_MASTER | I2S_MODE_RX),
+        .mode = i2s_mode_t(I2S_MODE_MASTER | I2S_MODE_RX | I2S_MODE_TX),
         .sample_rate = 16000,
         .bits_per_sample = i2s_bits_per_sample_t(16),
         .channel_format = I2S_CHANNEL_FMT_ONLY_RIGHT,
@@ -43,7 +48,7 @@ void i2s_setpin() {
   const i2s_pin_config_t pin_config = {
     .bck_io_num = I2S_MIC_SCK,
     .ws_io_num = I2S_MIC_WS,
-    .data_out_num = -1,
+    .data_out_num = I2S_SPEAKER_DOUT,
     .data_in_num = I2S_MIC_SD
   };
 
@@ -90,6 +95,7 @@ void I2SHandlerSRC(void*pvParameters) {
 
             // Print to serial plotter
             Serial.println(mean);
+            i2s_write(I2S_PORT, &sBuffer, bufferLen, &bytesIn, portMAX_DELAY);
             }
         }
     }
