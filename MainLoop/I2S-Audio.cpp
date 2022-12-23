@@ -28,7 +28,7 @@ void i2s_install() {
     //Set up I2S Processor configuration
     const i2s_config_t i2s_config = {
         .mode = i2s_mode_t(I2S_MODE_MASTER | I2S_MODE_RX | I2S_MODE_TX),
-        .sample_rate = 16000,
+        .sample_rate = 48000,
         .bits_per_sample = i2s_bits_per_sample_t(16),
         .channel_format = I2S_CHANNEL_FMT_ONLY_RIGHT,
         .communication_format = i2s_comm_format_t(I2S_COMM_FORMAT_STAND_I2S),
@@ -64,9 +64,7 @@ void i2s_init() {
 void I2SHandlerSRC(void*pvParameters) {
   Serial.print("I2S running on core: ");
   Serial.println(xPortGetCoreID());
-  // DEMO CODE:
-  // False print statements to "lock range" on serial plotter display
-  // Change rangelimit value to adjust "sensitivity"
+    //Loop audio process
     for(;;) {
         // Get I2S data and place in data buffer
         size_t bytesIn = 0;
@@ -78,7 +76,6 @@ void I2SHandlerSRC(void*pvParameters) {
         i2s_write(I2S_PORT, &sBuffer, bufferLen, &bytesIn, portMAX_DELAY);
       }
     }
-  }
 }
 
 void i2s_startTask() {
