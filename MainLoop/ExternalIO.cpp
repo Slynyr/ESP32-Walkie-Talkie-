@@ -3,12 +3,13 @@
 
 
 //Pin declare
-byte batteryMonitorPin = 2;
+byte batteryMonitorPin = 34;
 byte debugPushButtonPin = 5;
 byte upButtonPin = 5;
 byte downButtonPin = 19;
-byte rightButtonPin = NULL;
-byte leftButtonPin = NULL;
+byte modeButtonPin = 26;
+byte talkButtonPin = 27;
+byte extraButtonPin = 35;
 
 //Initialize structure
 interfaceButtons buttons[4];
@@ -27,20 +28,22 @@ void inputsInitialize() {
   pinMode(debugPushButtonPin, INPUT_PULLUP);
   pinMode(upButtonPin, INPUT_PULLUP);
   pinMode(downButtonPin, INPUT_PULLUP);
+  pinMode(modeButtonPin, INPUT_PULLUP);
+  pinMode(talkButtonPin, INPUT_PULLUP);
+  pinMode(extraButtonPin, INPUT_PULLUP);
 
-
-  //Button pin declare
-  /*  0: up
-      1: down
-      2: right
-      3: left
+  //Button pin declare for struct
+  /*  0: up = 5
+      1: down = 19
+      2: mode = 26
+      3: talk = 27
+      4: extra = 35
   */
   buttons[0].buttonPin = 5;
-  Serial.print("SET: ");
-  Serial.println(buttons[0].buttonPin);
   buttons[1].buttonPin = 19;
-  buttons[2].buttonPin = NULL;
-  buttons[3].buttonPin = NULL;
+  buttons[2].buttonPin = 26;
+  buttons[3].buttonPin = 27;
+  buttons[4].buttonPin = 35;
 }
 
 unsigned short int pollBattery() {

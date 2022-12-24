@@ -21,7 +21,7 @@ typedef struct {
   unsigned long timeReleased;
 } interfaceButtons;
 
-extern interfaceButtons buttons[4];
+extern interfaceButtons buttons[5];
 
 #define SHORT_PRESS_TIME 500 // 500ms
 
