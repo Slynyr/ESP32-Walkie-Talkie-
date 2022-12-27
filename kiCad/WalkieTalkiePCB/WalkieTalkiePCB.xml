@@ -1,0 +1,569 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="E">
+  <design>
+    <source>C:\Users\filip\Documents\GitHub\ESP32-Walkie-Talkie-\kiCad\WalkieTalkiePCB\WalkieTalkiePCB.kicad_sch</source>
+    <date>12/25/2022 8:57:35 PM</date>
+    <tool>Eeschema (6.0.9)</tool>
+    <sheet number="1" name="/" tstamps="/">
+      <title_block>
+        <title>WalkieTalkie</title>
+        <company>Node</company>
+        <rev>1.0</rev>
+        <date/>
+        <source>WalkieTalkiePCB.kicad_sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+        <comment number="5" value=""/>
+        <comment number="6" value=""/>
+        <comment number="7" value=""/>
+        <comment number="8" value=""/>
+        <comment number="9" value=""/>
+      </title_block>
+    </sheet>
+  </design>
+  <components>
+    <comp ref="BT1">
+      <value>Battery_Cell</value>
+      <footprint>ESP32 Walkie-Talkie:Battery-Contacts</footprint>
+      <libsource lib="Device" part="Battery_Cell" description="Single-cell battery"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="WalkieTalkiePCB.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>565d06fb-9534-48e0-a256-9134feb87b03</tstamps>
+    </comp>
+    <comp ref="LS1">
+      <value>Speaker</value>
+      <footprint>ESP32 Walkie-Talkie:Speaker</footprint>
+      <libsource lib="Device" part="Speaker" description="Speaker"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="WalkieTalkiePCB.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>729b3da4-0313-41c5-9118-f5a5d81e720a</tstamps>
+    </comp>
+    <comp ref="R1">
+      <value>330</value>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="WalkieTalkiePCB.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>e9eb94ed-4dc4-450e-8838-fce3918021eb</tstamps>
+    </comp>
+    <comp ref="R2">
+      <value>330</value>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="WalkieTalkiePCB.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>6547a327-dc48-4e5d-b763-2f11a561c334</tstamps>
+    </comp>
+    <comp ref="R3">
+      <value>330</value>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="WalkieTalkiePCB.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>679df15c-4210-462b-a32d-05926d86c3a4</tstamps>
+    </comp>
+    <comp ref="R4">
+      <value>330</value>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="WalkieTalkiePCB.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>a68d3ba7-7c84-46ca-9f39-57bfe6948e60</tstamps>
+    </comp>
+    <comp ref="R5">
+      <value>330</value>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="WalkieTalkiePCB.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>6e52062c-f7ef-4466-97ab-752ed1e4e8d9</tstamps>
+    </comp>
+    <comp ref="R6">
+      <value>2k2</value>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="WalkieTalkiePCB.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>9dc2dcab-14fc-44c0-aed7-63356f0dbd22</tstamps>
+    </comp>
+    <comp ref="R7">
+      <value>2k</value>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="WalkieTalkiePCB.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>1f59f237-bf64-46d0-877c-bbc9607b6143</tstamps>
+    </comp>
+    <comp ref="SW1">
+      <value>UP</value>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="WalkieTalkiePCB.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>3922ba6c-a161-4027-a55b-281ac4a8e5bb</tstamps>
+    </comp>
+    <comp ref="SW2">
+      <value>DWN</value>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="WalkieTalkiePCB.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>521121ee-80d3-42d0-9180-a9753c052738</tstamps>
+    </comp>
+    <comp ref="SW3">
+      <value>MODE</value>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="WalkieTalkiePCB.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>18865791-4c59-4442-8c02-d131bce356b6</tstamps>
+    </comp>
+    <comp ref="SW4">
+      <value>TLK</value>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="WalkieTalkiePCB.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>17f16b81-334a-4077-a3dc-ead0737ae896</tstamps>
+    </comp>
+    <comp ref="SW5">
+      <value>XTRA</value>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="WalkieTalkiePCB.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>8092aaf9-931f-44ae-8380-916ce5127956</tstamps>
+    </comp>
+    <comp ref="U1">
+      <value>I2S-MIC</value>
+      <footprint>ESP32 Walkie-Talkie:I2S-Mic</footprint>
+      <libsource lib="WalkieTalkie" part="I2S-MIC" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="WalkieTalkiePCB.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>06189962-e377-4982-9780-d7fd696848a8</tstamps>
+    </comp>
+    <comp ref="U2">
+      <value>3006-ADA_Adafruit_</value>
+      <footprint>ESP32 Walkie-Talkie:Amplifier</footprint>
+      <libsource lib="WalkieTalkie" part="3006-ADA_Adafruit_" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="WalkieTalkiePCB.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>0aeafca2-1eb3-4ed4-9136-be9da76bceb3</tstamps>
+    </comp>
+    <comp ref="U3">
+      <value>WROOM-32_DEVKITV1</value>
+      <libsource lib="WROOM32-DEVKITV1" part="WROOM-32_DEVKITV1" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="WalkieTalkiePCB.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>c943f0b5-36cc-4140-b0cd-7d88893d98d2</tstamps>
+    </comp>
+    <comp ref="U4">
+      <value>OLED_DISPLAY</value>
+      <libsource lib="WalkieTalkie" part="OLED_DISPLAY" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="WalkieTalkiePCB.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>04bf36a8-d27a-4fae-bb6d-222e55db01bf</tstamps>
+    </comp>
+    <comp ref="U5">
+      <value>BAT-C-10TYPEC</value>
+      <footprint>ESP32 Walkie-Talkie:USBC-BMS</footprint>
+      <libsource lib="WalkieTalkie" part="BAT-C-10TYPEC" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="WalkieTalkiePCB.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>742e5744-c81c-4950-88db-007b37fa2b34</tstamps>
+    </comp>
+    <comp ref="U6">
+      <value>PSM-301</value>
+      <footprint>ESP32 Walkie-Talkie:Voltage-Regulator</footprint>
+      <libsource lib="WalkieTalkie" part="PSM-301" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="WalkieTalkiePCB.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>75cb9de8-b81e-4952-a80b-0fda81fc1740</tstamps>
+    </comp>
+    <comp ref="U7">
+      <value>PBS-LED-1606WH-L</value>
+      <footprint>ESP32 Walkie-Talkie:PBS-Button</footprint>
+      <libsource lib="WalkieTalkie" part="PBS-LED-1606WH-L" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="WalkieTalkiePCB.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>906709c3-3cb2-4376-82e4-c4c35bb617e0</tstamps>
+    </comp>
+  </components>
+  <libparts>
+    <libpart lib="Device" part="Battery_Cell">
+      <description>Single-cell battery</description>
+      <docs>~</docs>
+      <fields>
+        <field name="Reference">BT</field>
+        <field name="Value">Battery_Cell</field>
+        <field name="Datasheet">~</field>
+      </fields>
+      <pins>
+        <pin num="1" name="+" type="passive"/>
+        <pin num="2" name="-" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Device" part="R">
+      <description>Resistor</description>
+      <docs>~</docs>
+      <footprints>
+        <fp>R_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">R</field>
+        <field name="Datasheet">~</field>
+      </fields>
+      <pins>
+        <pin num="1" name="" type="passive"/>
+        <pin num="2" name="" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Device" part="Speaker">
+      <description>Speaker</description>
+      <docs>~</docs>
+      <fields>
+        <field name="Reference">LS</field>
+        <field name="Value">Speaker</field>
+        <field name="Datasheet">~</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="input"/>
+        <pin num="2" name="2" type="input"/>
+      </pins>
+    </libpart>
+    <libpart lib="Switch" part="SW_Push">
+      <description>Push button switch, generic, two pins</description>
+      <docs>~</docs>
+      <fields>
+        <field name="Reference">SW</field>
+        <field name="Value">SW_Push</field>
+        <field name="Datasheet">~</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="WROOM32-DEVKITV1" part="WROOM-32_DEVKITV1">
+      <fields>
+        <field name="Reference">U3</field>
+        <field name="Value">WROOM-32_DEVKITV1</field>
+      </fields>
+      <pins>
+        <pin num="3V3" name="" type="power_in"/>
+        <pin num="D2" name="" type="bidirectional"/>
+        <pin num="D4" name="" type="bidirectional"/>
+        <pin num="D5" name="" type="bidirectional"/>
+        <pin num="D12" name="" type="bidirectional"/>
+        <pin num="D13" name="" type="bidirectional"/>
+        <pin num="D14" name="" type="bidirectional"/>
+        <pin num="D15" name="" type="bidirectional"/>
+        <pin num="D18" name="" type="bidirectional"/>
+        <pin num="D19" name="" type="bidirectional"/>
+        <pin num="D21" name="" type="bidirectional"/>
+        <pin num="D22" name="" type="bidirectional"/>
+        <pin num="D23" name="" type="bidirectional"/>
+        <pin num="D25" name="" type="bidirectional"/>
+        <pin num="D26" name="" type="bidirectional"/>
+        <pin num="D27" name="" type="bidirectional"/>
+        <pin num="D32" name="" type="bidirectional"/>
+        <pin num="D33" name="" type="bidirectional"/>
+        <pin num="D34" name="" type="bidirectional"/>
+        <pin num="D35" name="" type="bidirectional"/>
+        <pin num="EN" name="" type="input"/>
+        <pin num="GND" name="" type="power_in"/>
+        <pin num="RX0" name="" type="input"/>
+        <pin num="RX2" name="" type="input"/>
+        <pin num="TX0" name="" type="output"/>
+        <pin num="TX2" name="" type="output"/>
+        <pin num="VIN" name="" type="power_in"/>
+        <pin num="VN" name="" type="bidirectional"/>
+        <pin num="VP" name="" type="bidirectional"/>
+      </pins>
+    </libpart>
+    <libpart lib="WalkieTalkie" part="3006-ADA_Adafruit_">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">3006-ADA_Adafruit_</field>
+      </fields>
+      <pins>
+        <pin num="+" name="" type="output"/>
+        <pin num="-" name="" type="output"/>
+        <pin num="BLCK" name="" type="input"/>
+        <pin num="DIN" name="" type="input"/>
+        <pin num="GAIN" name="" type="input"/>
+        <pin num="GND" name="" type="power_in"/>
+        <pin num="LRC" name="" type="input"/>
+        <pin num="SD" name="" type="input"/>
+        <pin num="VIN" name="" type="power_in"/>
+      </pins>
+    </libpart>
+    <libpart lib="WalkieTalkie" part="BAT-C-10TYPEC">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">BAT-C-10TYPEC</field>
+      </fields>
+      <pins>
+        <pin num="+" name="PWR" type="power_in"/>
+        <pin num="-" name="PWR" type="power_in"/>
+        <pin num="B+" name="Battery" type="power_in"/>
+        <pin num="B-" name="Battery" type="power_in"/>
+        <pin num="v+" name="VOUT" type="power_out"/>
+        <pin num="v-" name="VOUT" type="power_out"/>
+      </pins>
+    </libpart>
+    <libpart lib="WalkieTalkie" part="I2S-MIC">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">I2S-MIC</field>
+      </fields>
+      <pins>
+        <pin num="" name="L/R" type="input"/>
+        <pin num="1" name="GND" type="power_in"/>
+        <pin num="2" name="VCC" type="power_in"/>
+        <pin num="3" name="SD" type="input"/>
+      </pins>
+    </libpart>
+    <libpart lib="WalkieTalkie" part="OLED_DISPLAY">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">OLED_DISPLAY</field>
+      </fields>
+      <pins>
+        <pin num="GND" name="" type="power_in"/>
+        <pin num="SCL" name="" type="input"/>
+        <pin num="SDA" name="" type="input"/>
+        <pin num="VCC" name="" type="power_in"/>
+      </pins>
+    </libpart>
+    <libpart lib="WalkieTalkie" part="PBS-LED-1606WH-L">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">PBS-LED-1606WH-L</field>
+      </fields>
+      <pins>
+        <pin num="" name="Common" type="power_in"/>
+        <pin num="+" name="LED" type="power_in"/>
+        <pin num="-" name="LED" type="power_in"/>
+        <pin num="NC" name="" type="bidirectional"/>
+        <pin num="NO" name="" type="bidirectional"/>
+      </pins>
+    </libpart>
+    <libpart lib="WalkieTalkie" part="PSM-301">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">PSM-301</field>
+      </fields>
+      <pins>
+        <pin num="EN" name="" type="input"/>
+        <pin num="VIN+" name="" type="power_in"/>
+        <pin num="VIN-" name="" type="power_in"/>
+        <pin num="VOUT+" name="" type="power_out"/>
+        <pin num="VOUT-" name="" type="power_out"/>
+      </pins>
+    </libpart>
+  </libparts>
+  <libraries>
+    <library logical="Device">
+      <uri>C:\Program Files\KiCad\6.0\share\kicad\symbols\/Device.kicad_sym</uri>
+    </library>
+    <library logical="Switch">
+      <uri>C:\Program Files\KiCad\6.0\share\kicad\symbols\/Switch.kicad_sym</uri>
+    </library>
+    <library logical="WROOM32-DEVKITV1">
+      <uri>C:/Users/filip/Documents/GitHub/ESP32-Walkie-Talkie-/kiCad/symbols/WROOM32-DEVKITV1.kicad_sym</uri>
+    </library>
+    <library logical="WalkieTalkie">
+      <uri>C:/Users/filip/Documents/GitHub/ESP32-Walkie-Talkie-/kiCad/symbols/WalkieTalkie.kicad_sym</uri>
+    </library>
+  </libraries>
+  <nets>
+    <net code="1" name="GND">
+      <node ref="R1" pin="1" pintype="passive"/>
+      <node ref="R2" pin="1" pintype="passive"/>
+      <node ref="R3" pin="1" pintype="passive"/>
+      <node ref="R4" pin="1" pintype="passive"/>
+      <node ref="R5" pin="1" pintype="passive"/>
+      <node ref="R6" pin="1" pintype="passive"/>
+      <node ref="U1" pin="" pinfunction="L/R" pintype="input"/>
+      <node ref="U1" pin="1" pinfunction="GND" pintype="power_in"/>
+      <node ref="U2" pin="GAIN" pintype="input"/>
+      <node ref="U2" pin="GND" pintype="power_in"/>
+      <node ref="U3" pin="GND" pintype="power_in"/>
+      <node ref="U4" pin="GND" pintype="power_in"/>
+      <node ref="U6" pin="VOUT-" pintype="power_out"/>
+      <node ref="U7" pin="-" pinfunction="LED" pintype="power_in"/>
+    </net>
+    <net code="2" name="Net-(BT1-Pad1)">
+      <node ref="BT1" pin="1" pinfunction="+" pintype="passive"/>
+      <node ref="R7" pin="2" pintype="passive"/>
+      <node ref="U5" pin="B+" pinfunction="Battery" pintype="power_in"/>
+      <node ref="U7" pin="" pinfunction="Common" pintype="power_in"/>
+    </net>
+    <net code="3" name="Net-(BT1-Pad2)">
+      <node ref="BT1" pin="2" pinfunction="-" pintype="passive"/>
+      <node ref="U5" pin="B-" pinfunction="Battery" pintype="power_in"/>
+    </net>
+    <net code="4" name="Net-(LS1-Pad1)">
+      <node ref="LS1" pin="1" pinfunction="1" pintype="input"/>
+      <node ref="U2" pin="+" pintype="output"/>
+    </net>
+    <net code="5" name="Net-(LS1-Pad2)">
+      <node ref="LS1" pin="2" pinfunction="2" pintype="input"/>
+      <node ref="U2" pin="-" pintype="output"/>
+    </net>
+    <net code="6" name="Net-(R1-Pad2)">
+      <node ref="R1" pin="2" pintype="passive"/>
+      <node ref="SW1" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="U3" pin="D5" pintype="bidirectional"/>
+    </net>
+    <net code="7" name="Net-(R2-Pad2)">
+      <node ref="R2" pin="2" pintype="passive"/>
+      <node ref="SW2" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="U3" pin="D19" pintype="bidirectional"/>
+    </net>
+    <net code="8" name="Net-(R3-Pad2)">
+      <node ref="R3" pin="2" pintype="passive"/>
+      <node ref="SW3" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="U3" pin="D26" pintype="bidirectional"/>
+    </net>
+    <net code="9" name="Net-(R4-Pad2)">
+      <node ref="R4" pin="2" pintype="passive"/>
+      <node ref="SW4" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="U3" pin="D27" pintype="bidirectional"/>
+    </net>
+    <net code="10" name="Net-(R5-Pad2)">
+      <node ref="R5" pin="2" pintype="passive"/>
+      <node ref="SW5" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="U3" pin="D35" pintype="bidirectional"/>
+    </net>
+    <net code="11" name="Net-(R6-Pad2)">
+      <node ref="R6" pin="2" pintype="passive"/>
+      <node ref="R7" pin="1" pintype="passive"/>
+      <node ref="U3" pin="D34" pintype="bidirectional"/>
+    </net>
+    <net code="12" name="Net-(U1-Pad)">
+      <node ref="U1" pin="" pinfunction="SCK" pintype="input"/>
+      <node ref="U2" pin="BLCK" pintype="input"/>
+      <node ref="U3" pin="D32" pintype="bidirectional"/>
+    </net>
+    <net code="13" name="Net-(U1-Pad)_1">
+      <node ref="U1" pin="" pinfunction="WS" pintype="input"/>
+      <node ref="U2" pin="LRC" pintype="input"/>
+      <node ref="U3" pin="D25" pintype="bidirectional"/>
+    </net>
+    <net code="14" name="Net-(U1-Pad3)">
+      <node ref="U1" pin="3" pinfunction="SD" pintype="input"/>
+      <node ref="U3" pin="D33" pintype="bidirectional"/>
+    </net>
+    <net code="15" name="Net-(U2-PadDIN)">
+      <node ref="U2" pin="DIN" pintype="input"/>
+      <node ref="U3" pin="D14" pintype="bidirectional"/>
+    </net>
+    <net code="16" name="Net-(U3-PadD21)">
+      <node ref="U3" pin="D21" pintype="bidirectional"/>
+      <node ref="U4" pin="SDA" pintype="input"/>
+    </net>
+    <net code="17" name="Net-(U3-PadD22)">
+      <node ref="U3" pin="D22" pintype="bidirectional"/>
+      <node ref="U4" pin="SCL" pintype="input"/>
+    </net>
+    <net code="18" name="Net-(U5-Padv+)">
+      <node ref="U5" pin="v+" pinfunction="VOUT" pintype="power_out"/>
+      <node ref="U6" pin="VIN+" pintype="power_in"/>
+    </net>
+    <net code="19" name="Net-(U5-Padv-)">
+      <node ref="U5" pin="v-" pinfunction="VOUT" pintype="power_out"/>
+      <node ref="U6" pin="VIN-" pintype="power_in"/>
+    </net>
+    <net code="20" name="Net-(U6-PadEN)">
+      <node ref="U6" pin="EN" pintype="input"/>
+      <node ref="U7" pin="NO" pintype="bidirectional"/>
+    </net>
+    <net code="21" name="VCC">
+      <node ref="SW1" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="SW2" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="SW3" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="SW4" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="SW5" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="U1" pin="2" pinfunction="VCC" pintype="power_in"/>
+      <node ref="U2" pin="VIN" pintype="power_in"/>
+      <node ref="U3" pin="3V3" pintype="power_in"/>
+      <node ref="U4" pin="VCC" pintype="power_in"/>
+      <node ref="U6" pin="VOUT+" pintype="power_out"/>
+      <node ref="U7" pin="+" pinfunction="LED" pintype="power_in"/>
+    </net>
+    <net code="22" name="unconnected-(U2-PadSD)">
+      <node ref="U2" pin="SD" pintype="input+no_connect"/>
+    </net>
+    <net code="23" name="unconnected-(U3-PadD2)">
+      <node ref="U3" pin="D2" pintype="bidirectional+no_connect"/>
+    </net>
+    <net code="24" name="unconnected-(U3-PadD4)">
+      <node ref="U3" pin="D4" pintype="bidirectional+no_connect"/>
+    </net>
+    <net code="25" name="unconnected-(U3-PadD12)">
+      <node ref="U3" pin="D12" pintype="bidirectional+no_connect"/>
+    </net>
+    <net code="26" name="unconnected-(U3-PadD13)">
+      <node ref="U3" pin="D13" pintype="bidirectional+no_connect"/>
+    </net>
+    <net code="27" name="unconnected-(U3-PadD15)">
+      <node ref="U3" pin="D15" pintype="bidirectional+no_connect"/>
+    </net>
+    <net code="28" name="unconnected-(U3-PadD18)">
+      <node ref="U3" pin="D18" pintype="bidirectional+no_connect"/>
+    </net>
+    <net code="29" name="unconnected-(U3-PadD23)">
+      <node ref="U3" pin="D23" pintype="bidirectional+no_connect"/>
+    </net>
+    <net code="30" name="unconnected-(U3-PadEN)">
+      <node ref="U3" pin="EN" pintype="input+no_connect"/>
+    </net>
+    <net code="31" name="unconnected-(U3-PadGND)">
+      <node ref="U3" pin="GND" pintype="power_in+no_connect"/>
+    </net>
+    <net code="32" name="unconnected-(U3-PadRX0)">
+      <node ref="U3" pin="RX0" pintype="input+no_connect"/>
+    </net>
+    <net code="33" name="unconnected-(U3-PadRX2)">
+      <node ref="U3" pin="RX2" pintype="input+no_connect"/>
+    </net>
+    <net code="34" name="unconnected-(U3-PadTX0)">
+      <node ref="U3" pin="TX0" pintype="output+no_connect"/>
+    </net>
+    <net code="35" name="unconnected-(U3-PadTX2)">
+      <node ref="U3" pin="TX2" pintype="output+no_connect"/>
+    </net>
+    <net code="36" name="unconnected-(U3-PadVIN)">
+      <node ref="U3" pin="VIN" pintype="power_in+no_connect"/>
+    </net>
+    <net code="37" name="unconnected-(U3-PadVN)">
+      <node ref="U3" pin="VN" pintype="bidirectional+no_connect"/>
+    </net>
+    <net code="38" name="unconnected-(U3-PadVP)">
+      <node ref="U3" pin="VP" pintype="bidirectional+no_connect"/>
+    </net>
+    <net code="39" name="unconnected-(U5-Pad+)">
+      <node ref="U5" pin="+" pinfunction="PWR" pintype="power_in+no_connect"/>
+    </net>
+    <net code="40" name="unconnected-(U5-Pad-)">
+      <node ref="U5" pin="-" pinfunction="PWR" pintype="power_in+no_connect"/>
+    </net>
+    <net code="41" name="unconnected-(U7-PadNC)">
+      <node ref="U7" pin="NC" pintype="bidirectional+no_connect"/>
+    </net>
+  </nets>
+</export>
