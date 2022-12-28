@@ -1,4 +1,4 @@
-20611842524884944
+20616859150950729
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -52248,6 +52248,13 @@ I2S-Mic
 6
 6
 ESP32 Walkie-Talkie
+Nodelogo
+
+
+0
+0
+0
+ESP32 Walkie-Talkie
 PBS-Button
 
 
@@ -52290,6 +52297,13 @@ BAT-C-10TYPEC-BMS
 6
 6
 ESP32-Walkie-Talkie-Footprints-Remaster
+BATTERY-CONTACTS
+
+
+0
+2
+2
+ESP32-Walkie-Talkie-Footprints-Remaster
 I2S-128x64-OLED-LCD
 
 
@@ -52319,6 +52333,13 @@ PSM-301-Voltage-Regulator
 5
 ESP32-Walkie-Talkie-Footprints-Remaster
 PUSH-BUTTON-CONTACTS
+
+
+0
+2
+2
+ESP32-Walkie-Talkie-Footprints-Remaster
+SPEAKER
 
 
 0
