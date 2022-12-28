@@ -1,4 +1,4 @@
-20598461434845646
+20611842524884944
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -52274,7 +52274,56 @@ Voltage-Regulator
 
 0
 5
+4
+ESP32-Walkie-Talkie-Footprints-Remaster
+Amplifier
+
+
+0
+9
+9
+ESP32-Walkie-Talkie-Footprints-Remaster
+BAT-C-10TYPEC-BMS
+
+
+0
+6
+6
+ESP32-Walkie-Talkie-Footprints-Remaster
+I2S-128x64-OLED-LCD
+
+
+0
+4
+4
+ESP32-Walkie-Talkie-Footprints-Remaster
+I2SINMP441-MIC
+
+
+0
+6
+6
+ESP32-Walkie-Talkie-Footprints-Remaster
+PBS-LED-1606WH-L-Toggle-Switch
+
+
+0
 5
+5
+ESP32-Walkie-Talkie-Footprints-Remaster
+PSM-301-Voltage-Regulator
+
+
+0
+5
+5
+ESP32-Walkie-Talkie-Footprints-Remaster
+PUSH-BUTTON-CONTACTS
+
+
+0
+2
+2
 Ferrite_THT
 LairdTech_28C0236-0JW-10
 Ferrite, vertical, LairdTech 28C0236-0JW-10, https://assets.lairdtech.com/home/brandworld/files/28C0236-0JW-10.pdf, JW Miller core https://www.bourns.com/products/magnetic-products/j.w.-miller-through-hole-ferrite-beads-emi-filters
@@ -86491,3 +86540,10 @@ varistor
 0
 2
 2
+esp32_devkit_v1_doit
+esp32_devkit_v1_doit
+ESPWROOM32, ESP32, 30 GPIOs version
+
+0
+30
+30
