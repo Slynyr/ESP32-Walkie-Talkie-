@@ -1437,7 +1437,7 @@
   (symbol (lib_id "Walkie-Talkie-Symbols-Remastered:I2S-INMP441_(MIC)") (at 86.36 138.43 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 24e5f562-b3c9-438d-aa7d-32525f265570)
-    (property "Reference" "U1" (id 0) (at 71.12 138.43 0)
+    (property "Reference" "U5" (id 0) (at 71.12 138.43 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "I2S-INMP441_(MIC)" (id 1) (at 74.93 147.32 90)
@@ -1756,7 +1756,7 @@
   (symbol (lib_id "Walkie-Talkie-Symbols-Remastered:PBS-LED-1606WH-L_(Toggle_Button)") (at 229.87 86.36 90) (unit 1)
     (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid 8d95fbde-1cc6-44c9-b9f6-c11098d1fc3f)
-    (property "Reference" "U7" (id 0) (at 234.95 86.3599 90)
+    (property "Reference" "U3" (id 0) (at 234.95 86.3599 90)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Value" "PBS-LED-1606WH-L_(Toggle_Button)" (id 1) (at 234.95 88.8999 90)
@@ -1794,7 +1794,7 @@
   (symbol (lib_id "Walkie-Talkie-Symbols-Remastered:BAT-C-10TYPEC_(BMS)") (at 203.2 97.79 180) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 9a969628-52ab-4714-ac6a-9ca3d7003ab5)
-    (property "Reference" "U6" (id 0) (at 212.09 99.6949 0)
+    (property "Reference" "U1" (id 0) (at 212.09 99.6949 0)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Value" "BAT-C-10TYPEC_(BMS)" (id 1) (at 193.04 111.76 90)
@@ -1868,7 +1868,7 @@
   (symbol (lib_id "Walkie-Talkie-Symbols-Remastered:Amplifier") (at 123.19 140.97 180) (unit 1)
     (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid d187716d-bf1f-4766-8eed-da05cbe1a24f)
-    (property "Reference" "U2" (id 0) (at 137.16 137.7949 0)
+    (property "Reference" "U6" (id 0) (at 137.16 137.7949 0)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Value" "Amplifier" (id 1) (at 137.16 140.3349 0)
@@ -1894,7 +1894,7 @@
   (symbol (lib_id "Walkie-Talkie-Symbols-Remastered:ESP-WROOM-32") (at 152.4 88.9 0) (unit 1)
     (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid db0f0dc4-d53d-49af-97d4-c1a1631d7dec)
-    (property "Reference" "U3" (id 0) (at 152.4 69.85 0))
+    (property "Reference" "U7" (id 0) (at 152.4 69.85 0))
     (property "Value" "ESP-WROOM-32" (id 1) (at 152.4 72.39 0))
     (property "Footprint" "esp32_devkit_v1_doit:esp32_devkit_v1_doit" (id 2) (at 149.86 88.9 0)
       (effects (font (size 1.27 1.27)) hide)
@@ -2027,7 +2027,7 @@
   (symbol (lib_id "Walkie-Talkie-Symbols-Remastered:PSM-301-Voltage-Regulator") (at 203.2 72.39 0) (unit 1)
     (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid f9fa421f-31c6-4a6d-8614-790ab077f912)
-    (property "Reference" "U5" (id 0) (at 210.82 70.4849 0)
+    (property "Reference" "U2" (id 0) (at 210.82 70.4849 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "PSM-301-Voltage-Regulator" (id 1) (at 210.82 73.0249 0)
@@ -2162,26 +2162,26 @@
     (path "/fbe6b1d9-806f-4340-9324-f603a54663f8"
       (reference "TP2") (unit 1) (value "TestPoint") (footprint "")
     )
-    (path "/24e5f562-b3c9-438d-aa7d-32525f265570"
-      (reference "U1") (unit 1) (value "I2S-INMP441_(MIC)") (footprint "ESP32-Walkie-Talkie-Footprints-Remaster:I2SINMP441-MIC")
+    (path "/9a969628-52ab-4714-ac6a-9ca3d7003ab5"
+      (reference "U1") (unit 1) (value "BAT-C-10TYPEC_(BMS)") (footprint "ESP32-Walkie-Talkie-Footprints-Remaster:BAT-C-10TYPEC-BMS")
     )
-    (path "/d187716d-bf1f-4766-8eed-da05cbe1a24f"
-      (reference "U2") (unit 1) (value "Amplifier") (footprint "ESP32-Walkie-Talkie-Footprints-Remaster:Amplifier")
+    (path "/f9fa421f-31c6-4a6d-8614-790ab077f912"
+      (reference "U2") (unit 1) (value "PSM-301-Voltage-Regulator") (footprint "ESP32-Walkie-Talkie-Footprints-Remaster:PSM-301-Voltage-Regulator")
     )
-    (path "/db0f0dc4-d53d-49af-97d4-c1a1631d7dec"
-      (reference "U3") (unit 1) (value "ESP-WROOM-32") (footprint "esp32_devkit_v1_doit:esp32_devkit_v1_doit")
+    (path "/8d95fbde-1cc6-44c9-b9f6-c11098d1fc3f"
+      (reference "U3") (unit 1) (value "PBS-LED-1606WH-L_(Toggle_Button)") (footprint "ESP32-Walkie-Talkie-Footprints-Remaster:PBS-LED-1606WH-L-Toggle-Switch")
     )
     (path "/f8a305e8-0bc6-4f0a-b0fa-387fb8c70c45"
       (reference "U4") (unit 1) (value "I2S-128X64-OLED-LCD_") (footprint "ESP32-Walkie-Talkie-Footprints-Remaster:I2S-128x64-OLED-LCD")
     )
-    (path "/f9fa421f-31c6-4a6d-8614-790ab077f912"
-      (reference "U5") (unit 1) (value "PSM-301-Voltage-Regulator") (footprint "ESP32-Walkie-Talkie-Footprints-Remaster:PSM-301-Voltage-Regulator")
+    (path "/24e5f562-b3c9-438d-aa7d-32525f265570"
+      (reference "U5") (unit 1) (value "I2S-INMP441_(MIC)") (footprint "ESP32-Walkie-Talkie-Footprints-Remaster:I2SINMP441-MIC")
     )
-    (path "/9a969628-52ab-4714-ac6a-9ca3d7003ab5"
-      (reference "U6") (unit 1) (value "BAT-C-10TYPEC_(BMS)") (footprint "ESP32-Walkie-Talkie-Footprints-Remaster:BAT-C-10TYPEC-BMS")
+    (path "/d187716d-bf1f-4766-8eed-da05cbe1a24f"
+      (reference "U6") (unit 1) (value "Amplifier") (footprint "ESP32-Walkie-Talkie-Footprints-Remaster:Amplifier")
     )
-    (path "/8d95fbde-1cc6-44c9-b9f6-c11098d1fc3f"
-      (reference "U7") (unit 1) (value "PBS-LED-1606WH-L_(Toggle_Button)") (footprint "ESP32-Walkie-Talkie-Footprints-Remaster:PBS-LED-1606WH-L-Toggle-Switch")
+    (path "/db0f0dc4-d53d-49af-97d4-c1a1631d7dec"
+      (reference "U7") (unit 1) (value "ESP-WROOM-32") (footprint "esp32_devkit_v1_doit:esp32_devkit_v1_doit")
     )
   )
 )
