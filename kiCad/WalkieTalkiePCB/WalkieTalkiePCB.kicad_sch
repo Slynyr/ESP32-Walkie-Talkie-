@@ -11,6 +11,41 @@
   )
 
   (lib_symbols
+    (symbol "Connector:TestPoint" (pin_numbers hide) (pin_names (offset 0.762) hide) (in_bom yes) (on_board yes)
+      (property "Reference" "TP" (id 0) (at 0 6.858 0)
+        (effects (font (size 1.27 1.27)))
+      )
+      (property "Value" "TestPoint" (id 1) (at 0 5.08 0)
+        (effects (font (size 1.27 1.27)))
+      )
+      (property "Footprint" "" (id 2) (at 5.08 0 0)
+        (effects (font (size 1.27 1.27)) hide)
+      )
+      (property "Datasheet" "~" (id 3) (at 5.08 0 0)
+        (effects (font (size 1.27 1.27)) hide)
+      )
+      (property "ki_keywords" "test point tp" (id 4) (at 0 0 0)
+        (effects (font (size 1.27 1.27)) hide)
+      )
+      (property "ki_description" "test point" (id 5) (at 0 0 0)
+        (effects (font (size 1.27 1.27)) hide)
+      )
+      (property "ki_fp_filters" "Pin* Test*" (id 6) (at 0 0 0)
+        (effects (font (size 1.27 1.27)) hide)
+      )
+      (symbol "TestPoint_0_1"
+        (circle (center 0 3.302) (radius 0.762)
+          (stroke (width 0) (type default) (color 0 0 0 0))
+          (fill (type none))
+        )
+      )
+      (symbol "TestPoint_1_1"
+        (pin passive line (at 0 0 90) (length 2.54)
+          (name "1" (effects (font (size 1.27 1.27))))
+          (number "1" (effects (font (size 1.27 1.27))))
+        )
+      )
+    )
     (symbol "Device:Battery_Cell" (pin_numbers hide) (pin_names (offset 0) hide) (in_bom yes) (on_board yes)
       (property "Reference" "BT" (id 0) (at 2.54 2.54 0)
         (effects (font (size 1.27 1.27)) (justify left))
@@ -734,7 +769,6 @@
     )
   )
 
-
   (junction (at 95.25 83.82) (diameter 0) (color 0 0 0 0)
     (uuid 012afbcf-3ada-4dcb-872c-c4a1defdc7dd)
   )
@@ -746,6 +780,9 @@
   )
   (junction (at 83.82 66.04) (diameter 0) (color 0 0 0 0)
     (uuid 1732e353-a713-4a8b-b0d1-8845af0822e8)
+  )
+  (junction (at 207.01 124.46) (diameter 0) (color 0 0 0 0)
+    (uuid 1ceb71c4-21b4-4401-8de0-113b18184643)
   )
   (junction (at 106.68 83.82) (diameter 0) (color 0 0 0 0)
     (uuid 27acc931-09b3-465c-bcd7-028e04506556)
@@ -791,6 +828,9 @@
   )
   (junction (at 72.39 64.77) (diameter 0) (color 0 0 0 0)
     (uuid e3b280f9-3b75-44d1-ad16-4732684574a6)
+  )
+  (junction (at 199.39 124.46) (diameter 0) (color 0 0 0 0)
+    (uuid ebc8504f-1c02-4862-9c60-ec33a23d139a)
   )
 
   (no_connect (at 165.1 81.28) (uuid 053c4fed-df69-452a-9a96-9e3c87cf1038))
@@ -1311,7 +1351,7 @@
   (symbol (lib_id "power:GND") (at 187.96 58.42 0) (unit 1)
     (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid 035c4a9d-bd68-46f5-a91e-e0d85c3b3b9b)
-    (property "Reference" "#PWR0106" (id 0) (at 187.96 64.77 0)
+    (property "Reference" "#PWR012" (id 0) (at 187.96 64.77 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (id 1) (at 187.96 63.5 0))
@@ -1365,7 +1405,7 @@
   (symbol (lib_id "power:GND") (at 156.21 124.46 0) (unit 1)
     (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid 197a7cf3-2288-409b-baa6-76731ae2f19b)
-    (property "Reference" "#PWR05" (id 0) (at 156.21 130.81 0)
+    (property "Reference" "#PWR07" (id 0) (at 156.21 130.81 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (id 1) (at 156.21 129.54 0))
@@ -1381,7 +1421,7 @@
   (symbol (lib_id "power:VCC") (at 86.36 151.13 180) (unit 1)
     (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid 1fc10c55-8191-4652-a99f-691fcd384394)
-    (property "Reference" "#PWR01" (id 0) (at 86.36 147.32 0)
+    (property "Reference" "#PWR02" (id 0) (at 86.36 147.32 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "VCC" (id 1) (at 86.36 156.21 0))
@@ -1397,7 +1437,7 @@
   (symbol (lib_id "Walkie-Talkie-Symbols-Remastered:I2S-INMP441_(MIC)") (at 86.36 138.43 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 24e5f562-b3c9-438d-aa7d-32525f265570)
-    (property "Reference" "U5" (id 0) (at 71.12 138.43 0)
+    (property "Reference" "U1" (id 0) (at 71.12 138.43 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "I2S-INMP441_(MIC)" (id 1) (at 74.93 147.32 90)
@@ -1439,7 +1479,7 @@
   (symbol (lib_id "power:GND") (at 215.9 88.9 0) (unit 1)
     (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid 289aec91-9ee0-452d-a400-07b27dc669c0)
-    (property "Reference" "#PWR08" (id 0) (at 215.9 95.25 0)
+    (property "Reference" "#PWR014" (id 0) (at 215.9 95.25 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (id 1) (at 215.9 93.98 0))
@@ -1455,7 +1495,7 @@
   (symbol (lib_id "power:GND") (at 102.87 127 0) (unit 1)
     (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid 303d8a89-50ae-4a1b-bd5d-82490f616998)
-    (property "Reference" "#PWR03" (id 0) (at 102.87 133.35 0)
+    (property "Reference" "#PWR05" (id 0) (at 102.87 133.35 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (id 1) (at 102.87 132.08 0))
@@ -1487,10 +1527,24 @@
     (pin "2" (uuid 30824227-4691-4659-9fa3-7c9322e9f899))
   )
 
+  (symbol (lib_id "Connector:TestPoint") (at 199.39 124.46 90) (unit 1)
+    (in_bom yes) (on_board yes)
+    (uuid 3e48d2f8-4ac5-4ebf-8b04-642e7535ea4a)
+    (property "Reference" "TP1" (id 0) (at 193.04 123.19 90))
+    (property "Value" "TestPoint" (id 1) (at 190.5 125.73 90))
+    (property "Footprint" "" (id 2) (at 199.39 119.38 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (id 3) (at 199.39 119.38 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 731ff715-89d6-4666-bbf7-9018090166ee))
+  )
+
   (symbol (lib_id "power:GND") (at 168.91 113.03 0) (unit 1)
     (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid 4c787647-1296-428b-8dc3-b9558523d840)
-    (property "Reference" "#PWR011" (id 0) (at 168.91 119.38 0)
+    (property "Reference" "#PWR010" (id 0) (at 168.91 119.38 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (id 1) (at 168.91 118.11 0))
@@ -1525,7 +1579,7 @@
   (symbol (lib_id "power:VCC") (at 191.77 59.69 180) (unit 1)
     (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid 52a0511d-0ae3-46a1-aba7-f13cd3fb2bd9)
-    (property "Reference" "#PWR0105" (id 0) (at 191.77 55.88 0)
+    (property "Reference" "#PWR013" (id 0) (at 191.77 55.88 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "VCC" (id 1) (at 191.77 64.77 0))
@@ -1594,7 +1648,7 @@
   (symbol (lib_id "power:VCC") (at 106.68 128.27 180) (unit 1)
     (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid 6aff7df2-2978-4a26-ac66-75f22e989178)
-    (property "Reference" "#PWR04" (id 0) (at 106.68 124.46 0)
+    (property "Reference" "#PWR06" (id 0) (at 106.68 124.46 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "VCC" (id 1) (at 106.68 133.35 0))
@@ -1686,7 +1740,7 @@
   (symbol (lib_id "power:GND") (at 66.04 50.8 0) (unit 1)
     (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid 8b3b83f7-2b24-4579-99f9-d104e3403c35)
-    (property "Reference" "#PWR0114" (id 0) (at 66.04 57.15 0)
+    (property "Reference" "#PWR01" (id 0) (at 66.04 57.15 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (id 1) (at 66.04 55.88 0))
@@ -1702,7 +1756,7 @@
   (symbol (lib_id "Walkie-Talkie-Symbols-Remastered:PBS-LED-1606WH-L_(Toggle_Button)") (at 229.87 86.36 90) (unit 1)
     (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid 8d95fbde-1cc6-44c9-b9f6-c11098d1fc3f)
-    (property "Reference" "U3" (id 0) (at 234.95 86.3599 90)
+    (property "Reference" "U7" (id 0) (at 234.95 86.3599 90)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Value" "PBS-LED-1606WH-L_(Toggle_Button)" (id 1) (at 234.95 88.8999 90)
@@ -1724,7 +1778,7 @@
   (symbol (lib_id "power:VCC") (at 165.1 115.57 180) (unit 1)
     (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid 91b2fa62-6d51-424a-b6bc-28f3d4391629)
-    (property "Reference" "#PWR010" (id 0) (at 165.1 111.76 0)
+    (property "Reference" "#PWR09" (id 0) (at 165.1 111.76 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "VCC" (id 1) (at 165.1 120.65 0))
@@ -1740,7 +1794,7 @@
   (symbol (lib_id "Walkie-Talkie-Symbols-Remastered:BAT-C-10TYPEC_(BMS)") (at 203.2 97.79 180) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 9a969628-52ab-4714-ac6a-9ca3d7003ab5)
-    (property "Reference" "U1" (id 0) (at 212.09 99.6949 0)
+    (property "Reference" "U6" (id 0) (at 212.09 99.6949 0)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Value" "BAT-C-10TYPEC_(BMS)" (id 1) (at 193.04 111.76 90)
@@ -1782,7 +1836,7 @@
   (symbol (lib_id "power:VCC") (at 160.02 125.73 180) (unit 1)
     (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid afa54bfb-0f3a-4714-8243-a3c8608fdb67)
-    (property "Reference" "#PWR06" (id 0) (at 160.02 121.92 0)
+    (property "Reference" "#PWR08" (id 0) (at 160.02 121.92 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "VCC" (id 1) (at 160.02 130.81 0))
@@ -1798,7 +1852,7 @@
   (symbol (lib_id "power:GND") (at 91.44 151.13 0) (unit 1)
     (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid ce3ca6d4-6dd4-4a54-9925-f9a78597994f)
-    (property "Reference" "#PWR02" (id 0) (at 91.44 157.48 0)
+    (property "Reference" "#PWR03" (id 0) (at 91.44 157.48 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (id 1) (at 91.44 156.21 0))
@@ -1814,7 +1868,7 @@
   (symbol (lib_id "Walkie-Talkie-Symbols-Remastered:Amplifier") (at 123.19 140.97 180) (unit 1)
     (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid d187716d-bf1f-4766-8eed-da05cbe1a24f)
-    (property "Reference" "U6" (id 0) (at 137.16 137.7949 0)
+    (property "Reference" "U2" (id 0) (at 137.16 137.7949 0)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Value" "Amplifier" (id 1) (at 137.16 140.3349 0)
@@ -1840,7 +1894,7 @@
   (symbol (lib_id "Walkie-Talkie-Symbols-Remastered:ESP-WROOM-32") (at 152.4 88.9 0) (unit 1)
     (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid db0f0dc4-d53d-49af-97d4-c1a1631d7dec)
-    (property "Reference" "U7" (id 0) (at 152.4 69.85 0))
+    (property "Reference" "U3" (id 0) (at 152.4 69.85 0))
     (property "Value" "ESP-WROOM-32" (id 1) (at 152.4 72.39 0))
     (property "Footprint" "esp32_devkit_v1_doit:esp32_devkit_v1_doit" (id 2) (at 149.86 88.9 0)
       (effects (font (size 1.27 1.27)) hide)
@@ -1883,7 +1937,7 @@
   (symbol (lib_id "power:VCC") (at 95.25 88.9 180) (unit 1)
     (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid db972ab2-b5fb-4205-848f-1aa85398e0d0)
-    (property "Reference" "#PWR0111" (id 0) (at 95.25 85.09 0)
+    (property "Reference" "#PWR04" (id 0) (at 95.25 85.09 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "VCC" (id 1) (at 95.25 93.98 0))
@@ -1918,7 +1972,7 @@
   (symbol (lib_id "power:VCC") (at 219.71 91.44 180) (unit 1)
     (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid ebc5d39d-cda0-4bde-9987-0c720ccbebd0)
-    (property "Reference" "#PWR09" (id 0) (at 219.71 87.63 0)
+    (property "Reference" "#PWR015" (id 0) (at 219.71 87.63 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "VCC" (id 1) (at 219.71 96.52 0))
@@ -1934,7 +1988,7 @@
   (symbol (lib_id "power:GND") (at 184.15 90.17 180) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid ee89e8ec-9cf0-43d6-b1bc-31f2819d9c1d)
-    (property "Reference" "#PWR07" (id 0) (at 184.15 83.82 0)
+    (property "Reference" "#PWR011" (id 0) (at 184.15 83.82 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (id 1) (at 186.69 88.8999 0)
@@ -1973,7 +2027,7 @@
   (symbol (lib_id "Walkie-Talkie-Symbols-Remastered:PSM-301-Voltage-Regulator") (at 203.2 72.39 0) (unit 1)
     (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid f9fa421f-31c6-4a6d-8614-790ab077f912)
-    (property "Reference" "U2" (id 0) (at 210.82 70.4849 0)
+    (property "Reference" "U5" (id 0) (at 210.82 70.4849 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "PSM-301-Voltage-Regulator" (id 1) (at 210.82 73.0249 0)
@@ -1992,55 +2046,73 @@
     (pin "5" (uuid 0f4e6ddc-a443-4eaa-b729-f513da258e5a))
   )
 
+  (symbol (lib_id "Connector:TestPoint") (at 207.01 124.46 270) (unit 1)
+    (in_bom yes) (on_board yes) (fields_autoplaced)
+    (uuid fbe6b1d9-806f-4340-9324-f603a54663f8)
+    (property "Reference" "TP2" (id 0) (at 212.09 123.1899 90)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Value" "TestPoint" (id 1) (at 212.09 125.7299 90)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Footprint" "" (id 2) (at 207.01 129.54 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (id 3) (at 207.01 129.54 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 1a1f9b02-3833-4a4b-b683-1da3385aa353))
+  )
+
   (sheet_instances
     (path "/" (page "1"))
   )
 
   (symbol_instances
+    (path "/8b3b83f7-2b24-4579-99f9-d104e3403c35"
+      (reference "#PWR01") (unit 1) (value "GND") (footprint "")
+    )
     (path "/1fc10c55-8191-4652-a99f-691fcd384394"
-      (reference "#PWR01") (unit 1) (value "VCC") (footprint "")
+      (reference "#PWR02") (unit 1) (value "VCC") (footprint "")
     )
     (path "/ce3ca6d4-6dd4-4a54-9925-f9a78597994f"
-      (reference "#PWR02") (unit 1) (value "GND") (footprint "")
-    )
-    (path "/303d8a89-50ae-4a1b-bd5d-82490f616998"
       (reference "#PWR03") (unit 1) (value "GND") (footprint "")
     )
-    (path "/6aff7df2-2978-4a26-ac66-75f22e989178"
+    (path "/db972ab2-b5fb-4205-848f-1aa85398e0d0"
       (reference "#PWR04") (unit 1) (value "VCC") (footprint "")
     )
-    (path "/197a7cf3-2288-409b-baa6-76731ae2f19b"
+    (path "/303d8a89-50ae-4a1b-bd5d-82490f616998"
       (reference "#PWR05") (unit 1) (value "GND") (footprint "")
     )
-    (path "/afa54bfb-0f3a-4714-8243-a3c8608fdb67"
+    (path "/6aff7df2-2978-4a26-ac66-75f22e989178"
       (reference "#PWR06") (unit 1) (value "VCC") (footprint "")
     )
-    (path "/ee89e8ec-9cf0-43d6-b1bc-31f2819d9c1d"
+    (path "/197a7cf3-2288-409b-baa6-76731ae2f19b"
       (reference "#PWR07") (unit 1) (value "GND") (footprint "")
     )
-    (path "/289aec91-9ee0-452d-a400-07b27dc669c0"
-      (reference "#PWR08") (unit 1) (value "GND") (footprint "")
-    )
-    (path "/ebc5d39d-cda0-4bde-9987-0c720ccbebd0"
-      (reference "#PWR09") (unit 1) (value "VCC") (footprint "")
+    (path "/afa54bfb-0f3a-4714-8243-a3c8608fdb67"
+      (reference "#PWR08") (unit 1) (value "VCC") (footprint "")
     )
     (path "/91b2fa62-6d51-424a-b6bc-28f3d4391629"
-      (reference "#PWR010") (unit 1) (value "VCC") (footprint "")
+      (reference "#PWR09") (unit 1) (value "VCC") (footprint "")
     )
     (path "/4c787647-1296-428b-8dc3-b9558523d840"
+      (reference "#PWR010") (unit 1) (value "GND") (footprint "")
+    )
+    (path "/ee89e8ec-9cf0-43d6-b1bc-31f2819d9c1d"
       (reference "#PWR011") (unit 1) (value "GND") (footprint "")
     )
-    (path "/52a0511d-0ae3-46a1-aba7-f13cd3fb2bd9"
-      (reference "#PWR0105") (unit 1) (value "VCC") (footprint "")
-    )
     (path "/035c4a9d-bd68-46f5-a91e-e0d85c3b3b9b"
-      (reference "#PWR0106") (unit 1) (value "GND") (footprint "")
+      (reference "#PWR012") (unit 1) (value "GND") (footprint "")
     )
-    (path "/db972ab2-b5fb-4205-848f-1aa85398e0d0"
-      (reference "#PWR0111") (unit 1) (value "VCC") (footprint "")
+    (path "/52a0511d-0ae3-46a1-aba7-f13cd3fb2bd9"
+      (reference "#PWR013") (unit 1) (value "VCC") (footprint "")
     )
-    (path "/8b3b83f7-2b24-4579-99f9-d104e3403c35"
-      (reference "#PWR0114") (unit 1) (value "GND") (footprint "")
+    (path "/289aec91-9ee0-452d-a400-07b27dc669c0"
+      (reference "#PWR014") (unit 1) (value "GND") (footprint "")
+    )
+    (path "/ebc5d39d-cda0-4bde-9987-0c720ccbebd0"
+      (reference "#PWR015") (unit 1) (value "VCC") (footprint "")
     )
     (path "/63822d31-2359-4bc9-b06c-1181217ab6a4"
       (reference "BT1") (unit 1) (value "Battery_Cell") (footprint "ESP32-Walkie-Talkie-Footprints-Remaster:BATTERY-CONTACTS")
@@ -2084,26 +2156,32 @@
     (path "/8092aaf9-931f-44ae-8380-916ce5127956"
       (reference "SW5") (unit 1) (value "XTRA") (footprint "ESP32-Walkie-Talkie-Footprints-Remaster:PUSH-BUTTON-CONTACTS")
     )
-    (path "/9a969628-52ab-4714-ac6a-9ca3d7003ab5"
-      (reference "U1") (unit 1) (value "BAT-C-10TYPEC_(BMS)") (footprint "ESP32-Walkie-Talkie-Footprints-Remaster:BAT-C-10TYPEC-BMS")
+    (path "/3e48d2f8-4ac5-4ebf-8b04-642e7535ea4a"
+      (reference "TP1") (unit 1) (value "TestPoint") (footprint "")
     )
-    (path "/f9fa421f-31c6-4a6d-8614-790ab077f912"
-      (reference "U2") (unit 1) (value "PSM-301-Voltage-Regulator") (footprint "ESP32-Walkie-Talkie-Footprints-Remaster:PSM-301-Voltage-Regulator")
+    (path "/fbe6b1d9-806f-4340-9324-f603a54663f8"
+      (reference "TP2") (unit 1) (value "TestPoint") (footprint "")
     )
-    (path "/8d95fbde-1cc6-44c9-b9f6-c11098d1fc3f"
-      (reference "U3") (unit 1) (value "PBS-LED-1606WH-L_(Toggle_Button)") (footprint "ESP32-Walkie-Talkie-Footprints-Remaster:PBS-LED-1606WH-L-Toggle-Switch")
+    (path "/24e5f562-b3c9-438d-aa7d-32525f265570"
+      (reference "U1") (unit 1) (value "I2S-INMP441_(MIC)") (footprint "ESP32-Walkie-Talkie-Footprints-Remaster:I2SINMP441-MIC")
+    )
+    (path "/d187716d-bf1f-4766-8eed-da05cbe1a24f"
+      (reference "U2") (unit 1) (value "Amplifier") (footprint "ESP32-Walkie-Talkie-Footprints-Remaster:Amplifier")
+    )
+    (path "/db0f0dc4-d53d-49af-97d4-c1a1631d7dec"
+      (reference "U3") (unit 1) (value "ESP-WROOM-32") (footprint "esp32_devkit_v1_doit:esp32_devkit_v1_doit")
     )
     (path "/f8a305e8-0bc6-4f0a-b0fa-387fb8c70c45"
       (reference "U4") (unit 1) (value "I2S-128X64-OLED-LCD_") (footprint "ESP32-Walkie-Talkie-Footprints-Remaster:I2S-128x64-OLED-LCD")
     )
-    (path "/24e5f562-b3c9-438d-aa7d-32525f265570"
-      (reference "U5") (unit 1) (value "I2S-INMP441_(MIC)") (footprint "ESP32-Walkie-Talkie-Footprints-Remaster:I2SINMP441-MIC")
+    (path "/f9fa421f-31c6-4a6d-8614-790ab077f912"
+      (reference "U5") (unit 1) (value "PSM-301-Voltage-Regulator") (footprint "ESP32-Walkie-Talkie-Footprints-Remaster:PSM-301-Voltage-Regulator")
     )
-    (path "/d187716d-bf1f-4766-8eed-da05cbe1a24f"
-      (reference "U6") (unit 1) (value "Amplifier") (footprint "ESP32-Walkie-Talkie-Footprints-Remaster:Amplifier")
+    (path "/9a969628-52ab-4714-ac6a-9ca3d7003ab5"
+      (reference "U6") (unit 1) (value "BAT-C-10TYPEC_(BMS)") (footprint "ESP32-Walkie-Talkie-Footprints-Remaster:BAT-C-10TYPEC-BMS")
     )
-    (path "/db0f0dc4-d53d-49af-97d4-c1a1631d7dec"
-      (reference "U7") (unit 1) (value "ESP-WROOM-32") (footprint "esp32_devkit_v1_doit:esp32_devkit_v1_doit")
+    (path "/8d95fbde-1cc6-44c9-b9f6-c11098d1fc3f"
+      (reference "U7") (unit 1) (value "PBS-LED-1606WH-L_(Toggle_Button)") (footprint "ESP32-Walkie-Talkie-Footprints-Remaster:PBS-LED-1606WH-L-Toggle-Switch")
     )
   )
 )
