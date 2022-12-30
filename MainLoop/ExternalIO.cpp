@@ -12,7 +12,7 @@ byte talkButtonPin = 27;
 byte extraButtonPin = 35;
 
 //Initialize structure
-interfaceButtons buttons[4];
+interfaceButtons buttons[5];
 
 //timing
 const int longPressThreshhold = 250;  //ms
