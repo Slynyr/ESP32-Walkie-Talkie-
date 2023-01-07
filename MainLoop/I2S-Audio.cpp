@@ -101,6 +101,8 @@ void I2SHandlerSRC(void*pvParameters) {
         //Stop I2S when talk button isn't pressed
         i2s_stop(I2S_PORT);
     }
+    //Stop watchdog timer
+    vTaskDelay(1);
   }
 }
 
