@@ -3,6 +3,9 @@
 #include <Arduino.h>
 #include <driver/i2s.h>
 
+extern int bufferLength = 128; 
+extern int16_t bufferContents[bufferLength];
+
 void i2s_install();
 //Starts I2S Driver
 

@@ -1,5 +1,6 @@
 //This file is for ESP peer to peer communication using ESP-NOW
 #include "P2PConnect.h"
+#include "I2S-Audio.h"
 
 //GLOBALS
 
@@ -228,5 +229,23 @@ void broadcast(const String &message) {
 
   //Send data to every connected peer (FF:FF:FF:FF:FF:FF)
   esp_err_t sendResult = esp_now_send(broadcastAddress, (const uint8_t *)message.c_str(), message.length());
-  //Serial.println(sendResult);
+  
+}
+
+void audioBroadcast() {
+  //Broadcast to every device in range (reserved multicast)
+  uint8_t broadcastAddress[] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
+  //Setup peer info struct
+  esp_now_peer_info peerInfo = {};
+  //The address of peerInfo.peer_addr is set to the value of broadcastAddress, which has 6 bits
+  memcpy(&peerInfo.peer_addr, broadcastAddress, 6);
+
+  //Add every MAC as a peer, if it hasn't been done already
+  if (!esp_now_is_peer_exist(broadcastAddress)) {
+    esp_now_add_peer(&peerInfo);
+  }
+
+  //Send data to every connected peer (FF:FF:FF:FF:FF:FF)
+  esp_err_t sendResult = esp_now_send(broadcastAddress, (const uint16_t *)bufferContents, sizeof(bufferContents));
+  Serial.println(sendResult);
 }

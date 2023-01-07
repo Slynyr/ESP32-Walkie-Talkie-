@@ -18,8 +18,7 @@
 //Use I2S Processor 0
 #define I2S_PORT I2S_NUM_0
 
-#define bufferLen 64
-int16_t sBuffer[bufferLen];
+int16_t sBuffer[bufferLength];
 
 //Start multicore
 TaskHandle_t I2SHandler;
@@ -34,7 +33,7 @@ void i2s_install() {
         .communication_format = i2s_comm_format_t(I2S_COMM_FORMAT_STAND_I2S),
         .intr_alloc_flags = 0,
         .dma_buf_count = 4,
-        .dma_buf_len = bufferLen,
+        .dma_buf_len = bufferLength,
         .use_apll = false,
         .tx_desc_auto_clear = false,
         .fixed_mclk = 0
@@ -68,12 +67,17 @@ void I2SHandlerSRC(void*pvParameters) {
     for(;;) {
         // Get I2S data and place in data buffer
         size_t bytesIn = 0;
-        esp_err_t result = i2s_read(I2S_PORT, &sBuffer, bufferLen, &bytesIn, portMAX_DELAY);
+        esp_err_t result = i2s_read(I2S_PORT, &sBuffer, bufferLength, &bytesIn, portMAX_DELAY);
 
       if (result == ESP_OK)
       { 
-        //Speaker Passthrough
-        i2s_write(I2S_PORT, &sBuffer, bufferLen, &bytesIn, portMAX_DELAY);
+        if (buttons[4].currentState == HIGH){
+          //Speaker Passthrough
+          i2s_write(I2S_PORT, &sBuffer, bufferLength, &bytesIn, portMAX_DELAY);
+        }
+
+        Serial.println(sizeof(sBuffer));
+        bufferContents = &sBuffer;
       }
     }
 }

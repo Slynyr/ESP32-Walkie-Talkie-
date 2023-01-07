@@ -53,4 +53,7 @@ void P2PInitialize();
 void broadcast(const String &message);
 //Broadcast the incoming string
 
+void audioBroadcast();
+//Broadcast I2S Buffer
+
 #endif

@@ -31,7 +31,7 @@ void setup() {
 void loop() {
   //Update millis
   unsigned long currentMillis = millis();
-  
+
   getP2PMillis(currentMillis);
 
   getDisplayMillis(currentMillis);
@@ -43,7 +43,10 @@ void loop() {
   ioUpdate();
 
   //Broadcast demo
-  broadcast("AMONGUS");
+  //broadcast("AMONGUS");
+
+  //Audio broadcast
+  audioBroadcast();
 
   //Pass battery value to display every 10s
   if (currentMillis - previousBatteryMillis >= 10000) {
