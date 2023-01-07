@@ -5,6 +5,7 @@
 //ARDUINO AND EVENTS MUST RUN ON CORE 1
 #include "P2PConnect.h"
 #include "I2S-Audio.h"
+#include "ExternalIO.h"
 #include <Arduino.h>
 
 //Mic Definitions
@@ -17,8 +18,8 @@
 
 //Use I2S Processor 0
 #define I2S_PORT I2S_NUM_0
-
-int16_t sBuffer[bufferLength];
+#define bufferLength 128
+int8_t sBuffer[128];
 
 //Start multicore
 TaskHandle_t I2SHandler;
@@ -72,12 +73,10 @@ void I2SHandlerSRC(void*pvParameters) {
       if (result == ESP_OK)
       { 
         if (buttons[4].currentState == HIGH){
+          Serial.println("WE GOT HERE");
           //Speaker Passthrough
           i2s_write(I2S_PORT, &sBuffer, bufferLength, &bytesIn, portMAX_DELAY);
         }
-
-        Serial.println(sizeof(sBuffer));
-        bufferContents = &sBuffer;
       }
     }
 }

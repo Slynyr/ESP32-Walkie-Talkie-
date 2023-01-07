@@ -246,6 +246,6 @@ void audioBroadcast() {
   }
 
   //Send data to every connected peer (FF:FF:FF:FF:FF:FF)
-  esp_err_t sendResult = esp_now_send(broadcastAddress, (const uint16_t *)bufferContents, sizeof(bufferContents));
+  esp_err_t sendResult = esp_now_send(broadcastAddress, (const uint8_t *)sBuffer, sizeof(sBuffer));
   Serial.println(sendResult);
 }
