@@ -10,6 +10,9 @@
 
 //External global
 extern int userCountP2P;
+extern int8_t incomingBuffer[128];
+extern int incomingBufferLength;
+extern bool bufferReceived;
 
 #define MAC_ADDRESS_STRING_SIZE 18
 
@@ -49,9 +52,6 @@ void receiveCallback(const uint8_t *macAddr, const uint8_t *data, int dataLen);
 
 void P2PInitialize();
 //Initialize the P2P functionality
-
-void broadcast(const String &message);
-//Broadcast the incoming string
 
 void audioBroadcast();
 //Broadcast I2S Buffer

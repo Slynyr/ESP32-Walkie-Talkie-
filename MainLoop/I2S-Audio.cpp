@@ -19,7 +19,7 @@
 //Use I2S Processor 0
 #define I2S_PORT I2S_NUM_0
 #define bufferLength 128
-int8_t sBuffer[128];
+int8_t outgoingBuffer[128];
 
 //Start multicore
 TaskHandle_t I2SHandler;
@@ -64,21 +64,44 @@ void i2s_init() {
 void I2SHandlerSRC(void*pvParameters) {
   Serial.print("I2S running on core: ");
   Serial.println(xPortGetCoreID());
-    //Loop audio process
-    for(;;) {
-        // Get I2S data and place in data buffer
-        size_t bytesIn = 0;
-        esp_err_t result = i2s_read(I2S_PORT, &sBuffer, bufferLength, &bytesIn, portMAX_DELAY);
+  //Loop audio process
+  for(;;) {
+    size_t bytesIn = 0;
 
-      if (result == ESP_OK)
-      { 
-        if (buttons[4].currentState == HIGH){
-          Serial.println("WE GOT HERE");
-          //Speaker Passthrough
-          i2s_write(I2S_PORT, &sBuffer, bufferLength, &bytesIn, portMAX_DELAY);
+    // Buffer received from peer
+    if (bufferReceived) {
+      esp_err_t startResult = i2s_start(I2S_PORT); 
+
+      if (startResult == ESP_OK) {
+        i2s_write(I2S_PORT, &incomingBuffer, incomingBufferLength, &bytesIn, portMAX_DELAY);
+      }
+
+      //If causing choppy audio, remove and clear buffer instead
+      i2s_stop(I2S_PORT);
+    }
+
+    // Only Read if talk button is pressed
+    // Get I2S data and place in data buffer
+    else if (buttons[3].currentState == HIGH) {
+      esp_err_t startResult = i2s_start(I2S_PORT);
+
+      if (startResult == ESP_OK) {
+        esp_err_t readResult = i2s_read(I2S_PORT, &outgoingBuffer, bufferLength, &bytesIn, portMAX_DELAY);
+        if (readResult == ESP_OK) { 
+          // Extra Button
+          if (buttons[4].currentState == HIGH){
+            // Speaker Passthrough Debug
+            i2s_write(I2S_PORT, &outgoingBuffer, bufferLength, &bytesIn, portMAX_DELAY);
+          }
         }
       }
+    } 
+    
+    else {
+        //Stop I2S when talk button isn't pressed
+        i2s_stop(I2S_PORT);
     }
+  }
 }
 
 void i2s_startTask() {

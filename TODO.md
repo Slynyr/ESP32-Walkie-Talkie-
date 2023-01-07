@@ -14,15 +14,15 @@
 
 ## I2S Audio
 - [x] Get data from microphone
-- [ ] Split it into groups of 250 bytes & transmit
-- [ ] Store incoming audio in circular buffer & play over speaker
-- [ ] Talk control - no audio is played when talk button is held
+- [x] Split it into groups of 250 bytes & transmit
+- [x] Store incoming audio in circular buffer & play over speaker
+- [x] Talk control - no audio is played when talk button is held
 - [ ] Channel sweep for activity with fft
 - [x] Specific process core pinning (I2S Core 1, all other functions core 0) 
 
 ## Hardware
 - [x] Screen navigation buttons
-- [ ] Talk button
+- [x] Talk button
 - [x] Hook up battery sens
 - [x] BMS + Voltage Reg
 - [x] Power Switch

@@ -1,8 +1,12 @@
 //This file is for ESP peer to peer communication using ESP-NOW
 #include "P2PConnect.h"
 #include "I2S-Audio.h"
+#include "ExternalIO.h"
 
 //GLOBALS
+bool bufferReceived;
+int8_t incomingBuffer[128];
+int incomingBufferLength;
 
 const byte timeoutTime = 1;
 unsigned long previousCompareMillis = 0;
@@ -144,36 +148,31 @@ int countUsers() {
 }
 
 void formatMacAddress(const uint8_t *macAddr, char *buffer, int maxLength)
-//Formats MAC Address
+//Formats MAC Address into string
 {
   snprintf(buffer, maxLength, "%02x:%02x:%02x:%02x:%02x:%02x", macAddr[0], macAddr[1], macAddr[2], macAddr[3], macAddr[4], macAddr[5]);
 }
 
-void receiveCallback(const uint8_t *macAddr, const uint8_t *data, int dataLen)
-//Rewrite so incoming data is stored in a circular buffer
+void receiveCallback(const uint8_t *macAddr, const uint8_t *incomingBufferData, int bufferLength)
 //Called when data is received
 {
   //Format the MAC address
   char macStr[18];
   formatMacAddress(macAddr, macStr, 18);
 
-  //Serial.printf("Received message of size %d from mac %s\n", dataLen, macStr);
-
-  //Only allow a maximum of 250 characters in the message + a "0" terminating byte
-  char buffer[ESP_NOW_MAX_DATA_LEN + 1];
-  //Compare the length of max allowed data and actual length of incoming data
-  int msgLen = min(ESP_NOW_MAX_DATA_LEN, dataLen);
-  //Copy the incoming data to the buffer, limiting it to msgLen length
-  strncpy(buffer, (const char *)data, msgLen);
-
-  //Make sure we are "0" terminated (string thing) (remove)
-  buffer[msgLen] = 0;
-
   //Update known macs
   updateActiveRollingArray(macStr);
 
-  //Send Debug log message to the serial port
-  //Serial.printf("Received message from: %s - %s\n", macStr, buffer);
+  // Don't recieve if talk button is pressed
+  if (!buttons[3].currentState == HIGH) {
+      // Copy incoming data into the incoming buffer
+      memcpy(&incomingBuffer, incomingBufferData, bufferLength);
+      // Notify I2S process
+      bufferReceived = true;
+      // Update global
+      incomingBufferLength = bufferLength;
+  }
+  bufferReceived = false;
 }
 
 void sentCallback(const uint8_t *macAddr, esp_now_send_status_t deliveryStatus)
@@ -213,25 +212,6 @@ void P2PInitialize() {
   }
 }
 
-void broadcast(const String &message) {
-  //Need to add a way to break down message into ESP_NOW_MAX_DATA_LEN chunks (circular buffer)
-  //Broadcast to every device in range (reserved multicast)
-  uint8_t broadcastAddress[] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
-  //Setup peer info struct
-  esp_now_peer_info peerInfo = {};
-  //The address of peerInfo.peer_addr is set to the value of broadcastAddress, which has 6 bits
-  memcpy(&peerInfo.peer_addr, broadcastAddress, 6);
-
-  //Add every MAC as a peer, if it hasn't been done already
-  if (!esp_now_is_peer_exist(broadcastAddress)) {
-    esp_now_add_peer(&peerInfo);
-  }
-
-  //Send data to every connected peer (FF:FF:FF:FF:FF:FF)
-  esp_err_t sendResult = esp_now_send(broadcastAddress, (const uint8_t *)message.c_str(), message.length());
-  
-}
-
 void audioBroadcast() {
   //Broadcast to every device in range (reserved multicast)
   uint8_t broadcastAddress[] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
@@ -245,7 +225,10 @@ void audioBroadcast() {
     esp_now_add_peer(&peerInfo);
   }
 
-  //Send data to every connected peer (FF:FF:FF:FF:FF:FF)
-  esp_err_t sendResult = esp_now_send(broadcastAddress, (const uint8_t *)sBuffer, sizeof(sBuffer));
-  Serial.println(sendResult);
+  // Only send if talk button is pressed
+  if (buttons[3].currentState == HIGH) {
+    //Send data to every connected peer (FF:FF:FF:FF:FF:FF)
+    esp_err_t sendResult = esp_now_send(broadcastAddress, (const uint8_t *)outgoingBuffer, sizeof(outgoingBuffer));
+    Serial.println(sendResult);
+  } 
 }

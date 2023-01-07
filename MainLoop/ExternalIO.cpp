@@ -56,7 +56,7 @@ unsigned short int pollBattery() {
 void pushButtonState() {
   unsigned long pressDuration = 0;
 
-  for (int i = 0; i < 3; i++) {
+  for (int i = 0; i <= 4; i++) {
     // 0 is unpressed, 1 is pressed
     buttons[i].currentState = digitalRead(buttons[i].buttonPin);
     if (buttons[i].previousState == LOW && buttons[i].currentState == HIGH) {  //Button pressed
