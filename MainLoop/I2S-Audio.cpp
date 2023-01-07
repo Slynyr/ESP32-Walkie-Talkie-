@@ -67,39 +67,32 @@ void I2SHandlerSRC(void*pvParameters) {
   //Loop audio process
   for(;;) {
     size_t bytesIn = 0;
-
     // Buffer received from peer
     if (bufferReceived) {
-      esp_err_t startResult = i2s_start(I2S_PORT); 
-
-      if (startResult == ESP_OK) {
-        i2s_write(I2S_PORT, &incomingBuffer, incomingBufferLength, &bytesIn, portMAX_DELAY);
-      }
-
-      //If causing choppy audio, remove and clear buffer instead
-      i2s_stop(I2S_PORT);
+      i2s_write(I2S_PORT, &incomingBuffer, incomingBufferLength, &bytesIn, portMAX_DELAY);
     }
 
     // Only Read if talk button is pressed
     // Get I2S data and place in data buffer
     else if (buttons[3].currentState == HIGH) {
-      esp_err_t startResult = i2s_start(I2S_PORT);
+      esp_err_t readResult = i2s_read(I2S_PORT, &outgoingBuffer, bufferLength, &bytesIn, portMAX_DELAY);
+      if (readResult == ESP_OK) { 
+        // Extra Button
+        if (buttons[4].currentState == HIGH){
+          // Speaker Passthrough Debug
+          i2s_write(I2S_PORT, &outgoingBuffer, bufferLength, &bytesIn, portMAX_DELAY);
+        }
 
-      if (startResult == ESP_OK) {
-        esp_err_t readResult = i2s_read(I2S_PORT, &outgoingBuffer, bufferLength, &bytesIn, portMAX_DELAY);
-        if (readResult == ESP_OK) { 
-          // Extra Button
-          if (buttons[4].currentState == HIGH){
-            // Speaker Passthrough Debug
-            i2s_write(I2S_PORT, &outgoingBuffer, bufferLength, &bytesIn, portMAX_DELAY);
-          }
+        else {
+          //Silence the TX buffer
+           i2s_zero_dma_buffer(I2S_PORT);
         }
       }
     } 
     
     else {
-        //Stop I2S when talk button isn't pressed
-        i2s_stop(I2S_PORT);
+        //Silence I2S when nothing is transmitting
+        i2s_zero_dma_buffer(I2S_PORT);
     }
     //Stop watchdog timer
     vTaskDelay(1);

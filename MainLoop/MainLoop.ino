@@ -32,8 +32,6 @@ void loop() {
   //Update millis
   unsigned long currentMillis = millis();
 
-  Serial.println(buttons[4].currentState);
-
   getP2PMillis(currentMillis);
 
   getDisplayMillis(currentMillis);
