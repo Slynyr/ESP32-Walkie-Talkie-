@@ -37,6 +37,11 @@
 - [ ] Update connection icons
 - [ ] UDP Connection Icon
 - [ ] Node Mode Screen
+- [ ] Debug Menu  
+  - [ ] Test buttons
+  - [ ] Reset battery config
+  - [ ] Test Display
+  - [ ] Test audio passthrough
 
 ## Extras
 - [ ] Stats (Power on time, Battery cycles, Talk time)

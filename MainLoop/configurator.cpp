@@ -1,42 +1,73 @@
 #include "UpdateDisplay.h"
-#include "configurator.h"
+#include "Configurator.h"
 
-//predefined memory address for battery offset and configurator status 
-int isConfigCompleteAddr = 1000;
-int batteryOffsetAddr = 1101; //tbd
-
-
-bool ignoreConfig = false; //debug
-bool isConfigComplete = EEPROM.get(isConfigCompleteAddr, isConfigComplete); 
 float actualBatteryVoltage; 
-float batteryOffset = EEPROM.get(batteryOffsetAddr, batteryOffset); 
 float serialRead;
+bool isConfigComplete;
+bool warningPrinted= false;
 
-void configureBatteryOffset(){
-    if (actualBatteryVoltage){
-        Serial.printf("Wrote %d to memory\n", actualBatteryVoltage);
-        EEPROM.put(isConfigCompleteAddr, true);
-        EEPROM.put(batteryOffsetAddr, actualBatteryVoltage);
-        EEPROM.get(isConfigCompleteAddr, isConfigComplete); 
-        EEPROM.get(batteryOffsetAddr, batteryOffset); 
-        Serial.printf("Current battery offset value in memory: %d\n", batteryOffset);
+// Start preferences
+Preferences preferences;
+
+bool configureBatteryOffset() {
+    preferences.begin("batterySetting", false);
+
+    // Temp erase config 
+    preferences.clear();
+
+    bool isConfigComplete = preferences.getBool("configStatus", false);
+    float batteryOffset = preferences.getFloat("batteryOffset", 0);
+
+    if (batteryOffset == 0) {
+        preferences.putBool("configStatus", false);
     }
+
+    if (actualBatteryVoltage != 0) {
+        // Update values if they have changed
+        isConfigComplete = true;
+        preferences.putBool("configStatus", true);
+        preferences.putFloat("batteryOffset", actualBatteryVoltage);
+
+        Serial.print("Wrote, current battery offset value in memory: ");
+        Serial.println(preferences.getFloat("batteryOffset", 0));
+
+        if (preferences.getBool("configStatus", false)) {
+            Serial.println("Setup Complete.");
+        }
+    }
+
+    else {
+        // Nothing updated, use current values
+        preferences.putBool("configStatus", isConfigComplete);
+        preferences.putFloat("batteryOffset", batteryOffset);
+    }
+
+    return isConfigComplete;
 }
 
-void serialManagerBatteryConfig(){
-    Serial.println("[CONFIG] Input current battery voltage into the serial monitor in order to complete setup process");
+void serialManagerBatteryConfig() {
+    Serial.println("[CONFIG] Warning: Input current battery voltage into the serial monitor in order to complete setup process");
+
     drawText(true, 64, 32, 3, "Configure Battery", "WHITE");
 
-    serialRead = Serial.parseFloat();
-    if (serialRead != 0){
-      actualBatteryVoltage = serialRead;
-      Serial.printf("Updated battery offset to: %d\n", actualBatteryVoltage);
-      configureBatteryOffset();
+    if (Serial.available()) {
+        serialRead = Serial.parseFloat();
+    }
+
+    if (serialRead != 0) {
+        actualBatteryVoltage = serialRead;
+        Serial.print("Updated battery offset to: ");
+        Serial.println(actualBatteryVoltage);
+        isConfigComplete = configureBatteryOffset();
     }
 }
 
-void configurator(){
-    if (!ignoreConfig || !isConfigComplete){
+void configurator() {
+    if (!isConfigComplete) {
         serialManagerBatteryConfig();
+    }
+
+    else {
+        preferences.end();
     }
 }
