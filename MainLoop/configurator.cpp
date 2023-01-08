@@ -7,18 +7,18 @@ int batteryOffsetAddr = 1101; //tbd
 
 
 bool ignoreConfig = false; //debug
-bool isConfigComplete = EEPROM.read(isConfigCompleteAddr); 
+bool isConfigComplete = EEPROM.get(isConfigCompleteAddr, isConfigComplete); 
 float actualBatteryVoltage; 
-float batteryOffset = EEPROM.read(batteryOffsetAddr); 
+float batteryOffset = EEPROM.get(batteryOffsetAddr, batteryOffset); 
 float serialRead;
 
 void configureBatteryOffset(){
     if (actualBatteryVoltage){
         Serial.printf("Wrote %d to memory\n", actualBatteryVoltage);
-        EEPROM.write(isConfigCompleteAddr, true);
-        EEPROM.write(batteryOffsetAddr, actualBatteryVoltage);
-        isConfigComplete = EEPROM.read(isConfigCompleteAddr); 
-        batteryOffset = EEPROM.read(batteryOffsetAddr); 
+        EEPROM.put(isConfigCompleteAddr, true);
+        EEPROM.put(batteryOffsetAddr, actualBatteryVoltage);
+        EEPROM.get(isConfigCompleteAddr, isConfigComplete); 
+        EEPROM.get(batteryOffsetAddr, batteryOffset); 
         Serial.printf("Current battery offset value in memory: %d\n", batteryOffset);
     }
 }
