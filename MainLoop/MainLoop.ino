@@ -2,6 +2,7 @@
 #include "ExternalIO.h"
 #include "P2PConnect.h"
 #include "I2S-Audio.h"
+#include "configurator.h"
 
 unsigned long previousBatteryMillis = 0;
 
@@ -55,4 +56,6 @@ void loop() {
   }
 
   compareActiveRollingArray();
+
+  configurator();
 }

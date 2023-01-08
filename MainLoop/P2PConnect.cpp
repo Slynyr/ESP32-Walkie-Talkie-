@@ -229,6 +229,5 @@ void audioBroadcast() {
   if (buttons[3].currentState == HIGH) {
     //Send data to every connected peer (FF:FF:FF:FF:FF:FF)
     esp_err_t sendResult = esp_now_send(broadcastAddress, (const uint8_t *)outgoingBuffer, sizeof(outgoingBuffer));
-    Serial.println(sendResult);
   } 
 }

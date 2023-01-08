@@ -1,36 +1,42 @@
-/*
 #include "UpdateDisplay.h"
 #include "configurator.h"
 
 //predefined memory address for battery offset and configurator status 
 int isConfigCompleteAddr = 1000;
-int batteryOffsetAddr = 1001; //tbd
+int batteryOffsetAddr = 1101; //tbd
 
 
 bool ignoreConfig = false; //debug
 bool isConfigComplete = EEPROM.read(isConfigCompleteAddr); 
-int actualBatteryVoltage; 
-int batteryOffset = EEPROM.read(batteryOffsetAddr); 
+float actualBatteryVoltage; 
+float batteryOffset = EEPROM.read(batteryOffsetAddr); 
+float serialRead;
 
 void configureBatteryOffset(){
-    drawText(true, 64, 32, 3, "Configure Battery");
-    serialManagerBatteryConfig();
     if (actualBatteryVoltage){
+        Serial.printf("Wrote %d to memory\n", actualBatteryVoltage);
         EEPROM.write(isConfigCompleteAddr, true);
         EEPROM.write(batteryOffsetAddr, actualBatteryVoltage);
+        isConfigComplete = EEPROM.read(isConfigCompleteAddr); 
+        batteryOffset = EEPROM.read(batteryOffsetAddr); 
+        Serial.printf("Current battery offset value in memory: %d\n", batteryOffset);
     }
 }
 
 void serialManagerBatteryConfig(){
     Serial.println("[CONFIG] Input current battery voltage into the serial monitor in order to complete setup process");
-    if (Serial.readInt()){
-        actualBatteryVoltage = Serial.readInt();
+    drawText(true, 64, 32, 3, "Configure Battery", "WHITE");
+
+    serialRead = Serial.parseFloat();
+    if (serialRead != 0){
+      actualBatteryVoltage = serialRead;
+      Serial.printf("Updated battery offset to: %d\n", actualBatteryVoltage);
+      configureBatteryOffset();
     }
 }
 
 void configurator(){
     if (!ignoreConfig || !isConfigComplete){
-        configureBatteryOffset();
+        serialManagerBatteryConfig();
     }
 }
-*/
