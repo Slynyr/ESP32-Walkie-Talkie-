@@ -9,6 +9,9 @@ unsigned long previousBatteryMillis = 0;
 void setup() {
   Serial.begin(115200);
 
+  initializeConfigurator();
+  //initializes configurator
+
   //Specific Init Order DO NOT CHANGE!
   //Initialize P2P
   P2PInitialize();

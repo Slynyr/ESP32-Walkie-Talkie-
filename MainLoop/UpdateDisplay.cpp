@@ -3,12 +3,13 @@
 #include "ExternalIO.h"
 #include "Sprites.h"
 #include "P2PConnect.h"
+#include "configurator.h"
 
 //Globals
 float voltageLevel;
 unsigned short int batteryLevel;
 bool connectionStatus = false;
-char *state = "debug";
+char *state = "main";
 int userCount = 0;
 int channelCount = 0; 
 int menuPosition = 0;
@@ -101,8 +102,9 @@ void batteryIndicatorValues() {
   //1850-> ~3.5V, 2250-> ~4.2V Using R1 2K2 R2 2K
   //School PSU
   //1985-> ~3.5V, 2400-> ~4.2V Using R1 2K2 R2 1K+1K
-  batteryLevel = map(pollBattery(), 1805, 2205, 0, 8);
-  voltageLevel = ((pollBattery() * 4.2) / 2205);
+  batteryLevel = (map(pollBattery(), 1805, 2205, 0, 8) * batteryOffset);
+  voltageLevel = (((pollBattery() * 4.2) / 2205) * batteryOffset);
+  Serial.println(batteryOffset);
 }
 
 void batteryWarnToggle() {
@@ -112,7 +114,7 @@ void batteryWarnToggle() {
       drawText(true, 64, 50, 1, "OK to dismiss", "WHITE");
       isActiveNotification = true;
 
-      if (rawPushButton() == HIGH) {
+      if (buttons[2].pressStatus == "SHORT" ||buttons[2].pressStatus == "LONG") {
         isWarnDismissed = true;
       }
     }
@@ -206,6 +208,13 @@ void testPushButton(){
    //buttonPin, pressStatus, samepress, previousestatem currentstate
  }
 
+void interfaceManager(){
+  if (buttons[2].pressStatus == "LONG"){
+    Serial.print("Long press detected");
+    state = "menu";
+  }
+}
+
 void Counter(int& counterInt, int min, int max){
   if (!isActiveNotification){
     if (buttons[0].pressStatus == "SHORT" || buttons[0].pressStatus == "LONG"){
@@ -230,6 +239,11 @@ bool settingWidget(auto param, int min=0, int max=0){
 }
 */
 
+void uiHeader(char* text){
+  display.fillRect(0, 14, 128, 2, WHITE); // Menu bar
+  drawText(true, 64, 4, 1, text, "WHITE");
+}
+
 
 void renderMenu(std::vector<std::string>& menuArray,int sizeofArray, int position, int vertStep, int textSize){
   Counter(position, 0, menuArray.size());
@@ -243,8 +257,9 @@ void renderMenu(std::vector<std::string>& menuArray,int sizeofArray, int positio
       drawText(false, 10,  (startX + (vertStep * i)), textSize, (char*) menuArray[i].c_str(), "WHITE");
     } else {
       //display.drawRect(5, (startX + (vertStep * i)), 100, 8, WHITE); //Dumpster fire
-      display.fillRect(0, 0, 128, 15, WHITE); // Menu bar
-      drawText(true, 64, 4, 1, "Options Menus", "BLACK");
+      //display.fillRect(0, 0, 128, 15, WHITE); // Menu bar
+      //drawText(true, 64, 4, 1, "Options Menus", "BLACK");
+      uiHeader("Options Menu");
       //Options and select box
       display.fillRect(8 + horPosOffset,  (startX + (vertStep * i)) - 1 + vertPosOffset, 110, 9, WHITE);
       display.drawRect(6 + horPosOffset, (startX + (vertStep * i)) - 3 + vertPosOffset, 114, 13, WHITE);
@@ -252,6 +267,19 @@ void renderMenu(std::vector<std::string>& menuArray,int sizeofArray, int positio
       Serial.printf("[WARN] Printing black text %s\n", menuArray[i].c_str());
     }
   }
+
+  //SELECTING
+  if (buttons[2].pressStatus == "SHORT"){
+    Serial.println(menuArray[position].c_str());
+    //Need to create unique state manager for modifying obj's in order to avoid main state manager clutter
+  }
+
+  //input chec
+  /*
+  if (buttons[2].pressStatus == "LONG" && !buttons[2].samePress){
+    state = "main";
+  }
+  */ //SAME PRESS INTEGRATION IS BROKEN
 }
 
 /*
@@ -347,6 +375,7 @@ void displayUpdate() {
     lowerScreenMain(channelCount, userCountP2P);
     //testPushButton();
     Counter(channelCount, 0, 14);
+    interfaceManager();
 
     //Update display
   } else if (state == "splash") {
