@@ -24,8 +24,9 @@ void configureBatteryOffset(){
     Serial.printf("Current batteryOffset value in memory: %.2f\n", batteryOffset);
 }
 
-void serialManagerBatteryConfig(){
-    Serial.println("[CONFIG] Input current battery voltage into the serial monitor in order to complete setup process");
+void serialManagerBatteryConfig() {
+    Serial.println("[CONFIG] Warning: Input current battery voltage into the serial monitor in order to complete setup process");
+
     drawText(true, 64, 32, 3, "Configure Battery", "WHITE");
 
     serialRead = Serial.parseFloat();
