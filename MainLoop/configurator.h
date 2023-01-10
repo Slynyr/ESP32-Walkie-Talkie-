@@ -12,7 +12,7 @@ void initializeConfigurator();
 void configurator();
 //main configurator loop
 
-bool configureBatteryOffset();
+void configureBatteryOffset();
 //updates and refreshes battery values whenever a change is called for
 
 void serialManagerBatteryConfig();
