@@ -246,12 +246,15 @@ void uiHeader(char* text){
 
 
 void renderMenu(std::vector<std::string>& menuArray,int sizeofArray, int position, int vertStep, int textSize){
+
   Counter(position, 0, menuArray.size());
   int startX = 18; 
   int index = 0; //ill change l ater
   int vertPosOffset = 1;
   int horPosOffset = 0;
 
+  uiHeader("Options Menu");
+  
   for (int i = 0; i < menuArray.size(); i++){
     if (position != i){
       drawText(false, 10,  (startX + (vertStep * i)), textSize, (char*) menuArray[i].c_str(), "WHITE");
@@ -259,7 +262,6 @@ void renderMenu(std::vector<std::string>& menuArray,int sizeofArray, int positio
       //display.drawRect(5, (startX + (vertStep * i)), 100, 8, WHITE); //Dumpster fire
       //display.fillRect(0, 0, 128, 15, WHITE); // Menu bar
       //drawText(true, 64, 4, 1, "Options Menus", "BLACK");
-      uiHeader("Options Menu");
       //Options and select box
       display.fillRect(8 + horPosOffset,  (startX + (vertStep * i)) - 1 + vertPosOffset, 110, 9, WHITE);
       display.drawRect(6 + horPosOffset, (startX + (vertStep * i)) - 3 + vertPosOffset, 114, 13, WHITE);
