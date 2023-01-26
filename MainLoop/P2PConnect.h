@@ -3,16 +3,22 @@
 #define ESP_MAX_P2P 20
 // 20 - 1 user for array usage
 #define ESP_MAX_P2P_ARR 19
-#include <Arduino.h>
 
+#include <Arduino.h>
 #include "WiFi.h"
 #include "esp_now.h"
 
+
+typedef struct packet_header_t
+{
+    uint8_t packetType;
+};
+
 //External global
 extern int userCountP2P;
-extern int8_t incomingBuffer[128];
-extern int incomingBufferLength;
-extern bool bufferReceived;
+const uint8_t heardbeatPacketType = 1;
+const uint8_t audioPacketType = 1;
+
 
 #define MAC_ADDRESS_STRING_SIZE 18
 
@@ -53,7 +59,11 @@ void receiveCallback(const uint8_t *macAddr, const uint8_t *data, int dataLen);
 void P2PInitialize();
 //Initialize the P2P functionality
 
-void audioBroadcast();
-//Broadcast I2S Buffer
+void send_start_broadcasting_message();
+bool is_start_broadcasting_message(const uint8_t *data, int dataLen);
+void send_end_broacasting_message();
+bool is_end_broadcasting_message(const uint8_t *data, int dataLen);
+void broadcast_audio(int16_t* audioData, int audioDataSize);
+
 
 #endif

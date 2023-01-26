@@ -3,11 +3,19 @@
 #include "P2PConnect.h"
 #include "I2S-Audio.h"
 #include "configurator.h"
+#include "AudioBuffer.h"
+#include "Statistics.h"
 
 unsigned long previousBatteryMillis = 0;
 
 void setup() {
   Serial.begin(115200);
+
+  // Initialize Statistics
+
+  statistics_init();
+  // Initialize Audio Buffer
+  audioBuffer = new AudioBuffer();
 
   initializeConfigurator();
   //initializes configurator
@@ -29,7 +37,7 @@ void setup() {
   i2s_init();
 
   //Start multicore I2S
-  i2s_startTask();
+  i2s_start();
 }
 
 void loop() {
@@ -46,13 +54,7 @@ void loop() {
   //Update IO Values
   ioUpdate();
 
-  //Broadcast demo
-  //broadcast("AMONGUS");
-
-  //Audio broadcast
-  audioBroadcast();
-
-  //Pass battery value to display every 10s
+  // Pass battery value to display every 10s
   if (currentMillis - previousBatteryMillis >= 10000) {
     previousBatteryMillis = currentMillis;
     batteryIndicatorValues();
