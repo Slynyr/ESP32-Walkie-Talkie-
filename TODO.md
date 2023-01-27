@@ -45,3 +45,6 @@
 
 ## Extras
 - [ ] Stats (Power on time, Battery cycles, Talk time)
+
+## General
+- [ ] Sanitize KiCAD Files
