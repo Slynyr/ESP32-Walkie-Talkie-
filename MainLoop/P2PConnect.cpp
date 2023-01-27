@@ -2,18 +2,23 @@
 #include "P2PConnect.h"
 #include "I2S-Audio.h"
 #include "ExternalIO.h"
+#include "AudioBuffer.h"
+#include "Statistics.h"
+
+#include "WiFi.h"
+#include "esp_now.h"
 
 //GLOBALS
 bool bufferReceived;
-int8_t incomingBuffer[128];
-int incomingBufferLength;
 
-const byte timeoutTime = 1;
+const byte timeoutTime = 3; //seconds
 unsigned long previousCompareMillis = 0;
 unsigned long currentCompareMillis;
 char activeMacAddressArray[ESP_MAX_P2P][MAC_ADDRESS_STRING_SIZE] = {0};
 char rollingMacAddressArray[ESP_MAX_P2P][MAC_ADDRESS_STRING_SIZE] = {0};
 int userCountP2P = 0;
+
+static const uint8_t heartbeatMessage = 0xff;
 
 void dumpArray(char arrayIn[ESP_MAX_P2P][MAC_ADDRESS_STRING_SIZE]){
   int numberOfSlotsUsed = countUsers();
@@ -157,35 +162,63 @@ void receiveCallback(const uint8_t *macAddr, const uint8_t *incomingBufferData, 
 //Called when data is received
 {
   //Format the MAC address
-  char macStr[18];
+  // Check if the Talk button is pressed. If so, discard the data (don't write it to the Audio Buffer)
+    // Write the data to the Audio Buffer
+  bool isHeartbeatMessage = false;
+  if (bufferLength == sizeof(heartbeatMessage))
+  {
+    if(memcmp(incomingBufferData, &heartbeatMessage, bufferLength)==0)
+    {
+      isHeartbeatMessage = true;
+    }
+  }
+  else
+  {
+    audioBuffer->write((int16_t *)incomingBufferData, bufferLength / sizeof(int16_t));
+    statistics.NumberOfSamplesReceived += bufferLength / sizeof(int16_t);
+    statistics.BytesReceived += bufferLength;
+  }
+  
+  
+  // Do this last for the moment 
+  
+  char macStr[18] = { 0 };
   formatMacAddress(macAddr, macStr, 18);
 
-  //Update known macs
+   //Update known macs
   updateActiveRollingArray(macStr);
 
-  // Don't recieve if talk button is pressed
-  if (!buttons[3].currentState == HIGH) {
-      // Copy incoming data into the incoming buffer
-      memcpy(&incomingBuffer, incomingBufferData, bufferLength);
-      // Notify I2S process
-      bufferReceived = true;
-      // Update global
-      incomingBufferLength = bufferLength;
+  if(isHeartbeatMessage)
+  {
+    Serial.printf("Received heartbeat from MAC=%s\n", macStr);
   }
-  bufferReceived = false;
+ 
 }
 
-void sentCallback(const uint8_t *macAddr, esp_now_send_status_t deliveryStatus)
-//Called when data is sent
+// void sentCallback(const uint8_t *macAddr, esp_now_send_status_t deliveryStatus)
+// //Called when data is sent
+// {
+//   char macStr[18];
+//   formatMacAddress(macAddr, macStr, 18);
+//   /*
+//   Serial.print("Last Packet Sent to: ");
+//   Serial.println(macStr);
+//   Serial.print("Last Packet Send Status: ");
+//   Serial.println(deliveryStatus == ESP_NOW_SEND_SUCCESS ? "Delivery Success" : "Delivery Fail");
+//   */
+// }
+
+void network_task(void *pvParameters)
 {
-  char macStr[18];
-  formatMacAddress(macAddr, macStr, 18);
-  /*
-  Serial.print("Last Packet Sent to: ");
-  Serial.println(macStr);
-  Serial.print("Last Packet Send Status: ");
-  Serial.println(deliveryStatus == ESP_NOW_SEND_SUCCESS ? "Delivery Success" : "Delivery Fail");
-  */
+  Serial.printf("Network task started on core %d\n", xPortGetCoreID());
+  const uint8_t broadcastAddress[] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
+
+  while(true)
+  {
+    esp_now_send(broadcastAddress, (const uint8_t *)&heartbeatMessage, sizeof(heartbeatMessage));
+    Serial.println("Heartbeat message sent");
+    vTaskDelay(1000 / portTICK_PERIOD_MS);
+  }
 }
 
 void P2PInitialize() {
@@ -202,7 +235,7 @@ void P2PInitialize() {
 
     //Define callback functions
     esp_now_register_recv_cb(receiveCallback);
-    esp_now_register_send_cb(sentCallback);
+    //esp_now_register_send_cb(sentCallback);
 
   } else {
     Serial.print("Initialize Failed: ");
@@ -210,24 +243,39 @@ void P2PInitialize() {
     //Try again if initialize failed
     ESP.restart();
   }
-}
-
-void audioBroadcast() {
-  //Broadcast to every device in range (reserved multicast)
-  uint8_t broadcastAddress[] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
-  //Setup peer info struct
-  esp_now_peer_info peerInfo = {};
-  //The address of peerInfo.peer_addr is set to the value of broadcastAddress, which has 6 bits
+  //Add the broadcast address
+  const uint8_t broadcastAddress[] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
+  esp_now_peer_info_t peerInfo = {};
   memcpy(&peerInfo.peer_addr, broadcastAddress, 6);
-
-  //Add every MAC as a peer, if it hasn't been done already
-  if (!esp_now_is_peer_exist(broadcastAddress)) {
-    esp_now_add_peer(&peerInfo);
-  }
-
-  // Only send if talk button is pressed
-  if (buttons[3].currentState == HIGH) {
-    //Send data to every connected peer (FF:FF:FF:FF:FF:FF)
-    esp_err_t sendResult = esp_now_send(broadcastAddress, (const uint8_t *)outgoingBuffer, sizeof(outgoingBuffer));
-  } 
+  if (!esp_now_is_peer_exist(broadcastAddress))
+  {
+    esp_err_t espResult = esp_now_add_peer(&peerInfo);
+    if (espResult != ESP_OK)
+    {
+      Serial.printf("Failed to add broadcast peer: %s\n", esp_err_to_name(espResult));
+      ESP.restart();
+    }
+  }  
+  xTaskCreate(network_task, "network_task", 2048, 0, tskIDLE_PRIORITY, nullptr);
 }
+
+
+// void audioBroadcast() {
+//   //Broadcast to every device in range (reserved multicast)
+//   uint8_t broadcastAddress[] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
+//   //Setup peer info struct
+//   esp_now_peer_info peerInfo = {};
+//   //The address of peerInfo.peer_addr is set to the value of broadcastAddress, which has 6 bits
+//   memcpy(&peerInfo.peer_addr, broadcastAddress, 6);
+
+//   //Add every MAC as a peer, if it hasn't been done already
+//   if (!esp_now_is_peer_exist(broadcastAddress)) {
+//     esp_now_add_peer(&peerInfo);
+//   }
+
+//   // Only send if talk button is pressed
+//   if (buttons[3].currentState == HIGH) {
+//     //Send data to every connected peer (FF:FF:FF:FF:FF:FF)
+//     esp_err_t sendResult = esp_now_send(broadcastAddress, (const uint8_t *)outgoingBuffer, sizeof(outgoingBuffer));
+//   } 
+// }

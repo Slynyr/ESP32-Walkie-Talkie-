@@ -129,59 +129,6 @@ void formatMacAddress2(const uint8_t *macAddr, char *buffer, int maxLength)
   snprintf(buffer, maxLength, "%02x:%02x:%02x:%02x:%02x:%02x", macAddr[0], macAddr[1], macAddr[2], macAddr[3], macAddr[4], macAddr[5]);
 }
 
-void receiveCallback2(const uint8_t *macAddr, const uint8_t *data, int dataLen)
-//Rewrite so incoming data is stored in a circular buffer
-//Called when data is received
-{
-  //Format the MAC address
-  char macStr[18];
-  formatMacAddress2(macAddr, macStr, 18);
-
-  //Serial.printf("Received message of size %d from mac %s\n", dataLen, macStr);
-
-  //Only allow a maximum of 250 characters in the message + a "0" terminating byte
-  char buffer[ESP_NOW_MAX_DATA_LEN + 1];
-  //Compare the length of max allowed data and actual length of incoming data
-  int msgLen = min(ESP_NOW_MAX_DATA_LEN, dataLen);
-  //Copy the incoming data to the buffer, limiting it to msgLen length
-  strncpy(buffer, (const char *)data, msgLen);
-
-  //Make sure we are "0" terminated (string thing) (remove)
-  buffer[msgLen] = 0;
-
-  // Check if the peer is already in the peer table
-  int peerSlot = findPeerSlot(macStr);
-  if(peerSlot == INVALID_PEER_SLOT){
-    // Peer is not in the peer table, add now
-    peerSlot = addPeer(macStr);
-    if(peerSlot != -1){
-      Serial.printf("[INFO] Peer with mac=%s added to peer table slot %d\n", macStr, peerSlot);
-      peerTable[peerSlot].lastUpdateTimestamp = currentCompareMillis2;
-    } else {
-      Serial.printf("[ERROR] Failed to add peer with mac=%s to peer table\n", macStr);
-    }
-  } else {
-    peerTable[peerSlot].lastUpdateTimestamp = currentCompareMillis2;
-  }
-
-
-
-  //Send Debug log message to the serial port
-  //Serial.printf("Received message from: %s - %s\n", macStr, buffer);
-}
-
-void sentCallback2(const uint8_t *macAddr, esp_now_send_status_t deliveryStatus)
-//Called when data is sent
-{
-  char macStr[18];
-  formatMacAddress2(macAddr, macStr, 18);
-  /*
-  Serial.print("Last Packet Sent to: ");
-  Serial.println(macStr);
-  Serial.print("Last Packet Send Status: ");
-  Serial.println(deliveryStatus == ESP_NOW_SEND_SUCCESS ? "Delivery Success" : "Delivery Fail");
-  */
-}
 
 void P2PInitialize2() {
   //Start ESP in station mode
@@ -203,25 +150,6 @@ void P2PInitialize2() {
     //Try again if initialize failed
     ESP.restart();
   }
-}
-
-void broadcast2(const String &message) {
-  //Need to add a way to break down message into ESP_NOW_MAX_DATA_LEN chunks (circular buffer)
-  //Broadcast to every device in range (reserved multicast)
-  uint8_t broadcastAddress[] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
-  //Setup peer info struct
-  esp_now_peer_info peerInfo = {};
-  //The address of peerInfo.peer_addr is set to the value of broadcastAddress, which has 6 bits
-  memcpy(&peerInfo.peer_addr, broadcastAddress, 6);
-
-  //Add every MAC as a peer, if it hasn't been done already
-  if (!esp_now_is_peer_exist(broadcastAddress)) {
-    esp_now_add_peer(&peerInfo);
-  }
-
-  //Send data to every connected peer (FF:FF:FF:FF:FF:FF)
-  esp_err_t sendResult = esp_now_send(broadcastAddress, (const uint8_t *)message.c_str(), message.length());
-  //Serial.println(sendResult);
 }
 
 void updateP2P(){
