@@ -1,6 +1,5 @@
 # ESP32 Walkie-Talkie
-All firmware, documentation, and resources are available in the following repo. The ESP32 Walkie-Talkies make use of UDP over wifi in order to transmit audio. They function and operate just like every other Walkie-Talkie but with the benefits of a digital connection rather than an analog one.
-+++ idk
+All firmware, documentation, and resources are available in the following repository. The ESP32 Walkie-Talkies make use of UDP over wifi in order to transmit audio. They function and operate just like every other Walkie-Talkie but with the benefits of a digital connection rather than an analog one.
 
 ## Features
 * Oled display
@@ -10,11 +9,11 @@ All firmware, documentation, and resources are available in the following repo. 
 * Custom 3d printed housing
 
 ## How it Works
-The Walkie-Talkie makes use of a wifi enabled chip, the **WROOM-32**, in order to do digital communication via **UDP**. The ESP32 devboard has been modified to house a significantly larger antenna in order to increase the range to xxx. 
+The Walkie-Talkie makes use of a wifi enabled chip, the **WROOM-32**, in order to do digital communication via **UDP**. The ESP32 devboard has been modified to house a significantly larger antenna in order to increase the range to a tested 300+ meters. 
 
 ## Setup
 ### Arduino IDE
-In order to upload the firmware to the ESP32 Walkie-Talkie, you will need to have the Arduino IDE setup for development on Espressif modules/chips**. If you already have the appropriate environemnt setup, skip this step
+In order to upload the firmware to the ESP32 Walkie-Talkie, you will need to have the Arduino IDE setup for development on Espressif modules/chips. If you already have the appropriate environemnt setup, skip this step
 
 > Downlaod the [Arduino IDE](https://www.arduino.cc/en/software) for your respective operating system
 
